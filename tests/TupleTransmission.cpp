@@ -10,6 +10,7 @@
 
 // Internal Includes
 #include <tuple-transmission/TupleTransmission.h>
+#include <tuple-transmission/Sizeof.h>
 #include <util/booststdint.h>
 
 // Library/third-party includes
@@ -31,6 +32,15 @@ BOOST_AUTO_TEST_CASE(SizeofSimple) {
 	BOOST_CHECK_EQUAL( int(MessageDescription<mpl::vector<uint16_t, uint16_t, uint16_t> >::message_size) , 3 * 2);
 	BOOST_CHECK_EQUAL( int(MessageDescription<mpl::vector<int8_t> >::message_size) , 1);
 	BOOST_CHECK_EQUAL( int(MessageDescription<mpl::vector<> >::message_size) , 0);
+}
+
+BOOST_AUTO_TEST_CASE(SizeofRefactored) {
+	using transmission::SizeofMessage;
+	namespace mpl = boost::mpl;
+	BOOST_CHECK_EQUAL( int(SizeofMessage<mpl::vector<int16_t, int16_t, int16_t> >::value) , 3 * 2);
+	BOOST_CHECK_EQUAL( int(SizeofMessage<mpl::vector<uint16_t, uint16_t, uint16_t> >::value) , 3 * 2);
+	BOOST_CHECK_EQUAL( int(SizeofMessage<mpl::vector<int8_t> >::value) , 1);
+	BOOST_CHECK_EQUAL( int(SizeofMessage<mpl::vector<> >::value) , 0);
 }
 
 /*
