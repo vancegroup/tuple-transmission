@@ -48,9 +48,9 @@ namespace util {
 			using namespace boost::mpl;
 			namespace fusion = boost::fusion;
 
-			template<typename MPLTypesVector>
+			template<typename MPLTypeSequence>
 			struct MessageDescription {
-				typedef MPLTypesVector types;
+				typedef MPLTypeSequence types;
 				typedef typename fusion::result_of::as_vector<types>::type fusion_vec_type;
 				typedef typename transform_view<types, sizeof_<_> >::type sizeof_view;
 
