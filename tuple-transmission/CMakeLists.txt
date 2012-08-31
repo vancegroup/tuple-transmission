@@ -1,4 +1,6 @@
 set(HEADERS
+	CreateMessage.h
+	FusionType.h
 	Sizeof.h
 	TupleTransmission.h)
 
