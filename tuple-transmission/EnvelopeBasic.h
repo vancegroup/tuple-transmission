@@ -28,6 +28,8 @@
 
 // Library/third-party includes
 #include <boost/fusion/include/for_each.hpp>
+#include <boost/mpl/plus.hpp>
+#include <boost/mpl/int.hpp>
 
 // Standard includes
 #include <cstring> // for std::memcpy
@@ -35,34 +37,15 @@
 namespace transmission {
 	namespace envelopes {
 		struct Basic : EnvelopeBase<Basic> {
-			template<int MessageContentsSize>
-			struct Size {
-				enum {
-					value = 1 /* start of transmission */ +
-					1 /* message ID */ +
-					1 /* start of text */ +
-					MessageContentsSize +
-					1 /* end of text */ +
-					1 /* end of transmission */
-				};
-			};
+			typedef boost::mpl::int_ <
+			1 /* start of transmission */ +
+			1 /* message ID */ +
+			1 /* start of text */ +
+			1 /* end of text */ +
+			1 /* end of transmission */ > overhead_size;
+			template<typename MessageContentsSize>
+			struct Size : boost::mpl::plus <overhead_size, MessageContentsSize > {};
 
-			template<typename TransmitterType>
-			struct SendContext {
-				SendContext(TransmitterType & transmit) : tx(transmit) {}
-				TransmitterType & tx;
-
-				template<typename T>
-				void operator()(T & value) {
-					stdint::uint8_t buf[sizeof(T)];
-					std::memcpy(&(buf[0]), &value, sizeof(T));
-					tx.output(buf, sizeof(T));
-				}
-
-				void operator()(uint8_t data) {
-					tx.output(data);
-				}
-			};
 
 			template<typename TransmitterType, typename MessageContentsType>
 			static void sendMessage(TransmitterType & tx, MessageContentsType const & contents, MessageIdType msgId) {

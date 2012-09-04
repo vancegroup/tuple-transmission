@@ -30,7 +30,7 @@
 // - none
 
 namespace transmission {
-	template<typename MPLTypeSequence>
+	template<typename MPLTypeSequence, typename>
 	struct Sizeof;
 } // end of namespace transmission
 

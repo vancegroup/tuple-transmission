@@ -9,6 +9,8 @@
 #define BOOST_TEST_MODULE Sizeof
 
 // Internal Includes
+#include "Protocol.h"
+#include <tuple-transmission/Transmission.h>
 #include <tuple-transmission/Sizeof.h>
 #include <util/booststdint.h>
 
@@ -29,5 +31,16 @@ BOOST_AUTO_TEST_CASE(SizeofRefactored) {
 	BOOST_CHECK_EQUAL((Sizeof<mpl::vector<uint16_t, uint16_t, uint16_t> >()), 3 * 2);
 	BOOST_CHECK_EQUAL((Sizeof<mpl::vector<int8_t> >()), 1);
 	BOOST_CHECK_EQUAL((Sizeof<mpl::vector<> >()), 0);
+}
+
+BOOST_AUTO_TEST_CASE(SizeofMessageVsTypelist) {
+	using transmission::Sizeof;
+	BOOST_CHECK_EQUAL((Sizeof<MessageATypes>()) , (Sizeof<MessageA>()));
+}
+
+BOOST_AUTO_TEST_CASE(WholeMessageSize) {
+	using transmission::Sizeof;
+	using transmission::Transmission;
+	BOOST_CHECK_EQUAL((Sizeof<Transmission<MyMessageCollection, MessageA> >()), (Sizeof<MessageA>() + 5));
 }
 

@@ -23,6 +23,7 @@
 // Internal Includes
 #include "Sizeof_fwd.h"
 #include "TransmissionBase_fwd.h"
+#include "Transmission_fwd.h"
 
 // Library/third-party includes
 #include <boost/mpl/accumulate.hpp>
@@ -36,7 +37,7 @@
 namespace transmission {
 
 	/// @brief Metafunction to compute the size of a message given a typelist.
-	template<typename MPLTypeSequence>
+	template<typename MPLTypeSequence, typename = void>
 	struct Sizeof : boost::mpl::accumulate
 			< MPLTypeSequence
 			, boost::mpl::int_<0>
@@ -48,14 +49,15 @@ namespace transmission {
 		struct SizeofTransmission_Helper {
 			typedef typename EnvelopeType::base envelope_type;
 			typedef Sizeof<MessageType> inner_size;
-			enum {
-				value = (envelope_type::template Size< inner_size::value >::value)
-			};
+			typedef typename envelope_type::template Size< inner_size > size;
 		};
 	}
 	// Template specialization for TransmissionType
 	template<typename EnvelopeType, typename MessageID, typename MessageType>
-	struct Sizeof< TransmissionBase<EnvelopeType, MessageID, MessageType> > : boost::mpl::int_<detail::SizeofTransmission_Helper<EnvelopeType, MessageType>::value> {};
+	struct Sizeof< TransmissionBase<EnvelopeType, MessageID, MessageType>, void > : detail::SizeofTransmission_Helper<EnvelopeType, MessageType>::size {};
+
+	template<typename MessageCollection, typename MessageType>
+	struct Sizeof< Transmission<MessageCollection, MessageType>, void> : Sizeof< typename Transmission<MessageCollection, MessageType>::transmission_type > {};
 } // end of namespace transmission
 
 #endif // INCLUDED_Sizeof_h_GUID_3ceba20a_f94b_42e0_9db4_4dd04dedfc12
