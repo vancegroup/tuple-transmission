@@ -1,5 +1,5 @@
 /** @file
-	@brief Header
+	@brief Forward declaration header corresponding to TransmitterBase.h
 
 	@date 2012
 
@@ -17,8 +17,8 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #pragma once
-#ifndef INCLUDED_MessageTypeWithContext_fwd_h_GUID_8e36bf0f_eaf8_42b9_8a59_901dac9cdf66
-#define INCLUDED_MessageTypeWithContext_fwd_h_GUID_8e36bf0f_eaf8_42b9_8a59_901dac9cdf66
+#ifndef INCLUDED_TransmitterBase_fwd_h_GUID_7ac7a06f_b4a6_46bb_8f5b_69c13fd8918f
+#define INCLUDED_TransmitterBase_fwd_h_GUID_7ac7a06f_b4a6_46bb_8f5b_69c13fd8918f
 
 // Internal Includes
 // - none
@@ -29,10 +29,9 @@
 // Standard includes
 // - none
 
-
 namespace transmission {
-	template<typename EnvelopeType, int MessageID, typename MessageType>
-	struct MessageTypeWithContext;
+	template<typename Derived>
+	class TransmitterBase;
 } // end of namespace transmission
 
-#endif // INCLUDED_MessageTypeWithContext_fwd_h_GUID_8e36bf0f_eaf8_42b9_8a59_901dac9cdf66
+#endif // INCLUDED_TransmitterBase_fwd_h_GUID_7ac7a06f_b4a6_46bb_8f5b_69c13fd8918f

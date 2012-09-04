@@ -26,6 +26,7 @@
 // Library/third-party includes
 #include <boost/mpl/distance.hpp>
 #include <boost/mpl/find.hpp>
+#include <boost/mpl/int.hpp>
 
 // Standard includes
 // - none
@@ -33,13 +34,17 @@
 namespace transmission {
 	namespace detail {
 		template<typename MessageCollection, typename MessageType>
-		struct FindMessageId {
+		struct FindMessageId_helper {
 			typedef typename MessageCollection::message_types message_types;
 			typedef typename boost::mpl::begin<message_types>::type first;
 			typedef typename boost::mpl::find<message_types, MessageType>::type position;
 			enum {
 				value = (boost::mpl::distance<first, position>::value)
 			};
+		};
+
+		template<typename MessageCollection, typename MessageType>
+		struct FindMessageId : boost::mpl::int_<FindMessageId_helper<MessageCollection, MessageType>::value>  {
 		};
 	} // end of namespace detail
 } // end of namespace transmission

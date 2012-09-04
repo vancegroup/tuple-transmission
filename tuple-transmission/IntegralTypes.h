@@ -17,11 +17,11 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #pragma once
-#ifndef INCLUDED_SizeofFullEnvelope_h_GUID_259bde6d_5143_4117_908e_5b0c402e6e4d
-#define INCLUDED_SizeofFullEnvelope_h_GUID_259bde6d_5143_4117_908e_5b0c402e6e4d
+#ifndef INCLUDED_IntegralTypes_h_GUID_b0170a70_b25e_464c_8aea_fd8c654e95f2
+#define INCLUDED_IntegralTypes_h_GUID_b0170a70_b25e_464c_8aea_fd8c654e95f2
 
 // Internal Includes
-#include "../Sizeof.h"
+#include <util/booststdint.h>
 
 // Library/third-party includes
 // - none
@@ -30,16 +30,8 @@
 // - none
 
 namespace transmission {
-	namespace detail {
+	typedef stdint::uint8_t MessageIdType;
+	using stdint::uint8_t;
+} // end of namespace transmission
 
-		template<typename Envelope, typename MessageType>
-		struct SizeofFullEnvelope {
-			enum {
-				value = (Envelope::Size< Sizeof<MessageType>::value >::value)
-			};
-		};
-
-	} //end of namespace detail
-}// end of namespace transmission
-
-#endif // INCLUDED_SizeofFullEnvelope_h_GUID_259bde6d_5143_4117_908e_5b0c402e6e4d
+#endif // INCLUDED_IntegralTypes_h_GUID_b0170a70_b25e_464c_8aea_fd8c654e95f2

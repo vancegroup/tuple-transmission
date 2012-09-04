@@ -21,8 +21,9 @@
 #define INCLUDED_EnvelopeBase_h_GUID_aa476fba_c58f_42aa_b6bf_f5937201105b
 
 // Internal Includes
-#include "MessageIdType.h"
-#include "TransmissionBase_fwd.h"
+#include "EnvelopeBase_fwd.h"
+#include "IntegralTypes.h"
+
 
 // Library/third-party includes
 // - none
@@ -48,14 +49,12 @@ namespace transmission {
 				};
 			};
 
-			template<typename TXDerived, typename MessageContentsType>
-			static void sendMessage(TransmissionBase<TXDerived> & xt, MessageContentsType const & contents, MessageIdType msgId) {
-				derived::sendMessage(xt, contents, msgId);
+			template<typename TransmitterType, typename MessageContentsType>
+			static void sendMessage(TransmitterType & tx, MessageContentsType const & contents, MessageIdType msgId) {
+				derived::sendMessage(tx, contents, msgId);
 			}
 		};
 
-		template<typename Envelope>
-		struct GetEnvelopeBase : Envelope::base {};
 	} //end of namespace envelopes
 
 }// end of namespace transmission

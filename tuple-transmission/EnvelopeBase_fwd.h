@@ -33,9 +33,6 @@ namespace transmission {
 	namespace envelopes {
 		template<typename Derived>
 		struct EnvelopeBase;
-
-		template<typename Envelope>
-		struct GetEnvelopeBase : Envelope::base {};
 	} //end of namespace envelopes
 } // end of namespace transmission
 

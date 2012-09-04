@@ -9,37 +9,25 @@
 #define BOOST_TEST_MODULE Sizeof
 
 // Internal Includes
-#include <tuple-transmission/TupleTransmission.h>
 #include <tuple-transmission/Sizeof.h>
 #include <util/booststdint.h>
 
 // Library/third-party includes
+#include <boost/mpl/vector.hpp>
 #include <BoostTestTargetConfig.h>
 
 // Standard includes
-#include <string>
-#include <sstream>
-
+// - none
 
 using namespace boost::unit_test;
 using namespace stdint;
 
-
-BOOST_AUTO_TEST_CASE(SizeofSimple) {
-	using util::transmission::MessageDescription;
-	namespace mpl = boost::mpl;
-	BOOST_CHECK_EQUAL( int(MessageDescription<mpl::vector<int16_t, int16_t, int16_t> >::message_size) , 3 * 2);
-	BOOST_CHECK_EQUAL( int(MessageDescription<mpl::vector<uint16_t, uint16_t, uint16_t> >::message_size) , 3 * 2);
-	BOOST_CHECK_EQUAL( int(MessageDescription<mpl::vector<int8_t> >::message_size) , 1);
-	BOOST_CHECK_EQUAL( int(MessageDescription<mpl::vector<> >::message_size) , 0);
-}
-
 BOOST_AUTO_TEST_CASE(SizeofRefactored) {
-	using transmission::SizeofMessage;
+	using transmission::Sizeof;
 	namespace mpl = boost::mpl;
-	BOOST_CHECK_EQUAL( int(SizeofMessage<mpl::vector<int16_t, int16_t, int16_t> >::value) , 3 * 2);
-	BOOST_CHECK_EQUAL( int(SizeofMessage<mpl::vector<uint16_t, uint16_t, uint16_t> >::value) , 3 * 2);
-	BOOST_CHECK_EQUAL( int(SizeofMessage<mpl::vector<int8_t> >::value) , 1);
-	BOOST_CHECK_EQUAL( int(SizeofMessage<mpl::vector<> >::value) , 0);
+	BOOST_CHECK_EQUAL((Sizeof<mpl::vector<int16_t, int16_t, int16_t> >()), 3 * 2);
+	BOOST_CHECK_EQUAL((Sizeof<mpl::vector<uint16_t, uint16_t, uint16_t> >()), 3 * 2);
+	BOOST_CHECK_EQUAL((Sizeof<mpl::vector<int8_t> >()), 1);
+	BOOST_CHECK_EQUAL((Sizeof<mpl::vector<> >()), 0);
 }
 

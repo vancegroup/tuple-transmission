@@ -22,7 +22,7 @@
 
 // Internal Includes
 #include "Sizeof_fwd.h"
-#include "MessageTypeWithContext_fwd.h"
+#include "TransmissionBase_fwd.h"
 
 // Library/third-party includes
 #include <boost/mpl/accumulate.hpp>
@@ -31,27 +31,31 @@
 #include <boost/mpl/sizeof.hpp>
 
 // Standard includes
-#include <cstring> // for size_t
+// - none
 
 namespace transmission {
 
 	/// @brief Metafunction to compute the size of a message given a typelist.
 	template<typename MPLTypeSequence>
-	struct SizeofMessage : boost::mpl::accumulate
+	struct Sizeof : boost::mpl::accumulate
 			< MPLTypeSequence
 			, boost::mpl::int_<0>
 			, boost::mpl::plus<boost::mpl::_1, boost::mpl::sizeof_<boost::mpl::_2> >
 			>::type {};
 
-	// Template specialization for MessageTypeWithContext
-	template<typename EnvelopeType, size_t MessageID, typename MessageType>
-	struct SizeofMessage< MessageTypeWithContext<EnvelopeType, MessageID, MessageType> > {
-		typedef typename EnvelopeType::base envelope_base;
-		typedef SizeofMessage<MessageType> inner_size;
-		enum {
-			value = (envelope_base::template Size< inner_size::value >::value)
+	namespace detail {
+		template<typename EnvelopeType, typename MessageType>
+		struct SizeofTransmission_Helper {
+			typedef typename EnvelopeType::base envelope_type;
+			typedef Sizeof<MessageType> inner_size;
+			enum {
+				value = (envelope_type::template Size< inner_size::value >::value)
+			};
 		};
-	};
+	}
+	// Template specialization for TransmissionType
+	template<typename EnvelopeType, typename MessageID, typename MessageType>
+	struct Sizeof< TransmissionBase<EnvelopeType, MessageID, MessageType> > : boost::mpl::int_<detail::SizeofTransmission_Helper<EnvelopeType, MessageType>::value> {};
 } // end of namespace transmission
 
 #endif // INCLUDED_Sizeof_h_GUID_3ceba20a_f94b_42e0_9db4_4dd04dedfc12

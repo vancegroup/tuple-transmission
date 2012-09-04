@@ -17,11 +17,12 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #pragma once
-#ifndef INCLUDED_AddContextToMessageType_fwd_h_GUID_3f89cf7f_d57b_4d17_a900_8b1d028427a1
-#define INCLUDED_AddContextToMessageType_fwd_h_GUID_3f89cf7f_d57b_4d17_a900_8b1d028427a1
+#ifndef INCLUDED_Transmission_h_GUID_fcc31d2e_6819_4b42_a365_0c7798060bad
+#define INCLUDED_Transmission_h_GUID_fcc31d2e_6819_4b42_a365_0c7798060bad
 
 // Internal Includes
-// - none
+#include "detail/FindMessageId.h"
+#include "TransmissionBase.h"
 
 // Library/third-party includes
 // - none
@@ -31,7 +32,7 @@
 
 namespace transmission {
 	template<typename MessageCollection, typename MessageType>
-	struct AddContextToMessageType;
+	struct Transmission : TransmissionBase<typename MessageCollection::envelope_type, detail::FindMessageId<MessageCollection, MessageType>, MessageType> {};
 } // end of namespace transmission
 
-#endif // INCLUDED_AddContextToMessageType_fwd_h_GUID_3f89cf7f_d57b_4d17_a900_8b1d028427a1
+#endif // INCLUDED_Transmission_h_GUID_fcc31d2e_6819_4b42_a365_0c7798060bad

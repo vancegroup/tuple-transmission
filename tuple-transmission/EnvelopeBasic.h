@@ -24,7 +24,7 @@
 #include "EnvelopeBase.h"
 #include "TransmissionBase.h"
 #include "detail/ControlCodes.h"
-#include <util/booststdint.h>
+#include "IntegralTypes.h"
 
 // Library/third-party includes
 #include <boost/fusion/include/for_each.hpp>
@@ -47,32 +47,32 @@ namespace transmission {
 				};
 			};
 
-			template<typename TXDerived>
+			template<typename TransmitterType>
 			struct SendContext {
-				SendContext(TransmissionBase<TXDerived> & transmit) : xt(transmit) {}
-				TransmissionBase<TXDerived> & xt;
+				SendContext(TransmitterType & transmit) : tx(transmit) {}
+				TransmitterType & tx;
 
 				template<typename T>
 				void operator()(T & value) {
 					stdint::uint8_t buf[sizeof(T)];
 					std::memcpy(&(buf[0]), &value, sizeof(T));
-					xt.output(buf, sizeof(T));
+					tx.output(buf, sizeof(T));
 				}
 
-				void operator()(stdint::uint8_t data) {
-					xt.output(data);
+				void operator()(uint8_t data) {
+					tx.output(data);
 				}
 			};
 
-			template<typename TXDerived, typename MessageContentsType>
-			static void sendMessage(TransmissionBase<TXDerived> & xt, MessageIdType msgId, MessageContentsType const & contents) {
+			template<typename TransmitterType, typename MessageContentsType>
+			static void sendMessage(TransmitterType & tx, MessageContentsType const & contents, MessageIdType msgId) {
 				namespace ControlCodes = ::transmission::detail::ControlCodes;
-				xt.output(ControlCodes::SOH);
-				xt.output(msgId);
-				xt.output(ControlCodes::STX);
-				boost::fusion::for_each(contents, SendContext<TXDerived>(xt));
-				xt.output(ControlCodes::ETX);
-				xt.output(ControlCodes::EOT);
+				tx.output(ControlCodes::SOH);
+				tx.output(msgId);
+				tx.output(ControlCodes::STX);
+				boost::fusion::for_each(contents, SendContext<TransmitterType>(tx));
+				tx.output(ControlCodes::ETX);
+				tx.output(ControlCodes::EOT);
 			}
 		};
 	} //end of namespace envelopes

@@ -17,57 +17,29 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #pragma once
-#ifndef INCLUDED_TransmissionBase_h_GUID_16d34310_de5f_41ae_b669_8c88adb4b1e0
-#define INCLUDED_TransmissionBase_h_GUID_16d34310_de5f_41ae_b669_8c88adb4b1e0
+#ifndef INCLUDED_TransmissionBase_h_GUID_83718704_20bd_4134_b7bd_01987db8f10a
+#define INCLUDED_TransmissionBase_h_GUID_83718704_20bd_4134_b7bd_01987db8f10a
 
 // Internal Includes
-#include <util/booststdint.h>
+#include "TransmissionBase_fwd.h"
 
 // Library/third-party includes
 // - none
 
 // Standard includes
-#include <cstring> // for std::size_t
-
+// - none
 
 namespace transmission {
-	template<typename Derived>
-	class TransmissionBase {
-		public:
-			/// @name External Interface
-			/// @brief Output methods called by envelopes.
-			/// @{
-			void output(stdint::uint8_t data) {
-				impl().write(data);
-			}
-
-			void output(stdint::uint8_t data[], std::size_t len) {
-				impl().write(data, len);
-			}
-
-			/// @}
-
-			/// @brief Fallback multi-byte data method writing a byte at a time.
-			///
-			/// If you can do something more efficient, feel free to re-implement.
-			void write(stdint::uint8_t data[], std::size_t len) {
-				for (std::size_t i = 0; i < len; ++len) {
-					impl().write(data[i]);
-				}
-			}
-
-			/// @brief Method you must override in your transmission type
-			void write(stdint::uint8_t data);
-		private:
-			Derived & impl() {
-				return *static_cast<Derived *>(this);
-			}
-
-			Derived const & impl() const {
-				return *static_cast<Derived const *>(this);
-			}
+	template<typename EnvelopeType, typename MessageID, typename MessageType>
+	struct TransmissionBase {
+		typedef TransmissionBase<EnvelopeType, MessageID, MessageType> transmission_type;
+		typedef EnvelopeType envelope_type;
+		typedef MessageType message_type;
+		typedef EnvelopeType message_id;
+		enum {
+			msg_id_c = MessageID::value
+		};
 	};
-
 } // end of namespace transmission
 
-#endif // INCLUDED_TransmissionBase_h_GUID_16d34310_de5f_41ae_b669_8c88adb4b1e0
+#endif // INCLUDED_TransmissionBase_h_GUID_83718704_20bd_4134_b7bd_01987db8f10a
