@@ -32,5 +32,12 @@ add_boost_test(TupleTransmission
 #	DirectoryListTwoElements
 	)
 
+#add_boost_test(FusionCurry
+#	SOURCES
+#	FusionCurry.cpp)
+
+add_boost_test(Sizeof
+	SOURCES
+	Sizeof.cpp)
 
 add_subdirectory(cleanbuild)

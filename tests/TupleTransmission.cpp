@@ -9,11 +9,14 @@
 #define BOOST_TEST_MODULE TupleTransmission
 
 // Internal Includes
-#include <tuple-transmission/TupleTransmission.h>
+#include <tuple-transmission/MessageType.h>
+#include <tuple-transmission/MessageCollection.h>
 #include <tuple-transmission/Sizeof.h>
+#include <tuple-transmission/EnvelopeBasic.h>
 #include <util/booststdint.h>
 
 // Library/third-party includes
+#include <boost/mpl/vector.hpp>
 #include <BoostTestTargetConfig.h>
 
 // Standard includes
@@ -24,23 +27,25 @@
 using namespace boost::unit_test;
 using namespace stdint;
 
+typedef boost::mpl::vector<int8_t, uint8_t, int16_t> MessageATypes;
+struct MessageA : transmission::MessageTypeBase<MessageATypes> {};
+struct MessageB : transmission::MessageTypeBase<boost::mpl::vector<uint8_t, uint8_t, uint8_t> > {};
 
-BOOST_AUTO_TEST_CASE(SizeofSimple) {
-	using util::transmission::MessageDescription;
-	namespace mpl = boost::mpl;
-	BOOST_CHECK_EQUAL( int(MessageDescription<mpl::vector<int16_t, int16_t, int16_t> >::message_size) , 3 * 2);
-	BOOST_CHECK_EQUAL( int(MessageDescription<mpl::vector<uint16_t, uint16_t, uint16_t> >::message_size) , 3 * 2);
-	BOOST_CHECK_EQUAL( int(MessageDescription<mpl::vector<int8_t> >::message_size) , 1);
-	BOOST_CHECK_EQUAL( int(MessageDescription<mpl::vector<> >::message_size) , 0);
-}
+typedef transmission::MessageCollection<
+	boost::mpl::vector<
+			MessageA
+		>
+	> MyMessageCollection;
+
 
 BOOST_AUTO_TEST_CASE(SizeofRefactored) {
 	using transmission::SizeofMessage;
-	namespace mpl = boost::mpl;
-	BOOST_CHECK_EQUAL( int(SizeofMessage<mpl::vector<int16_t, int16_t, int16_t> >::value) , 3 * 2);
-	BOOST_CHECK_EQUAL( int(SizeofMessage<mpl::vector<uint16_t, uint16_t, uint16_t> >::value) , 3 * 2);
-	BOOST_CHECK_EQUAL( int(SizeofMessage<mpl::vector<int8_t> >::value) , 1);
-	BOOST_CHECK_EQUAL( int(SizeofMessage<mpl::vector<> >::value) , 0);
+	BOOST_CHECK_EQUAL( int(SizeofMessage<MessageATypes>::value) , int(SizeofMessage<MessageA>::value));
+}
+
+BOOST_AUTO_TEST_CASE(WholeMessageSize) {
+	using transmission::SizeofMessage;
+	BOOST_CHECK_EQUAL( int(MyMessageCollection::MessageSize<MessageA>::value), int(SizeofMessage<MessageA>::value) + 5 );
 }
 
 /*
