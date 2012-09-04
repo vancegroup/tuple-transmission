@@ -10,13 +10,16 @@
 
 // Internal Includes
 #include "Protocol.h"
-#include <tuple-transmission/MessageType.h>
-#include <tuple-transmission/MessageCollection.h>
-#include <tuple-transmission/Sizeof.h>
+#include <tuple-transmission/Send.h>
 #include <tuple-transmission/Transmission.h>
 #include <tuple-transmission/EnvelopeBasic.h>
+#include <tuple-transmission/BoostArrayBuffer.h>
+#include <tuple-transmission/detail/ControlCodes.h>
+
+#include "OutputArray.h"
 
 // Library/third-party includes
+#include <boost/fusion/include/make_vector.hpp>
 #include <BoostTestTargetConfig.h>
 
 // Standard includes
@@ -38,31 +41,18 @@ BOOST_AUTO_TEST_CASE(WholeMessageSize) {
 	using transmission::Transmission;
 	BOOST_CHECK_EQUAL((Sizeof<Transmission<MyMessageCollection, MessageA> >()), (Sizeof<MessageA>() + 5));
 }
-/*
 BOOST_AUTO_TEST_CASE(WholeMessageSerialize) {
-	using transmission::SizeofMessage;
-	typedef BoostArrayBuffer<MyMessageCollection::MessageSize<MessageB>::value> TransmitBufferType;
+	using transmission::send;
+	using transmission::Transmission;
+	using transmission::BoostArrayBufferAutosized;
+
+	namespace ControlCodes = transmission::detail::ControlCodes;
+
+	typedef Transmission<MyMessageCollection, MessageB> TransmissionB;
+	typedef BoostArrayBufferAutosized<TransmissionB> TransmitBufferType;
+
 	TransmitBufferType buf;
-
-	BOOST_CHECK_EQUAL( int(MyMessageCollection::MessageSize<MessageA>::value), int(SizeofMessage<MessageA>::value) + 5 );
+	send<TransmissionB>(buf, boost::fusion::make_vector(uint8_t(5), uint8_t(10), uint8_t(15)));
+	boost::array<uint8_t, 8> expected = {{ControlCodes::SOH, 1, ControlCodes::STX, 5, 10, 15, ControlCodes::ETX, ControlCodes::EOT}};
+	BOOST_CHECK_EQUAL((buf.buffer) , expected);
 }
-*/
-/*
-BOOST_AUTO_TEST_CASE(ConstantVecRoundTrip) {
-
-	Eigen::Vector3d deserialized;
-
-	std::stringstream ss;
-	{
-		Eigen::Vector3d c(Eigen::Vector3d::Constant(1));
-		boost::archive::text_oarchive outArchive(ss);
-		outArchive << c;
-	}
-	std::cout << ss.str();
-	{
-		boost::archive::text_iarchive inArchive(ss);
-		inArchive >> deserialized;
-	}
-	BOOST_CHECK_EQUAL(Eigen::Vector3d::Constant(1), deserialized);
-}
-*/
