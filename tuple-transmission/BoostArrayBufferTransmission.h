@@ -33,27 +33,24 @@
 
 namespace transmission {
 	template<size_t SIZE>
-	class BoostArrayBuffer : public TransmissionBase<BoostArrayBuffer> {
+	class BoostArrayBuffer : public TransmissionBase<BoostArrayBuffer<SIZE> > {
 		public:
-			BoostArrayBuffer() : insert_idx(0) {}
+			BoostArrayBuffer() : buffer(), it(buffer.begin()) {}
 
 			void write(stdint::uint8_t v) {
-				buffer.at(insert_idx) = v;
-				insert_idx++;
+				*it = v;
+				++it;
 			}
 
-			void write(stdint::uint8_t * data, size_t len) {
-				assert(SIZE >= insert_idx + len);
-				std::memcpy(&(buffer.at(insert_idx)), data, len);
-				insert_idx += len;
+			void write(stdint::uint8_t * data, std::size_t len) {
+				it = std::copy(data, data + len, it);
 			}
 
 			typedef boost::array<stdint::uint8_t, SIZE> BufferType;
 			BufferType buffer;
 
 		private:
-			size_t insert_idx;
-
+			typename BufferType::iterator it;
 
 	};
 }

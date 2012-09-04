@@ -27,7 +27,7 @@
 // - none
 
 // Standard includes
-// - none
+#include <cstring> // for std::size_t
 
 
 namespace transmission {
@@ -41,7 +41,7 @@ namespace transmission {
 				impl().write(data);
 			}
 
-			void output(stdint::uint8_t data[], size_t len) {
+			void output(stdint::uint8_t data[], std::size_t len) {
 				impl().write(data, len);
 			}
 
@@ -50,8 +50,8 @@ namespace transmission {
 			/// @brief Fallback multi-byte data method writing a byte at a time.
 			///
 			/// If you can do something more efficient, feel free to re-implement.
-			void write(stdint::uint8_t data[], size_t len) {
-				for (size_t i = 0; i < len; ++len) {
+			void write(stdint::uint8_t data[], std::size_t len) {
+				for (std::size_t i = 0; i < len; ++len) {
 					impl().write(data[i]);
 				}
 			}

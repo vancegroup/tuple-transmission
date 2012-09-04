@@ -33,9 +33,9 @@
 namespace transmission {
 	namespace detail {
 		template<typename MessageCollection, typename MessageType>
-		struct GetMessageId {
-			typedef MessageCollection::message_types message_types;
-			typedef boost::mpl::begin<message_types>::type first;
+		struct FindMessageId {
+			typedef typename MessageCollection::message_types message_types;
+			typedef typename boost::mpl::begin<message_types>::type first;
 			typedef typename boost::mpl::find<message_types, MessageType>::type position;
 			enum {
 				value = (boost::mpl::distance<first, position>::value)

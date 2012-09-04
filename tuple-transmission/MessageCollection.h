@@ -21,7 +21,11 @@
 #define INCLUDED_MessageCollection_h_GUID_81024018_afb3_496b_9041_7c5e4119d94d
 
 // Internal Includes
-#include "Sizeof.h"
+#include "Sizeof_fwd.h"
+#include "MessageTypeWithContext_fwd.h"
+#include "Envelopes_fwd.h"
+#include "TransmissionBase_fwd.h"
+#include "AddContextToMessageType_fwd.h"
 
 // Library/third-party includes
 // - none
@@ -31,30 +35,31 @@
 
 
 namespace transmission {
-	namespace envelopes {
-		struct Basic;
-		struct BasicWithChecksum;
-	} //end of namespace envelopes
 
-	namespace detail {
-		/// @brief Internal base class depending only on envelope type
-		template<typename EnvelopeType>
-		struct MessageCollectionEnvelopeBase {
-
-		};
-	}
 	template<typename MessageTypeSequence, typename EnvelopeType = envelopes::Basic>
 	struct MessageCollection {
+		typedef MessageCollection<MessageTypeSequence, EnvelopeType> message_collection_type;
+		typedef EnvelopeType envelope_type;
 		typedef MessageTypeSequence message_types;
 
+		/// @brief Metafunction to access the full message size, including envelope - must include Sizeof.h
 		template<typename MessageType>
 		struct MessageSize {
+			typedef typename AddContextToMessageType<message_collection_type, MessageType>::type MsgTCtx;
 			enum {
-				value = (EnvelopeType::template Size< SizeofMessage<MessageType>::value >::value)
+				value = (SizeofMessage<MsgTCtx>::value)
 			};
 		};
 
+		/// @brief Method to send a message - must include SendMessage.h
+		template<typename MessageType, typename TXDerived, typename MessageContentType>
+		void send(TransmissionBase<TXDerived> & xt, MessageContentType const & contents) {
+			typedef typename AddContextToMessageType<message_collection_type, MessageType>::type MsgTCtx;
+			MsgTCtx::sendMessage(xt, contents);
+		}
+
 	};
+
 } // end of namespace transmission
 
 

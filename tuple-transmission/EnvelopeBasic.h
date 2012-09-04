@@ -21,6 +21,7 @@
 #define INCLUDED_EnvelopeBasic_h_GUID_759f0310_b9bd_4bc3_aca7_0fb4238b31fd
 
 // Internal Includes
+#include "EnvelopeBase.h"
 #include "TransmissionBase.h"
 #include "detail/ControlCodes.h"
 #include <util/booststdint.h>
@@ -33,7 +34,7 @@
 
 namespace transmission {
 	namespace envelopes {
-		struct Basic {
+		struct Basic : EnvelopeBase<Basic> {
 			template<int MessageContentsSize>
 			struct Size {
 				enum {
@@ -46,28 +47,30 @@ namespace transmission {
 				};
 			};
 
-			template<typename Derived>
+			template<typename TXDerived>
 			struct SendContext {
-				SendContext(TransmissionBase<Derived> & transmit) : xt(transmit) {}
-				TransmissionBase<Derived> & xt;
+				SendContext(TransmissionBase<TXDerived> & transmit) : xt(transmit) {}
+				TransmissionBase<TXDerived> & xt;
+
 				template<typename T>
 				void operator()(T & value) {
 					stdint::uint8_t buf[sizeof(T)];
 					std::memcpy(&(buf[0]), &value, sizeof(T));
 					xt.output(buf, sizeof(T));
 				}
+
 				void operator()(stdint::uint8_t data) {
 					xt.output(data);
 				}
 			};
 
-			template<typename Derived, typename MessageContentsType>
-			void sendMessage(TransmissionBase<Derived> & xt, stdint::uint8_t msgId, MessageContentsType const & message) {
+			template<typename TXDerived, typename MessageContentsType>
+			static void sendMessage(TransmissionBase<TXDerived> & xt, MessageIdType msgId, MessageContentsType const & contents) {
 				namespace ControlCodes = ::transmission::detail::ControlCodes;
 				xt.output(ControlCodes::SOH);
 				xt.output(msgId);
 				xt.output(ControlCodes::STX);
-				boost::fusion::for_each(message, SendContext<Derived>(xt));
+				boost::fusion::for_each(contents, SendContext<TXDerived>(xt));
 				xt.output(ControlCodes::ETX);
 				xt.output(ControlCodes::EOT);
 			}
