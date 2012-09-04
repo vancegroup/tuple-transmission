@@ -26,6 +26,7 @@
 
 // Library/third-party includes
 #include <boost/array.hpp>
+#include <boost/mpl/int.hpp>
 
 // Standard includes
 #include <algorithm>
@@ -46,6 +47,7 @@ namespace transmission {
 				it = std::copy(data, data + len, it);
 			}
 
+			typedef boost::mpl::int_<SIZE> size;
 			typedef boost::array<uint8_t, SIZE> BufferType;
 			BufferType buffer;
 
