@@ -34,6 +34,8 @@ namespace transmission {
 	template<typename Derived>
 	class TransmitterBase {
 		public:
+			typedef TransmitterBase<Derived> base;
+			typedef Derived derived;
 			/// @name External Interface
 			/// @brief Output methods called by envelopes.
 			/// @{

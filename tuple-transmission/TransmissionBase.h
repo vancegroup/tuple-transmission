@@ -35,7 +35,7 @@ namespace transmission {
 		typedef TransmissionBase<EnvelopeType, MessageID, MessageType> transmission_type;
 		typedef EnvelopeType envelope_type;
 		typedef MessageType message_type;
-		typedef EnvelopeType message_id;
+		typedef MessageID message_id;
 		enum {
 			msg_id_c = MessageID::value
 		};
