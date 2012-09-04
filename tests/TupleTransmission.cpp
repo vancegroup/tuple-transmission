@@ -25,22 +25,8 @@
 // Standard includes
 // - none
 
-
-
 using namespace boost::unit_test;
 
-
-
-BOOST_AUTO_TEST_CASE(SizeofRefactored) {
-	using transmission::Sizeof;
-	BOOST_CHECK_EQUAL((Sizeof<MessageATypes>()) , (Sizeof<MessageA>()));
-}
-
-BOOST_AUTO_TEST_CASE(WholeMessageSize) {
-	using transmission::Sizeof;
-	using transmission::Transmission;
-	BOOST_CHECK_EQUAL((Sizeof<Transmission<MyMessageCollection, MessageA> >()), (Sizeof<MessageA>() + 5));
-}
 BOOST_AUTO_TEST_CASE(WholeMessageSerialize) {
 	using transmission::send;
 	using transmission::Transmission;

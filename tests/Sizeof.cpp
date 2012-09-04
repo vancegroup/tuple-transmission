@@ -44,3 +44,9 @@ BOOST_AUTO_TEST_CASE(WholeMessageSize) {
 	BOOST_CHECK_EQUAL((Sizeof<Transmission<MyMessageCollection, MessageA> >()), (Sizeof<MessageA>() + 5));
 }
 
+BOOST_AUTO_TEST_CASE(WholeMessageSizeDirectConstruction) {
+	using transmission::Sizeof;
+	using transmission::TransmissionBase;
+	BOOST_CHECK_EQUAL((Sizeof<TransmissionBase<transmission::envelopes::Basic, boost::mpl::int_<0>, MessageA> >()), (Sizeof<MessageA>() + 5));
+}
+

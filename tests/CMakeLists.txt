@@ -8,6 +8,11 @@ add_boost_test(TupleTransmission
 
 add_boost_test(Sizeof
 	SOURCES
-	Sizeof.cpp)
+	Sizeof.cpp
+	TESTS
+	SizeofRefactored
+	SizeofMessageVsTypelist
+	WholeMessageSize
+	WholeMessageSizeDirectConstruction)
 
 add_subdirectory(cleanbuild)
