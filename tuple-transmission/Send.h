@@ -25,6 +25,7 @@
 #include "TransmitterBase.h"
 #include "EnvelopeBase.h"
 #include "IntegralTypes.h"
+//#include "Transmission.h" // @todo Not strictly required for this file, but for its common usage.
 
 // Library/third-party includes
 #include <boost/mpl/equal.hpp>
