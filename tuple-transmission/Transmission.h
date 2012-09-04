@@ -25,14 +25,18 @@
 #include "TransmissionBase.h"
 
 // Library/third-party includes
-// - none
+#include <boost/static_assert.hpp>
+#include <boost/mpl/contains.hpp>
 
 // Standard includes
 // - none
 
 namespace transmission {
 	template<typename MessageCollection, typename MessageType>
-	struct Transmission : TransmissionBase<typename MessageCollection::envelope_type, detail::FindMessageId<MessageCollection, MessageType>, MessageType> {};
+	struct Transmission : TransmissionBase<typename MessageCollection::envelope_type, detail::FindMessageId<MessageCollection, MessageType>, MessageType> {
+		BOOST_STATIC_ASSERT((boost::mpl::contains<typename MessageCollection::message_types, MessageType>::value));
+
+	};
 } // end of namespace transmission
 
 #endif // INCLUDED_Transmission_h_GUID_fcc31d2e_6819_4b42_a365_0c7798060bad
