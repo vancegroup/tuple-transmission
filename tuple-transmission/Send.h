@@ -59,12 +59,12 @@ namespace transmission {
 	void send(TransmitterBase<TransmitterDerived> & tx, MessageContentsType const & contents) {
 		typedef MessageContentsType message_contents_type;
 		typedef typename TransmissionType::message_type message_type;
-		BOOST_STATIC_ASSERT_MSG((boost::mpl::equal<message_type, message_contents_type>::value), "Message content types provided do not match the types declared for the message type!");
+		BOOST_STATIC_ASSERT((boost::mpl::equal<message_type, message_contents_type>::value));
 
 		typedef typename TransmitterBase<TransmitterDerived>::base transmitter_type;
 		typedef typename TransmissionType::envelope_type::base envelope_type;
 		typedef typename TransmissionType::message_id message_id;
-		envelope_type::sendMessage(tx, contents, static_cast<MessageIdType>(message_id::value));
+		envelope_type::sendMessage(tx, contents, static_cast<MessageIdType>(message_id()));
 
 	}
 }// end of namespace transmission
