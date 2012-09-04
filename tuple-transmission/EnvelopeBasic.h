@@ -70,7 +70,8 @@ namespace transmission {
 				tx.output(ControlCodes::SOH);
 				tx.output(msgId);
 				tx.output(ControlCodes::STX);
-				boost::fusion::for_each(contents, SendContext<TransmitterType>(tx));
+				detail::SendContext<TransmitterType> functor(tx);
+				boost::fusion::for_each(contents, functor);
 				tx.output(ControlCodes::ETX);
 				tx.output(ControlCodes::EOT);
 			}

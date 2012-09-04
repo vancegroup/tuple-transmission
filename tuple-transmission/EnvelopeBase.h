@@ -33,6 +33,11 @@
 
 
 namespace transmission {
+	namespace detail {
+		template<typename TransmitterType>
+		struct SendContext;
+	} // end of namespace detail
+
 	namespace envelopes {
 		/// @brief Template base for envelopes: used to enforce requirements
 		/// on envelope interfaces and provide for compile-time polymorphism.
@@ -41,13 +46,8 @@ namespace transmission {
 			typedef EnvelopeBase<Derived> base;
 			typedef Derived derived;
 
-			template<int MessageSize>
-			struct Size {
-				typedef typename derived::template Size<MessageSize> derived_result_type;
-				enum {
-					value = (derived_result_type::value)
-				};
-			};
+			template<typename MessageSize>
+			struct Size : derived::template Size<MessageSize> {};
 
 			template<typename TransmitterType, typename MessageContentsType>
 			static void sendMessage(TransmitterType & tx, MessageContentsType const & contents, MessageIdType msgId) {

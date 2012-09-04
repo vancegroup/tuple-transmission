@@ -29,11 +29,32 @@
 // Library/third-party includes
 #include <boost/mpl/equal.hpp>
 #include <boost/static_assert.hpp>
+#include <boost/fusion/mpl.hpp>
 
 // Standard includes
 // - none
 
 namespace transmission {
+
+	namespace detail {
+		template<typename TransmitterType>
+		struct SendContext {
+			SendContext(TransmitterType & transmit) : tx(transmit) {}
+			TransmitterType & tx;
+
+			template<typename T>
+			void operator()(T & value) const {
+				uint8_t buf[sizeof(T)];
+				std::memcpy(&(buf[0]), &value, sizeof(T));
+				tx.output(buf, sizeof(T));
+			}
+
+			void operator()(uint8_t data) const {
+				tx.output(data);
+			}
+		};
+	} // end of namespace detail
+
 	template<typename TransmissionType, typename TransmitterDerived, typename MessageContentsType>
 	void send(TransmitterBase<TransmitterDerived> & tx, MessageContentsType const & contents) {
 		typedef MessageContentsType message_contents_type;
