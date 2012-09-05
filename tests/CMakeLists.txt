@@ -1,10 +1,8 @@
-
-add_boost_test(TupleTransmission
+add_boost_test(BasicChecksum
 	SOURCES
-	TupleTransmission.cpp
-#	TESTS
-	)
-
+	BasicChecksum.cpp
+	TESTS
+	WholeMessageSerialize)
 
 add_boost_test(Sizeof
 	SOURCES
@@ -14,5 +12,11 @@ add_boost_test(Sizeof
 	SizeofMessageVsTypelist
 	WholeMessageSize
 	WholeMessageSizeDirectConstruction)
+
+add_boost_test(TupleTransmission
+	SOURCES
+	TupleTransmission.cpp
+	TESTS
+	WholeMessageSerialize)
 
 add_subdirectory(cleanbuild)
