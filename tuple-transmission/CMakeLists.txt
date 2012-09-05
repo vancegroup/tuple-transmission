@@ -16,6 +16,7 @@ set(HEADERS
 	Transmission.h
 	TransmitterBase_fwd.h
 	TransmitterBase.h
+	TransmitterComposition.h
 )
 
 add_custom_target(tuple-transmission
