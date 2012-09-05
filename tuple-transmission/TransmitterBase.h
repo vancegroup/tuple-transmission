@@ -21,6 +21,7 @@
 #define INCLUDED_TransmitterBase_h_GUID_16d34310_de5f_41ae_b669_8c88adb4b1e0
 
 // Internal Includes
+#include "TransmitterBase_fwd.h"
 #include "IntegralTypes.h"
 
 // Library/third-party includes
