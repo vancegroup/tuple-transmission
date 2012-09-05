@@ -29,7 +29,7 @@
 
 // Library/third-party includes
 #include <boost/mpl/equal.hpp>
-#include <boost/static_assert.hpp>
+#include <boost/mpl/assert.hpp>
 #include <boost/fusion/mpl.hpp>
 
 // Standard includes
@@ -60,7 +60,7 @@ namespace transmission {
 	void send(TransmitterBase<TransmitterDerived> & tx, MessageContentsType const & contents) {
 		typedef MessageContentsType message_contents_type;
 		typedef typename TransmissionType::message_type message_type;
-		BOOST_STATIC_ASSERT((boost::mpl::equal<message_type, message_contents_type>::value));
+		BOOST_MPL_ASSERT((boost::mpl::equal<message_type, message_contents_type>));
 
 		typedef typename TransmitterBase<TransmitterDerived>::base transmitter_type;
 		typedef typename TransmissionType::envelope_type::base envelope_type;
