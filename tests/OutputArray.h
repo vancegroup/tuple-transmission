@@ -25,6 +25,7 @@
 
 // Library/third-party includes
 #include <boost/array.hpp>
+#include <boost/io/ios_state.hpp>
 
 // Standard includes
 #include <ostream>
@@ -32,8 +33,9 @@
 namespace boost {
 	template<typename T, size_t N>
 	::std::ostream & operator<<(::std::ostream & s, array<T, N> const& val) {
+		io::ios_flags_saver ifs( s );
 		for (size_t i = 0; i < N; ++i) {
-			s << "<" << val[i] << ">";
+			s << " <" << ::std::hex << ::std::showbase << static_cast<unsigned>(val[i]) << "> ";
 		}
 		return s;
 	}
