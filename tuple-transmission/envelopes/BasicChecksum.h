@@ -52,13 +52,15 @@ namespace transmission {
 			template<typename TransmitterType, typename MessageContentsType>
 			static void sendMessage(TransmitterType & tx, MessageContentsType const & contents, MessageIdType msgId) {
 				namespace ControlCodes = ::transmission::detail::ControlCodes;
-				ChecksumComputer checksum;
 				typedef TransmitterComposition<ChecksumComputer, TransmitterType> ComposedTransmitter;
+
+				ChecksumComputer checksum;
 				ComposedTransmitter txComposed(checksum, tx);
+				detail::SendContext<ComposedTransmitter> functor(txComposed);
+
 				txComposed.output(ControlCodes::SOH);
 				txComposed.output(msgId);
 				txComposed.output(ControlCodes::STX);
-				detail::SendContext<ComposedTransmitter> functor(txComposed);
 				boost::fusion::for_each(contents, functor);
 				txComposed.output(ControlCodes::ETX);
 				tx.output(checksum.checksum());
