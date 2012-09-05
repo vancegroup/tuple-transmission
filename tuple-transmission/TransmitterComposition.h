@@ -35,22 +35,22 @@ namespace transmission {
 	class TransmitterComposition : public TransmitterBase< TransmitterComposition<First, Second> > {
 		public:
 			typedef TransmitterComposition<First, Second> type;
-			typedef First first_type;
-			typedef Second second_type;
+			typedef typename First::base first_type;
+			typedef typename Second::base second_type;
 
 
 			TransmitterComposition(first_type & tx1, second_type & tx2) : _tx1(tx1), _tx2(tx2) {}
 
 			/// @brief Multi-byte filter method
 			void write(uint8_t data[], std::size_t len) {
-				_tx1.write(data, len);
-				_tx2.write(data, len);
+				_tx1.output(data, len);
+				_tx2.output(data, len);
 			}
 
 			/// @brief Single byte filter method
 			void write(uint8_t data) {
-				_tx1.write(data);
-				_tx2.write(data);
+				_tx1.output(data);
+				_tx2.output(data);
 			}
 		private:
 			first_type & _tx1;
