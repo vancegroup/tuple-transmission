@@ -21,21 +21,19 @@
 #define INCLUDED_Transmission_h_GUID_fcc31d2e_6819_4b42_a365_0c7798060bad
 
 // Internal Includes
-#include "detail/FindMessageId.h"
+#include "Transmission_fwd.h"
 #include "TransmissionBase.h"
+#include <util/MPLFindIndex.h>
 
 // Library/third-party includes
-#include <boost/mpl/assert.hpp>
-#include <boost/mpl/contains.hpp>
+// - none
 
 // Standard includes
 // - none
 
 namespace transmission {
 	template<typename MessageCollection, typename MessageType>
-	struct Transmission : TransmissionBase<typename MessageCollection::envelope_type, detail::FindMessageId<MessageCollection, MessageType>, MessageType> {
-		BOOST_MPL_ASSERT((boost::mpl::contains<typename MessageCollection::message_types, MessageType>));
-
+	struct Transmission : TransmissionBase<typename MessageCollection::envelope_type, util::find_index<typename MessageCollection::message_types, MessageType>, MessageType> {
 	};
 } // end of namespace transmission
 
