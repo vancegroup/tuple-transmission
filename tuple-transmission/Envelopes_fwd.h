@@ -32,7 +32,7 @@
 namespace transmission {
 	namespace envelopes {
 		struct Basic;
-		struct BasicWithChecksum;
+		struct BasicChecksum;
 	} //end of namespace envelopes
 }// end of namespace transmission
 

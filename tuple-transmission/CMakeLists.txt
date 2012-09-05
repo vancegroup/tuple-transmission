@@ -1,5 +1,6 @@
 set(HEADERS
 	envelopes/Basic.h
+	envelopes/BasicChecksum.h
 	BoostArrayBuffer.h
 	ChecksumComputer.h
 	EnvelopeBase_fwd.h
