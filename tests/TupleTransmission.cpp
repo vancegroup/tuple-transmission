@@ -12,7 +12,6 @@
 #include "Protocol.h"
 #include <tuple-transmission/Send.h>
 #include <tuple-transmission/Transmission.h>
-#include <tuple-transmission/EnvelopeBasic.h>
 #include <tuple-transmission/BoostArrayBuffer.h>
 #include <tuple-transmission/detail/ControlCodes.h>
 

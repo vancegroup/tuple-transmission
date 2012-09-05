@@ -23,7 +23,7 @@
 // Internal Includes
 #include <tuple-transmission/MessageType.h>
 #include <tuple-transmission/MessageCollection.h>
-#include <tuple-transmission/EnvelopeBasic.h>
+#include <tuple-transmission/envelopes/Basic.h>
 #include <util/booststdint.h>
 
 // Library/third-party includes

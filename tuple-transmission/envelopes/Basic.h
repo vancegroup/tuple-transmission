@@ -17,14 +17,13 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #pragma once
-#ifndef INCLUDED_EnvelopeBasic_h_GUID_759f0310_b9bd_4bc3_aca7_0fb4238b31fd
-#define INCLUDED_EnvelopeBasic_h_GUID_759f0310_b9bd_4bc3_aca7_0fb4238b31fd
+#ifndef INCLUDED_envelopes_Basic_h_GUID_759f0310_b9bd_4bc3_aca7_0fb4238b31fd
+#define INCLUDED_envelopes_Basic_h_GUID_759f0310_b9bd_4bc3_aca7_0fb4238b31fd
 
 // Internal Includes
-#include "EnvelopeBase.h"
-#include "TransmissionBase.h"
-#include "detail/ControlCodes.h"
-#include "IntegralTypes.h"
+#include "../EnvelopeBase.h"
+#include "../detail/ControlCodes.h"
+#include "../IntegralTypes.h"
 
 // Library/third-party includes
 #include <boost/fusion/include/for_each.hpp>
@@ -32,7 +31,7 @@
 #include <boost/mpl/int.hpp>
 
 // Standard includes
-#include <cstring> // for std::memcpy
+// - none
 
 namespace transmission {
 	namespace envelopes {
@@ -61,4 +60,4 @@ namespace transmission {
 		};
 	} //end of namespace envelopes
 }// end of namespace transmission
-#endif // INCLUDED_EnvelopeBasic_h_GUID_759f0310_b9bd_4bc3_aca7_0fb4238b31fd
+#endif // INCLUDED_envelopes_Basic_h_GUID_759f0310_b9bd_4bc3_aca7_0fb4238b31fd

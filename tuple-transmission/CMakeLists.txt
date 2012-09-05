@@ -1,8 +1,8 @@
 set(HEADERS
+	envelopes/Basic.h
 	BoostArrayBuffer.h
 	EnvelopeBase_fwd.h
 	EnvelopeBase.h
-	EnvelopeBasic.h
 	Envelopes_fwd.h
 	IntegralTypes.h
 	MessageCollection.h

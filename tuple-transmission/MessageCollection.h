@@ -37,24 +37,6 @@ namespace transmission {
 		typedef MessageCollection<MessageTypeSequence, EnvelopeType> message_collection_type;
 		typedef EnvelopeType envelope_type;
 		typedef MessageTypeSequence message_types;
-
-		/*
-				/// @brief Metafunction to access the full message size, including envelope - must include Sizeof.h
-				template<typename MessageType>
-				struct MessageSize {
-					typedef typename AddContextToMessageType<message_collection_type, MessageType>::type MsgTCtx;
-					enum {
-						value = (SizeofMessage<MsgTCtx>::value)
-					};
-				};
-
-				/// @brief Method to send a message - must include SendMessage.h
-				template<typename MessageType, typename TXDerived, typename MessageContentType>
-				void send(TransmissionBase<TXDerived> & xt, MessageContentType const & contents) {
-					typedef typename AddContextToMessageType<message_collection_type, MessageType>::type MsgTCtx;
-					MsgTCtx::sendMessage(xt, contents);
-				}
-		*/
 	};
 
 } // end of namespace transmission
