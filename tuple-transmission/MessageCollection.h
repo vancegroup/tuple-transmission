@@ -32,7 +32,7 @@
 
 namespace transmission {
 
-	template<typename MessageTypeSequence, typename EnvelopeType = envelopes::Basic>
+	template<typename MessageTypeSequence, typename EnvelopeType>
 	struct MessageCollection {
 		typedef MessageCollection<MessageTypeSequence, EnvelopeType> message_collection_type;
 		typedef EnvelopeType envelope_type;

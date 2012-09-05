@@ -23,7 +23,6 @@
 // Internal Includes
 #include <tuple-transmission/MessageType.h>
 #include <tuple-transmission/MessageCollection.h>
-#include <tuple-transmission/envelopes/Basic.h>
 #include <util/booststdint.h>
 
 // Library/third-party includes
@@ -32,6 +31,9 @@
 // Standard includes
 // - none
 
+#ifndef TEST_ENVELOPE_TYPE
+#error "Must define fully qualified TEST_ENVELOPE_TYPE"
+#endif
 using namespace stdint;
 
 typedef boost::mpl::vector<int8_t, uint8_t, int16_t> MessageATypes;
@@ -43,6 +45,7 @@ typedef transmission::MessageCollection <
 		< MessageA
 		, MessageB
 		>
+	, TEST_ENVELOPE_TYPE
 	> MyMessageCollection;
 
 #endif // INCLUDED_Protocol_h_GUID_475a3770_64a8_4158_a7eb_0bafac1edcb9
