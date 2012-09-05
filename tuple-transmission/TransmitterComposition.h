@@ -37,8 +37,8 @@ namespace transmission {
 			typedef TransmitterComposition<First, Second> type;
 			typedef First first_type;
 			typedef Second second_type;
-			
-			
+
+
 			TransmitterComposition(first_type & tx1, second_type & tx2) : _tx1(tx1), _tx2(tx2) {}
 
 			/// @brief Multi-byte filter method
@@ -48,7 +48,7 @@ namespace transmission {
 			}
 
 			/// @brief Single byte filter method
-			void write(uint8_t data){
+			void write(uint8_t data) {
 				_tx1.write(data);
 				_tx2.write(data);
 			}

@@ -42,9 +42,9 @@ namespace transmission {
 			1 /* start of text */ +
 			1 /* end of text */ +
 			1 /* end of transmission */ > overhead_size;
+
 			template<typename MessageContentsSize>
 			struct Size : boost::mpl::plus <overhead_size, MessageContentsSize > {};
-
 
 			template<typename TransmitterType, typename MessageContentsType>
 			static void sendMessage(TransmitterType & tx, MessageContentsType const & contents, MessageIdType msgId) {
