@@ -31,6 +31,19 @@
 
 
 namespace transmission {
+	/// @addtogroup Transmitters Transmitter Classes
+	/// @brief These classes serve as the "output sink" when sending messages.
+	///
+	/// Some may actually be transmitters (serial ports, network sockets, etc)
+	/// while others are more of simulated transmitters (buffers, checksum computers, etc.)
+	///
+	/// All inherit, using the Curiously-Recurring-Template-Pattern, from TransmitterBase.
+	/// @{
+
+
+	/// @brief A "transmitter" that combines two other transmitters.
+	///
+	/// For instance, you might use a buffer and a checksum computer.
 	template<typename First, typename Second>
 	class TransmitterComposition : public TransmitterBase< TransmitterComposition<First, Second> > {
 		public:
@@ -56,7 +69,7 @@ namespace transmission {
 			first_type & _tx1;
 			second_type & _tx2;
 	};
-
+	/// @}
 } // end of namespace transmission
 
 #endif // INCLUDED_TransmitterComposition_h_GUID_d334eef0_f213_482b_b615_913f37df35bf

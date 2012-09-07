@@ -1,5 +1,5 @@
 /** @file
-	@brief Header
+	@brief Forward declaration header corresponding to Transmission.h
 
 	@date 2012
 

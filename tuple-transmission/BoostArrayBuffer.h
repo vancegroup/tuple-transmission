@@ -33,6 +33,10 @@
 
 
 namespace transmission {
+	/// @addtogroup Transmitters Transmitter Classes
+	/// @{
+
+	/// @brief A "Transmitter" that collects the bytes to transmit in a boost::array.
 	template<int SIZE>
 	class BoostArrayBuffer : public TransmitterBase<BoostArrayBuffer<SIZE> > {
 		public:
@@ -56,8 +60,12 @@ namespace transmission {
 
 	};
 
+	/// @brief A version of BoostArrayBuffer that automatically computes
+	/// the precise size needed for a single transmission type.
 	template<typename TransmissionType>
 	class BoostArrayBufferAutosized : public BoostArrayBuffer< Sizeof<TransmissionType>::value > {};
+
+	/// @}
 }
 
 #endif // INCLUDED_BoostArrayBuffer_h_GUID_e7fb6660_2fbf_489d_9fbd_b4b77089b401

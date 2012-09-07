@@ -38,18 +38,27 @@ namespace transmission {
 			typedef TransmitterBase<Derived> base;
 			typedef Derived derived;
 			/// @name External Interface
-			/// @brief Output methods called by envelopes.
+			/// @brief Output methods called by envelopes, or anyone else
+			/// wanting to actually use a transmitter.
+			///
+			/// Do NOT define these in your own transmitter class.
 			/// @{
+
+			/// @brief Output a single byte.
 			void output(uint8_t data) {
 				impl().write(data);
 			}
 
+			/// @brief Output multiple bytes.
 			void output(uint8_t data[], std::size_t len) {
 				impl().write(data, len);
 			}
 
 			/// @}
 
+			/// @name Transmitter implementation methods
+			/// @brief Defined by implementation classes, and used only internally.
+			/// @{
 			/// @brief Fallback multi-byte data method writing a byte at a time.
 			///
 			/// If you can do something more efficient, feel free to re-implement.
@@ -59,13 +68,17 @@ namespace transmission {
 				}
 			}
 
-			/// @brief Method you must override in your transmission type
+			/// @brief Method you must define and override in your type: it all
+			/// is for naught unless you do so. This is the single-byte implementation./
 			void write(uint8_t data);
+			/// @}
 		private:
+			/// @brief Internal method to access a reference to the derived class
 			Derived & impl() {
 				return *static_cast<Derived *>(this);
 			}
 
+			/// @brief Internal method to access a const reference to the derived class
 			Derived const & impl() const {
 				return *static_cast<Derived const *>(this);
 			}

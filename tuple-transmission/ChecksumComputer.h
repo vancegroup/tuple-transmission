@@ -31,6 +31,13 @@
 // - none
 
 namespace transmission {
+
+	/// @addtogroup Transmitters Transmitter Classes
+	/// @{
+
+	/// @brief A "transmitter" that computes the unsigned 8-bit sum of all bytes.
+	///
+	/// Recommended to be used with TransmitterComposition
 	class ChecksumComputer : public TransmitterBase<ChecksumComputer> {
 		public:
 			ChecksumComputer() : _ck(0) {
@@ -45,5 +52,6 @@ namespace transmission {
 		private:
 			uint8_t  _ck;
 	};
+	/// @}
 } // end of namespace transmission
 #endif // INCLUDED_ChecksumComputer_h_GUID_80d37814_ff4e_4f0d_af5e_5829daff7df6

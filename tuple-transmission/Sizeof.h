@@ -52,10 +52,11 @@ namespace transmission {
 			typedef typename envelope_type::template Size< inner_size > size;
 		};
 	}
-	// Template specialization for TransmissionType
+	/// @brief Template specialization for TransmissionBase
 	template<typename EnvelopeType, typename MessageID, typename MessageType>
 	struct Sizeof< TransmissionBase<EnvelopeType, MessageID, MessageType>, void > : detail::SizeofTransmission_Helper<EnvelopeType, MessageType>::size {};
 
+	/// @brief Template specialization for Transmission
 	template<typename MessageCollection, typename MessageType>
 	struct Sizeof< Transmission<MessageCollection, MessageType>, void> : Sizeof< typename Transmission<MessageCollection, MessageType>::transmission_type > {};
 } // end of namespace transmission
