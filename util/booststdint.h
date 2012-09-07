@@ -10,6 +10,17 @@
 
 	@date 2012
 
+	This header is maintained as a part of 'util-headers' - you can always
+	find the latest version online at https://github.com/vancegroup/util-headers
+
+	This GUID can help identify the project: d1dbc94e-e863-49cf-bc08-ab4d9f486613
+
+	This copy of the header is from the revision that Git calls
+	efa78147fcc5e77a0c724a55bab3b05328ebb6b1
+
+	Commit date: "2012-09-07 15:24:13 -0500"
+
+
 	@author
 	Ryan Pavlik
 	<rpavlik@iastate.edu> and <abiryan@ryand.net>

@@ -1,6 +1,16 @@
 /** @file
 	@brief Header
 
+	This header is maintained as a part of 'util-headers' - you can always
+	find the latest version online at https://github.com/vancegroup/util-headers
+
+	This GUID can help identify the project: d1dbc94e-e863-49cf-bc08-ab4d9f486613
+
+	This copy of the header is from the revision that Git calls
+	efa78147fcc5e77a0c724a55bab3b05328ebb6b1
+
+	Commit date: "2012-09-07 15:24:13 -0500"
+
 	@date 2012
 
 	@author
@@ -34,8 +44,12 @@
 // - none
 
 namespace util {
+	/// @addtogroup Metaprogramming
+	/// @{
 	namespace detail {
 		/// @brief Utility template used by find_index
+		///
+		/// @internal
 		template<typename Sequence, typename Target>
 		struct find_index_impl {
 			BOOST_MPL_ASSERT((boost::mpl::contains<Sequence, Target>));
@@ -52,6 +66,8 @@ namespace util {
 	/// Builds on boost::mpl::find and boost::mpl::distance
 	template<typename Sequence, typename Target>
 	struct find_index : boost::mpl::int_<detail::find_index_impl<Sequence, Target>::value>  {};
+
+	/// @}
 } // end of namespace util
 
 #endif // INCLUDED_MPLFindIndex_h_GUID_85ff7967_6f99_4669_91c8_2b6c63e12e00
