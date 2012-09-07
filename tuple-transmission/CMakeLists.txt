@@ -7,6 +7,7 @@ set(HEADERS
 	EnvelopeBase.h
 	Envelopes_fwd.h
 	IntegralTypes.h
+	MaxMessageLength.h
 	MessageCollection.h
 	MessageType.h
 	Send.h
