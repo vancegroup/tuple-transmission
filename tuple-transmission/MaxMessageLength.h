@@ -24,8 +24,8 @@
 #include "Sizeof.h"
 
 // Library/third-party includes
-#include <boost/mpl/lambda.hpp>
-#include <boost/mpl/transform_view.hpp>
+#include <boost/mpl/less.hpp>
+#include <boost/mpl/deref.hpp>
 #include <boost/mpl/max_element.hpp>
 
 // Standard includes
@@ -39,34 +39,10 @@ namespace transmission {
 			template<typename A, typename B>
 			struct apply : boost::mpl::less< Sizeof<Transmission<Collection, A> >, Sizeof<Transmission<Collection, B> > > {};
 		};
-		/*
-		template<typename MessageTypes>
-		struct MaxMessage_impl {
-			struct GetSize {
-				template<typename MessageType>
-				struct apply : Sizeof<MessageType> {};
-			};
-
-		};
-		template<typename Collection>
-		struct MaxMessageLength_impl {
-			struct GetSize {
-				template<typename MessageType>
-				struct apply : Sizeof<Transmission<Collection, MessageType> > {};
-			};
-			typedef typename Collection::message_types message_types;
-			typedef typename boost::mpl::max_element<boost::mpl::transform_view<message_types, GetSize> >::type MaxEltIter;
-			typedef	typename boost::mpl::deref<MaxEltIter>::type MaxSize;
-		};
-		*/
 	} // end of namespace detail
 
 	template<typename Collection>
 	struct MaxMessage : boost::mpl::deref< typename boost::mpl::max_element<typename Collection::message_types, detail::TotalMessageSizeLess<Collection> >::type > {};
-	/*
-	template<typename Collection>
-	struct MaxMessageLength : detail::MaxMessageLength_impl<Collection>::MaxSize {};
-	*/
 
 	template<typename Collection>
 	struct MaxMessageLength : Sizeof< Transmission<Collection, typename MaxMessage<Collection>::type > > {};
