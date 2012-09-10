@@ -9,6 +9,13 @@ set(HEADERS
 	IntegralTypes.h
 	MaxMessageLength.h
 	MessageCollection.h
+	MessageCount.h
+	MessageCount_fwd.h
+	MessageIdType.h
+	MessageIdType_fwd.h
+	MessageLength.h
+	MessageSizeType.h
+	MessageSizeType_fwd.h
 	MessageType.h
 	Send.h
 	Sizeof_fwd.h

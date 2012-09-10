@@ -48,6 +48,7 @@ namespace transmission {
 	template<typename MessageTypeSequence, typename EnvelopeType>
 	struct MessageCollection {
 		typedef MessageCollection<MessageTypeSequence, EnvelopeType> message_collection_type;
+		typedef MessageCollection<MessageTypeSequence, EnvelopeType> type;
 		typedef EnvelopeType envelope_type;
 		typedef MessageTypeSequence message_types;
 	};

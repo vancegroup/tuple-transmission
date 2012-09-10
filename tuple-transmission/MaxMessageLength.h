@@ -35,15 +35,42 @@
 namespace transmission {
 	namespace detail {
 		template<typename Collection>
-		struct MaxMessageLength_impl {
-			typedef typename boost::mpl::lambda<Sizeof<Transmission<Collection, boost::mpl::_> > >::type MessageSizeTransform;
-			typedef typename Collection::message_types message_types;
-			typedef typename boost::mpl::transform_view<message_types, MessageSizeTransform>::type MessageSizeSequence;
-			typedef	typename boost::mpl::deref<typename boost::mpl::max_element<MessageSizeSequence>::type>::type MaxSize;
+		struct TotalMessageSizeLess {
+			template<typename A, typename B>
+			struct apply : boost::mpl::less< Sizeof<Transmission<Collection, A> >, Sizeof<Transmission<Collection, B> > > {};
 		};
+		/*
+		template<typename MessageTypes>
+		struct MaxMessage_impl {
+			struct GetSize {
+				template<typename MessageType>
+				struct apply : Sizeof<MessageType> {};
+			};
+
+		};
+		template<typename Collection>
+		struct MaxMessageLength_impl {
+			struct GetSize {
+				template<typename MessageType>
+				struct apply : Sizeof<Transmission<Collection, MessageType> > {};
+			};
+			typedef typename Collection::message_types message_types;
+			typedef typename boost::mpl::max_element<boost::mpl::transform_view<message_types, GetSize> >::type MaxEltIter;
+			typedef	typename boost::mpl::deref<MaxEltIter>::type MaxSize;
+		};
+		*/
 	} // end of namespace detail
+
+	template<typename Collection>
+	struct MaxMessage : boost::mpl::deref< typename boost::mpl::max_element<typename Collection::message_types, detail::TotalMessageSizeLess<Collection> >::type > {};
+	/*
 	template<typename Collection>
 	struct MaxMessageLength : detail::MaxMessageLength_impl<Collection>::MaxSize {};
+	*/
+
+	template<typename Collection>
+	struct MaxMessageLength : Sizeof< Transmission<Collection, typename MaxMessage<Collection>::type > > {};
+
 
 } // end of namespace transmission
 #endif // INCLUDED_MaxMessageLength_h_GUID_1839c18a_36e9_48ed_8cd8_02e3f34fce28
