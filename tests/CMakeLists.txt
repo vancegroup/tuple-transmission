@@ -19,4 +19,14 @@ add_boost_test(TupleTransmission
 	TESTS
 	WholeMessageSerialize)
 
+add_boost_test(MessageLength
+	SOURCES
+	MessageLength.cpp
+	TESTS
+	TypeSelection
+	AccurateMaxMessageLength
+	ValidMessageLengths
+	ValidMessageLengthsMatchCompileTime
+	InvalidMessageLength)
+
 add_subdirectory(cleanbuild)
