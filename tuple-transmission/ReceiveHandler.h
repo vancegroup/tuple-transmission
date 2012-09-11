@@ -171,7 +171,7 @@ namespace transmission {
 			/// Must be preceded by a call to setCurrentMessageId()
 			message_size_type getMessageLength() const {
 				BOOST_ASSERT(isCurrentMessageIdValid());
-				return *::transmission::detail::getMessageLength<message_collection>(*current_message_id);
+				return ::transmission::detail::getMessageLength<message_collection>(*current_message_id);
 			}
 			/// @}
 		private:
