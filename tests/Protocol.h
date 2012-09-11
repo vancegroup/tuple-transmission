@@ -31,8 +31,16 @@
 // Standard includes
 // - none
 
-#ifndef TEST_ENVELOPE_TYPE
-#error "Must define fully qualified TEST_ENVELOPE_TYPE"
+#if defined(USE_BASIC_ENVELOPE)
+#define TEST_ENVELOPE_TYPE ::transmission::envelopes::Basic
+#include <tuple-transmission/envelopes/Basic.h>
+
+#elif defined(USE_CHECKSUM_ENVELOPE)
+#define TEST_ENVELOPE_TYPE ::transmission::envelopes::BasicChecksum
+#include <tuple-transmission/envelopes/BasicChecksum.h>
+
+#else
+#error "Must define one of the envelope types for the testing protocol header."
 #endif
 using namespace stdint;
 
@@ -47,5 +55,7 @@ typedef transmission::MessageCollection <
 		>
 	, TEST_ENVELOPE_TYPE
 	> MyMessageCollection;
+
+static const int InvalidMessageId = 20;
 
 #endif // INCLUDED_Protocol_h_GUID_475a3770_64a8_4158_a7eb_0bafac1edcb9

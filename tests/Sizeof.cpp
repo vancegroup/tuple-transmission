@@ -10,10 +10,9 @@
 
 // Internal Includes
 
-#define TEST_ENVELOPE_TYPE ::transmission::envelopes::Basic
+#define USE_BASIC_ENVELOPE
 
 #include "Protocol.h"
-#include <tuple-transmission/envelopes/Basic.h>
 #include <tuple-transmission/Transmission.h>
 #include <tuple-transmission/Sizeof.h>
 #include <util/booststdint.h>

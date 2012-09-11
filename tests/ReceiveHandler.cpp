@@ -10,9 +10,8 @@
 
 // Internal Includes
 
-#define TEST_ENVELOPE_TYPE ::transmission::envelopes::Basic
+#define USE_BASIC_ENVELOPE
 #include "Protocol.h"
-#include <tuple-transmission/envelopes/Basic.h>
 #include <tuple-transmission/ReceiveHandler.h>
 
 // Library/third-party includes
