@@ -26,9 +26,9 @@
 #include "../detail/types/IntegralTypes.h"
 #include "../transmitters/ChecksumComputer.h"
 #include "../transmitters/TransmitterComposition.h"
+#include "../serializers/BitwiseCopySerialization.h"
 
 // Library/third-party includes
-#include <boost/fusion/include/for_each.hpp>
 #include <boost/mpl/plus.hpp>
 #include <boost/mpl/int.hpp>
 
@@ -49,6 +49,8 @@ namespace transmission {
 			template<typename MessageContentsSize>
 			struct Size : boost::mpl::plus <overhead_size, MessageContentsSize > {};
 
+			typedef serializers::BitwiseCopy serialization_policy;
+
 			template<typename TransmitterType, typename MessageContentsType>
 			static void sendMessage(TransmitterType & tx, MessageContentsType const & contents, MessageIdType msgId) {
 				namespace ControlCodes = ::transmission::detail::constants::ControlCodes;
@@ -56,12 +58,11 @@ namespace transmission {
 
 				transmitters::ChecksumComputer checksum;
 				ComposedTransmitter txComposed(checksum, tx);
-				detail::SendContext<ComposedTransmitter> functor(txComposed);
 
 				txComposed.output(ControlCodes::SOH);
 				txComposed.output(msgId);
 				txComposed.output(ControlCodes::STX);
-				boost::fusion::for_each(contents, functor);
+				serialization_policy::bufferTuple(txComposed, contents);
 				txComposed.output(ControlCodes::ETX);
 				tx.output(checksum.checksum());
 				tx.output(ControlCodes::EOT);
