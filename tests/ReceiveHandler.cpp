@@ -26,9 +26,9 @@
 using namespace boost::unit_test;
 
 // {{ControlCodes::SOH, 1, ControlCodes::STX, 5, 10, 15, ControlCodes::ETX, ControlCodes::EOT}};
+typedef transmission::ReceiveHandler<MyMessageCollection> MyReceiveHandler;
 
-template<typename ReceiveHandler>
-void appendValidMessageCharacters(ReceiveHandler & recv, std::size_t n, std::size_t start = 0) {
+void appendValidMessageCharacters(MyReceiveHandler & recv, std::size_t n, std::size_t start = 0) {
 	BOOST_TEST_MESSAGE("Inserting valid message elements [" << start << ", " << start + n - 1 << "]");
 	BOOST_ASSERT(start + n <= ValidMessage.size());
 	recv.bufferAppend(ValidMessage.begin() + start, ValidMessage.begin() + start + n);
@@ -36,14 +36,14 @@ void appendValidMessageCharacters(ReceiveHandler & recv, std::size_t n, std::siz
 
 BOOST_AUTO_TEST_CASE(DefaultConstruction) {
 	BOOST_REQUIRE_NO_THROW(transmission::ReceiveHandler<MyMessageCollection>());
-	transmission::ReceiveHandler<MyMessageCollection> r;
+	MyReceiveHandler r;
 	BOOST_CHECK_EQUAL(r.bufferSize(), 0);
 	BOOST_CHECK(r.bufferEmpty());
 	BOOST_CHECK(!r.isCurrentMessageIdValid());
 }
 
 BOOST_AUTO_TEST_CASE(MessageMethods) {
-	transmission::ReceiveHandler<MyMessageCollection> r;
+	MyReceiveHandler r;
 	BOOST_REQUIRE(!r.isCurrentMessageIdValid());
 
 	BOOST_REQUIRE_NO_THROW(r.setCurrentMessageId(0));
@@ -66,7 +66,7 @@ void runNefariousMessageTest(int round) {
 	namespace ControlCodes = transmission::detail::ControlCodes;
 	BOOST_TEST_CHECKPOINT("Starting round " << round);
 	BOOST_TEST_MESSAGE("Starting round " << round);
-	transmission::ReceiveHandler<MyMessageCollection> r;
+	MyReceiveHandler r;
 	BOOST_REQUIRE_EQUAL(r.bufferSize(), 0);
 
 	BOOST_REQUIRE_NO_THROW(r.bufferAppend(0));
@@ -172,7 +172,7 @@ BOOST_AUTO_TEST_CASE(CorruptOrMistakenMessage) {
 }
 
 BOOST_AUTO_TEST_CASE(PartialMessages) {
-	transmission::ReceiveHandler<MyMessageCollection> r;
+	MyReceiveHandler r;
 	BOOST_CHECK_EQUAL(r.bufferSize(), 0);
 	BOOST_CHECK(r.bufferEmpty());
 	BOOST_CHECK(!r.isCurrentMessageIdValid());
