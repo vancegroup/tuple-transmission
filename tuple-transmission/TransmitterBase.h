@@ -25,10 +25,10 @@
 #include "IntegralTypes.h"
 
 // Library/third-party includes
-// - none
+#include <boost/config.hpp> // for std::size_t
 
 // Standard includes
-#include <cstring> // for std::size_t
+// - none
 
 
 namespace transmission {
