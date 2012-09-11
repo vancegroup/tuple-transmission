@@ -9,12 +9,12 @@ set(HEADERS
 	IntegralTypes.h
 	MessageCollection.h
 	MessageCollectionTypes.h
-	MessageCount.h
 	MessageCount_fwd.h
-	MessageIdType.h
+	MessageCount.h
 	MessageIdType_fwd.h
-	MessageSizeType.h
+	MessageIdType.h
 	MessageSizeType_fwd.h
+	MessageSizeType.h
 	MessageType.h
 	ReceiveHandler.h
 	Send.h
