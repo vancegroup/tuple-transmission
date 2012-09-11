@@ -122,7 +122,7 @@ namespace transmission {
 			}
 		};
 
-	}
+	} // end of namespace detail
 
 } // end of namespace transmission
 
