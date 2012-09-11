@@ -165,15 +165,43 @@ void runNefariousMessageTest(int round) {
 	BOOST_REQUIRE_EQUAL(r.getMessageLength(), ValidMessageLength);
 }
 
-BOOST_AUTO_TEST_CASE(CorruptOrMistakenMessage) {
-	for (int round = 0; round < 10; ++round) {
-		runNefariousMessageTest(round);
-	}
+BOOST_AUTO_TEST_CASE(CorruptOrMistakenMessage_round0) {
+	runNefariousMessageTest(0);
 }
 
-BOOST_AUTO_TEST_CASE(PartialMessages) {
-	MyReceiveHandler r;
-	BOOST_CHECK_EQUAL(r.bufferSize(), 0);
-	BOOST_CHECK(r.bufferEmpty());
-	BOOST_CHECK(!r.isCurrentMessageIdValid());
+BOOST_AUTO_TEST_CASE(CorruptOrMistakenMessage_round1) {
+	runNefariousMessageTest(1);
 }
+
+BOOST_AUTO_TEST_CASE(CorruptOrMistakenMessage_round2) {
+	runNefariousMessageTest(2);
+}
+
+BOOST_AUTO_TEST_CASE(CorruptOrMistakenMessage_round3) {
+	runNefariousMessageTest(3);
+}
+
+BOOST_AUTO_TEST_CASE(CorruptOrMistakenMessage_round4) {
+	runNefariousMessageTest(4);
+}
+
+BOOST_AUTO_TEST_CASE(CorruptOrMistakenMessage_round5) {
+	runNefariousMessageTest(5);
+}
+
+BOOST_AUTO_TEST_CASE(CorruptOrMistakenMessage_round6) {
+	runNefariousMessageTest(6);
+}
+
+BOOST_AUTO_TEST_CASE(CorruptOrMistakenMessage_round7) {
+	runNefariousMessageTest(7);
+}
+
+BOOST_AUTO_TEST_CASE(CorruptOrMistakenMessage_round8) {
+	runNefariousMessageTest(8);
+}
+
+BOOST_AUTO_TEST_CASE(CorruptOrMistakenMessage_round9) {
+	runNefariousMessageTest(9);
+}
+

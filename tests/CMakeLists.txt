@@ -31,6 +31,19 @@ add_boost_test(MessageLength
 
 add_boost_test(ReceiveHandler
 	SOURCES
-	ReceiveHandler.cpp)
+	ReceiveHandler.cpp
+	TESTS
+	DefaultConstruction
+	MessageMethods
+	CorruptOrMistakenMessage_round0
+	CorruptOrMistakenMessage_round1
+	CorruptOrMistakenMessage_round2
+	CorruptOrMistakenMessage_round3
+	CorruptOrMistakenMessage_round4
+	CorruptOrMistakenMessage_round5
+	CorruptOrMistakenMessage_round6
+	CorruptOrMistakenMessage_round7
+	CorruptOrMistakenMessage_round8
+	CorruptOrMistakenMessage_round9)
 
 add_subdirectory(cleanbuild)
