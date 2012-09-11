@@ -15,7 +15,6 @@
 #define USE_BASIC_ENVELOPE
 #include "Protocol.h"
 #include <tuple-transmission/ReceiveHandler.h>
-#include <tuple-transmission/detail/ControlCodes.h>
 
 // Library/third-party includes
 #include <boost/mpl/assert.hpp>
@@ -63,7 +62,6 @@ BOOST_AUTO_TEST_CASE(MessageMethods) {
 }
 
 void runNefariousMessageTest(int round) {
-	namespace ControlCodes = transmission::detail::ControlCodes;
 	BOOST_TEST_CHECKPOINT("Starting round " << round);
 	BOOST_TEST_MESSAGE("Starting round " << round);
 	MyReceiveHandler r;

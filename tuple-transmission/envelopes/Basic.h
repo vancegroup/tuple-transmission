@@ -21,9 +21,9 @@
 #define INCLUDED_envelopes_Basic_h_GUID_759f0310_b9bd_4bc3_aca7_0fb4238b31fd
 
 // Internal Includes
-#include "../EnvelopeBase.h"
-#include "../detail/ControlCodes.h"
-#include "../IntegralTypes.h"
+#include "../detail/bases/EnvelopeBase.h"
+#include "../detail/constants/ControlCodes.h"
+#include "../detail/types/IntegralTypes.h"
 
 // Library/third-party includes
 #include <boost/fusion/include/for_each.hpp>
@@ -54,7 +54,7 @@ namespace transmission {
 
 			template<typename TransmitterType, typename MessageContentsType>
 			static void sendMessage(TransmitterType & tx, MessageContentsType const & contents, MessageIdType msgId) {
-				namespace ControlCodes = ::transmission::detail::ControlCodes;
+				namespace ControlCodes = ::transmission::detail::constants::ControlCodes;
 				tx.output(ControlCodes::SOH);
 				tx.output(msgId);
 				tx.output(ControlCodes::STX);
@@ -66,7 +66,7 @@ namespace transmission {
 
 			template<typename ReceiveHandlerType>
 			static bool checkBufferForMessage(ReceiveHandlerType & recv) {
-				namespace ControlCodes = ::transmission::detail::ControlCodes;
+				namespace ControlCodes = ::transmission::detail::constants::ControlCodes;
 				while (!recv.bufferEmpty()) {
 					BOOST_TEST_MESSAGE("Buffer size: " << int(recv.bufferSize()));
 					if (recv.bufferFront() != ControlCodes::SOH) {

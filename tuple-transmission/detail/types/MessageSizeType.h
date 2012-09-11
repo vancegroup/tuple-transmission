@@ -1,5 +1,5 @@
 /** @file
-	@brief Forward declaration header corresponding to TransmissionBase.h
+	@brief Header
 
 	@date 2012
 
@@ -17,21 +17,23 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #pragma once
-#ifndef INCLUDED_TransmissionBase_fwd_h_GUID_848b56e4_9ac5_4755_9517_3a126f2f3c7b
-#define INCLUDED_TransmissionBase_fwd_h_GUID_848b56e4_9ac5_4755_9517_3a126f2f3c7b
+#ifndef INCLUDED_MessageSizeType_h_GUID_e46ad97b_2123_49bd_8b67_fc7ea9712e1c
+#define INCLUDED_MessageSizeType_h_GUID_e46ad97b_2123_49bd_8b67_fc7ea9712e1c
 
 // Internal Includes
-// - none
+#include "../operations/MaxMessageLength.h"
 
 // Library/third-party includes
-// - none
+#include <boost/integer.hpp>
 
 // Standard includes
 // - none
 
 namespace transmission {
-	template<typename EnvelopeType, typename MessageID, typename MessageType>
-	struct TransmissionBase;
+	template<typename Collection>
+	struct MessageSizeType {
+		typedef typename boost::uint_value_t< detail::operations::MaxMessageLength<Collection>::value >::least type;
+	};
 } // end of namespace transmission
 
-#endif // INCLUDED_TransmissionBase_fwd_h_GUID_848b56e4_9ac5_4755_9517_3a126f2f3c7b
+#endif // INCLUDED_MessageSizeType_h_GUID_e46ad97b_2123_49bd_8b67_fc7ea9712e1c

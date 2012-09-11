@@ -21,7 +21,7 @@
 #define INCLUDED_MessageCollection_h_GUID_81024018_afb3_496b_9041_7c5e4119d94d
 
 // Internal Includes
-#include "Envelopes_fwd.h"
+#include "envelopes/Envelopes_fwd.h"
 
 // Library/third-party includes
 // - none

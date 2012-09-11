@@ -1,40 +1,49 @@
 set(HEADERS
-	envelopes/Basic.h
+	detail/bases/EnvelopeBase_fwd.h
+	detail/bases/EnvelopeBase.h
+	detail/bases/SerializerBase.h
+	detail/bases/TransmissionBase_fwd.h
+	detail/bases/TransmissionBase.h
+	detail/bases/TransmitterBase_fwd.h
+	detail/bases/TransmitterBase.h
+
+	detail/constants/ControlCodes.h
+	detail/constants/MessageBufferSizeScale.h
+
+	detail/operations/ComputeReceiveBufferSize.h
+	detail/operations/IsIdValid.h
+	detail/operations/MaxMessageLength.h
+	detail/operations/MessageCount_fwd.h
+	detail/operations/MessageCount.h
+	detail/operations/MessageLength.h
+	detail/operations/Sizeof_fwd.h
+	detail/operations/Sizeof.h
+
+	detail/types/IntegralTypes.h
+	detail/types/MessageCollectionTypes.h
+	detail/types/MessageIdType_fwd.h
+	detail/types/MessageIdType.h
+	detail/types/MessageSizeType_fwd.h
+	detail/types/MessageSizeType.h
+
 	envelopes/BasicChecksum.h
-	BoostArrayBuffer.h
-	ChecksumComputer.h
-	EnvelopeBase_fwd.h
-	EnvelopeBase.h
-	Envelopes_fwd.h
-	IntegralTypes.h
+	envelopes/Basic.h
+	envelopes/Envelopes_fwd.h
+
 	MessageCollection.h
-	MessageCollectionTypes.h
-	MessageCount_fwd.h
-	MessageCount.h
-	MessageIdType_fwd.h
-	MessageIdType.h
-	MessageSizeType_fwd.h
-	MessageSizeType.h
 	MessageType.h
 	ReceiveHandler.h
 	Send.h
-	Sizeof_fwd.h
-	Sizeof.h
-	TransmissionBase_fwd.h
-	TransmissionBase.h
 	Transmission_fwd.h
 	Transmission.h
-	TransmitterBase_fwd.h
-	TransmitterBase.h
-	TransmitterComposition.h
-)
 
-set(DETAIL_HEADERS
-	detail/ComputeReceiveBufferSize.h
-	detail/ControlCodes.h
-	detail/IsIdValid.h
-	detail/MaxMessageLength.h
-	detail/MessageLength.h)
+	serializers/BitwiseCopySerialization.h
+
+	transmitters/AutosizedBoostArrayBuffer.h
+	transmitters/BoostArrayBuffer.h
+	transmitters/ChecksumComputer.h
+	transmitters/TransmitterComposition.h
+)
 
 add_custom_target(tuple-transmission
 	SOURCES

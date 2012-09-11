@@ -31,24 +31,26 @@
 
 namespace transmission {
 	namespace detail {
-		namespace ControlCodes {
-			using namespace stdint;
-			/// @brief Start of Header
-			static const uint8_t SOH = 0x01;
-			/// @brief Start of Text
-			static const uint8_t STX = 0x02;
+		namespace constants {
+			namespace ControlCodes {
+				using namespace stdint;
+				/// @brief Start of Header
+				static const uint8_t SOH = 0x01;
+				/// @brief Start of Text
+				static const uint8_t STX = 0x02;
 
-			/// @brief End of Text
-			static const uint8_t ETX = 0x03;
-			/// @brief End of Transmission
-			static const uint8_t EOT = 0x04;
+				/// @brief End of Text
+				static const uint8_t ETX = 0x03;
+				/// @brief End of Transmission
+				static const uint8_t EOT = 0x04;
 
 
-			/// @brief Acknowledge
-			static const uint8_t ACK = 0x06;
-			/// @brief Negative Acknowledge
-			static const uint8_t NAK = 0x15;
-		} // end of namespace ControlCodes
+				/// @brief Acknowledge
+				static const uint8_t ACK = 0x06;
+				/// @brief Negative Acknowledge
+				static const uint8_t NAK = 0x15;
+			} // end of namespace ControlCodes
+		} // end of namespace constants
 	} // end of namespace detail
 } // end of namespace transmission
 

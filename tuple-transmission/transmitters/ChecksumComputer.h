@@ -21,8 +21,8 @@
 #define INCLUDED_ChecksumComputer_h_GUID_80d37814_ff4e_4f0d_af5e_5829daff7df6
 
 // Internal Includes
-#include "TransmitterBase.h"
-#include "IntegralTypes.h"
+#include "../detail/bases/TransmitterBase.h"
+#include "../detail/types/IntegralTypes.h"
 
 // Library/third-party includes
 // - none
@@ -31,27 +31,28 @@
 // - none
 
 namespace transmission {
+	namespace transmitters {
+		/// @addtogroup Transmitters Transmitter Classes
+		/// @{
 
-	/// @addtogroup Transmitters Transmitter Classes
-	/// @{
-
-	/// @brief A "transmitter" that computes the unsigned 8-bit sum of all bytes.
-	///
-	/// Recommended to be used with TransmitterComposition
-	class ChecksumComputer : public TransmitterBase<ChecksumComputer> {
-		public:
-			ChecksumComputer() : _ck(0) {
-				_ck = 0;
-			}
-			void write(uint8_t v) {
-				_ck += v;
-			}
-			uint8_t checksum() const {
-				return _ck;
-			}
-		private:
-			uint8_t  _ck;
-	};
-	/// @}
+		/// @brief A "transmitter" that computes the unsigned 8-bit sum of all bytes.
+		///
+		/// Recommended to be used with TransmitterComposition
+		class ChecksumComputer : public TransmitterBase<ChecksumComputer> {
+			public:
+				ChecksumComputer() : _ck(0) {
+					_ck = 0;
+				}
+				void write(uint8_t v) {
+					_ck += v;
+				}
+				uint8_t checksum() const {
+					return _ck;
+				}
+			private:
+				uint8_t  _ck;
+		};
+		/// @}
+	} // end of namespace transmitters
 } // end of namespace transmission
 #endif // INCLUDED_ChecksumComputer_h_GUID_80d37814_ff4e_4f0d_af5e_5829daff7df6

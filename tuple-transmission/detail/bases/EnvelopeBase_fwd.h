@@ -1,5 +1,5 @@
 /** @file
-	@brief Header
+	@brief Forward declaration header corresponding to envelopes/EnvelopeBase.h
 
 	@date 2012
 
@@ -17,13 +17,11 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #pragma once
-#ifndef INCLUDED_Transmission_h_GUID_fcc31d2e_6819_4b42_a365_0c7798060bad
-#define INCLUDED_Transmission_h_GUID_fcc31d2e_6819_4b42_a365_0c7798060bad
+#ifndef INCLUDED_EnvelopeBase_fwd_h_GUID_cf227b9a_5049_483d_a942_80966857935e
+#define INCLUDED_EnvelopeBase_fwd_h_GUID_cf227b9a_5049_483d_a942_80966857935e
 
 // Internal Includes
-#include "Transmission_fwd.h"
-#include "detail/bases/TransmissionBase.h"
-#include <util/MPLFindIndex.h>
+// - none
 
 // Library/third-party includes
 // - none
@@ -32,9 +30,10 @@
 // - none
 
 namespace transmission {
-	template<typename MessageCollection, typename MessageType>
-	struct Transmission : detail::TransmissionBase<typename MessageCollection::envelope_type, util::find_index<typename MessageCollection::message_types, MessageType>, MessageType> {
-	};
+	namespace envelopes {
+		template<typename Derived>
+		struct EnvelopeBase;
+	} //end of namespace envelopes
 } // end of namespace transmission
 
-#endif // INCLUDED_Transmission_h_GUID_fcc31d2e_6819_4b42_a365_0c7798060bad
+#endif // INCLUDED_EnvelopeBase_fwd_h_GUID_cf227b9a_5049_483d_a942_80966857935e

@@ -17,21 +17,27 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #pragma once
-#ifndef INCLUDED_MessageCount_fwd_h_GUID_cfe35955_066b_464e_9262_74f333b92858
-#define INCLUDED_MessageCount_fwd_h_GUID_cfe35955_066b_464e_9262_74f333b92858
+#ifndef INCLUDED_IsIdValid_h_GUID_78626b63_35d3_4fc6_8033_ef1119ae337f
+#define INCLUDED_IsIdValid_h_GUID_78626b63_35d3_4fc6_8033_ef1119ae337f
 
 // Internal Includes
-// - none
+#include "../types/MessageIdType.h"
+#include "MessageCount.h"
 
 // Library/third-party includes
 // - none
 
 // Standard includes
 // - none
-
 namespace transmission {
-	template<typename Collection>
-	struct MessageCount;
+	namespace detail {
+		namespace operations {
+			/// @brief Given a message collection, is this message ID valid?
+			template<typename Collection>
+			bool isIdValid(typename MinimalMessageIdType<Collection>::type id) {
+				return id < MessageCount<Collection>();
+			}
+		} // end of namespace operations
+	} // end of namespace detail
 } // end of namespace transmission
-
-#endif // INCLUDED_MessageCount_fwd_h_GUID_cfe35955_066b_464e_9262_74f333b92858
+#endif // INCLUDED_IsIdValid_h_GUID_78626b63_35d3_4fc6_8033_ef1119ae337f

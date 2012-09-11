@@ -1,5 +1,5 @@
 /** @file
-	@brief Forward declaration header corresponding to EnvelopeBase.h
+	@brief Header
 
 	@date 2012
 
@@ -17,23 +17,26 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #pragma once
-#ifndef INCLUDED_EnvelopeBase_fwd_h_GUID_cf227b9a_5049_483d_a942_80966857935e
-#define INCLUDED_EnvelopeBase_fwd_h_GUID_cf227b9a_5049_483d_a942_80966857935e
+#ifndef INCLUDED_MessageBufferSizeScale_h_GUID_b8da68a5_994a_481e_b030_1f76e9c34176
+#define INCLUDED_MessageBufferSizeScale_h_GUID_b8da68a5_994a_481e_b030_1f76e9c34176
 
 // Internal Includes
 // - none
 
 // Library/third-party includes
-// - none
+#include <boost/mpl/int.hpp>
 
 // Standard includes
 // - none
 
+
 namespace transmission {
-	namespace envelopes {
-		template<typename Derived>
-		struct EnvelopeBase;
-	} //end of namespace envelopes
+	namespace detail {
+		namespace constants {
+			typedef boost::mpl::int_<3> MessageBufferSizeScale;
+		} // end of namespace constants
+	} // end of namespace detail
 } // end of namespace transmission
 
-#endif // INCLUDED_EnvelopeBase_fwd_h_GUID_cf227b9a_5049_483d_a942_80966857935e
+
+#endif // INCLUDED_MessageBufferSizeScale_h_GUID_b8da68a5_994a_481e_b030_1f76e9c34176

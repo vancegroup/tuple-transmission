@@ -17,25 +17,31 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #pragma once
-#ifndef INCLUDED_IsIdValid_h_GUID_78626b63_35d3_4fc6_8033_ef1119ae337f
-#define INCLUDED_IsIdValid_h_GUID_78626b63_35d3_4fc6_8033_ef1119ae337f
+#ifndef INCLUDED_TransmissionBase_h_GUID_83718704_20bd_4134_b7bd_01987db8f10a
+#define INCLUDED_TransmissionBase_h_GUID_83718704_20bd_4134_b7bd_01987db8f10a
 
 // Internal Includes
-#include "../MessageIdType.h"
-#include "../MessageCount.h"
+#include "TransmissionBase_fwd.h"
 
 // Library/third-party includes
 // - none
 
 // Standard includes
 // - none
+
 namespace transmission {
 	namespace detail {
-		/// @brief Given a message collection, is this message ID valid?
-		template<typename Collection>
-		bool isIdValid(typename MinimalMessageIdType<Collection>::type id) {
-			return id < MessageCount<Collection>();
-		}
-	}
+		template<typename EnvelopeType, typename MessageID, typename MessageType>
+		struct TransmissionBase {
+			typedef TransmissionBase<EnvelopeType, MessageID, MessageType> transmission_type;
+			typedef EnvelopeType envelope_type;
+			typedef MessageType message_type;
+			typedef MessageID message_id;
+			enum {
+				msg_id_c = MessageID::value
+			};
+		};
+	} // end of namespace detail
 } // end of namespace transmission
-#endif // INCLUDED_IsIdValid_h_GUID_78626b63_35d3_4fc6_8033_ef1119ae337f
+
+#endif // INCLUDED_TransmissionBase_h_GUID_83718704_20bd_4134_b7bd_01987db8f10a

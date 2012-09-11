@@ -12,9 +12,9 @@
 
 #define USE_BASIC_ENVELOPE
 #include "Protocol.h"
-#include <tuple-transmission/detail/IsIdValid.h>
-#include <tuple-transmission/detail/MessageLength.h>
-#include <tuple-transmission/detail/MaxMessageLength.h>
+#include <tuple-transmission/detail/operations/IsIdValid.h>
+#include <tuple-transmission/detail/operations/MessageLength.h>
+#include <tuple-transmission/detail/operations/MaxMessageLength.h>
 
 // Library/third-party includes
 #include <boost/mpl/assert.hpp>
@@ -26,10 +26,10 @@
 
 using namespace boost::unit_test;
 
-using transmission::detail::MaxMessageLength;
-using transmission::detail::MessageLength;
-using transmission::detail::getMessageLength;
-using transmission::detail::isIdValid;
+using transmission::detail::operations::MaxMessageLength;
+using transmission::detail::operations::MessageLength;
+using transmission::detail::operations::getMessageLength;
+using transmission::detail::operations::isIdValid;
 using transmission::MessageSizeType;
 using transmission::MinimalMessageIdType;
 using boost::mpl::int_;

@@ -22,7 +22,7 @@
 
 // Internal Includes
 #include "TransmitterBase_fwd.h"
-#include "IntegralTypes.h"
+#include "../types/IntegralTypes.h"
 
 // Library/third-party includes
 #include <boost/config.hpp> // for std::size_t

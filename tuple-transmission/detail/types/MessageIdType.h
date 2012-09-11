@@ -17,29 +17,23 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #pragma once
-#ifndef INCLUDED_TransmissionBase_h_GUID_83718704_20bd_4134_b7bd_01987db8f10a
-#define INCLUDED_TransmissionBase_h_GUID_83718704_20bd_4134_b7bd_01987db8f10a
+#ifndef INCLUDED_MessageIdType_h_GUID_5d3f6687_240b_49f7_b325_52c417787cad
+#define INCLUDED_MessageIdType_h_GUID_5d3f6687_240b_49f7_b325_52c417787cad
 
 // Internal Includes
-#include "TransmissionBase_fwd.h"
+#include "../operations/MessageCount.h"
 
 // Library/third-party includes
-// - none
+#include <boost/integer.hpp>
 
 // Standard includes
 // - none
 
 namespace transmission {
-	template<typename EnvelopeType, typename MessageID, typename MessageType>
-	struct TransmissionBase {
-		typedef TransmissionBase<EnvelopeType, MessageID, MessageType> transmission_type;
-		typedef EnvelopeType envelope_type;
-		typedef MessageType message_type;
-		typedef MessageID message_id;
-		enum {
-			msg_id_c = MessageID::value
-		};
+	template<typename Collection>
+	struct MinimalMessageIdType {
+		typedef typename boost::uint_value_t<detail::operations::MessageCount<Collection>::value>::least type;
 	};
 } // end of namespace transmission
 
-#endif // INCLUDED_TransmissionBase_h_GUID_83718704_20bd_4134_b7bd_01987db8f10a
+#endif // INCLUDED_MessageIdType_h_GUID_5d3f6687_240b_49f7_b325_52c417787cad

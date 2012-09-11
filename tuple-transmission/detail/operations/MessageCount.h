@@ -17,23 +17,27 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #pragma once
-#ifndef INCLUDED_MessageSizeType_h_GUID_e46ad97b_2123_49bd_8b67_fc7ea9712e1c
-#define INCLUDED_MessageSizeType_h_GUID_e46ad97b_2123_49bd_8b67_fc7ea9712e1c
+#ifndef INCLUDED_MessageCount_h_GUID_f0cfe291_5791_490d_a738_9da0f5c5dda5
+#define INCLUDED_MessageCount_h_GUID_f0cfe291_5791_490d_a738_9da0f5c5dda5
 
 // Internal Includes
-#include "detail/MaxMessageLength.h"
+// - none
 
 // Library/third-party includes
-#include <boost/integer.hpp>
+#include <boost/mpl/size.hpp>
 
 // Standard includes
 // - none
 
 namespace transmission {
-	template<typename Collection>
-	struct MessageSizeType {
-		typedef typename boost::uint_value_t< detail::MaxMessageLength<Collection>::value >::least type;
-	};
+	namespace detail {
+		namespace operations {
+
+			/// @brief Retrieves the number of messages defined in a message collection
+			template<typename Collection>
+			struct MessageCount : boost::mpl::size<typename Collection::message_types>::type {};
+		} // end of namespace operations
+	} // end of namespace detail
 } // end of namespace transmission
 
-#endif // INCLUDED_MessageSizeType_h_GUID_e46ad97b_2123_49bd_8b67_fc7ea9712e1c
+#endif // INCLUDED_MessageCount_h_GUID_f0cfe291_5791_490d_a738_9da0f5c5dda5

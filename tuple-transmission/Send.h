@@ -22,10 +22,10 @@
 
 // Internal Includes
 #include "MessageCollection.h"
-#include "TransmitterBase.h"
-#include "EnvelopeBase.h"
-#include "IntegralTypes.h"
-//#include "Transmission.h" // @todo Not strictly required for this file, but for its common usage.
+#include "detail/bases/TransmitterBase.h"
+#include "detail/bases/EnvelopeBase.h"
+#include "detail/types/IntegralTypes.h"
+#include "Transmission.h"
 
 // Library/third-party includes
 #include <boost/mpl/equal.hpp>
@@ -33,7 +33,7 @@
 #include <boost/fusion/mpl.hpp>
 
 // Standard includes
-// - none
+#include <cstring> // for std::memcpy
 
 namespace transmission {
 

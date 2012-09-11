@@ -13,8 +13,8 @@
 #define USE_BASIC_ENVELOPE
 
 #include "Protocol.h"
+#include <tuple-transmission/detail/operations/Sizeof.h>
 #include <tuple-transmission/Transmission.h>
-#include <tuple-transmission/Sizeof.h>
 #include <util/booststdint.h>
 
 // Library/third-party includes
@@ -26,9 +26,11 @@
 
 using namespace boost::unit_test;
 using namespace stdint;
+using transmission::detail::operations::Sizeof;
+using transmission::Transmission;
+using transmission::detail::TransmissionBase;
 
 BOOST_AUTO_TEST_CASE(SizeofRefactored) {
-	using transmission::Sizeof;
 	namespace mpl = boost::mpl;
 	BOOST_CHECK_EQUAL((Sizeof<mpl::vector<int16_t, int16_t, int16_t> >()), 3 * 2);
 	BOOST_CHECK_EQUAL((Sizeof<mpl::vector<uint16_t, uint16_t, uint16_t> >()), 3 * 2);
@@ -37,19 +39,14 @@ BOOST_AUTO_TEST_CASE(SizeofRefactored) {
 }
 
 BOOST_AUTO_TEST_CASE(SizeofMessageVsTypelist) {
-	using transmission::Sizeof;
 	BOOST_CHECK_EQUAL((Sizeof<MessageATypes>()) , (Sizeof<MessageA>()));
 }
 
 BOOST_AUTO_TEST_CASE(WholeMessageSize) {
-	using transmission::Sizeof;
-	using transmission::Transmission;
 	BOOST_CHECK_EQUAL((Sizeof<Transmission<MyMessageCollection, MessageA> >()), (Sizeof<MessageA>() + 5));
 }
 
 BOOST_AUTO_TEST_CASE(WholeMessageSizeDirectConstruction) {
-	using transmission::Sizeof;
-	using transmission::TransmissionBase;
 	BOOST_CHECK_EQUAL((Sizeof<TransmissionBase<transmission::envelopes::Basic, boost::mpl::int_<0>, MessageA> >()), (Sizeof<MessageA>() + 5));
 }
 

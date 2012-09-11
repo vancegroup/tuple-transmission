@@ -21,10 +21,10 @@
 #define INCLUDED_ReceiveHandler_h_GUID_e5115905_1c09_43a9_93b6_48c9f42aa951
 
 // Internal Includes
-#include "detail/ComputeReceiveBufferSize.h"
-#include "detail/IsIdValid.h"
-#include "detail/MessageLength.h"         // for getMessageLength
-#include "MessageCollectionTypes.h"
+#include "detail/operations/ComputeReceiveBufferSize.h"
+#include "detail/operations/IsIdValid.h"
+#include "detail/operations/MessageLength.h"         // for getMessageLength
+#include "detail/types/MessageCollectionTypes.h"
 #include <util/ReceiveBuffer.h>
 
 // Library/third-party includes
@@ -39,7 +39,7 @@ namespace transmission {
 	template<typename Collection>
 	class ReceiveHandler {
 		private:
-			typedef util::ReceiveBuffer< detail::ComputeReceiveBufferSize<Collection>::value > buffer_type;
+			typedef util::ReceiveBuffer< detail::operations::ComputeReceiveBufferSize<Collection>::value > buffer_type;
 
 		public:
 			typedef ReceiveHandler<Collection> type;
@@ -141,7 +141,7 @@ namespace transmission {
 			/// The Receive Handler caches this value for message-related lookup functions, and
 			/// for use when we actually have a full message.
 			void setCurrentMessageId(message_id_type id) {
-				if (detail::isIdValid<message_collection>(id)) {
+				if (detail::operations::isIdValid<message_collection>(id)) {
 					current_message_id = id;
 				} else {
 					current_message_id = boost::none_t();
@@ -171,7 +171,7 @@ namespace transmission {
 			/// Must be preceded by a call to setCurrentMessageId()
 			message_size_type getMessageLength() const {
 				BOOST_ASSERT(isCurrentMessageIdValid());
-				return ::transmission::detail::getMessageLength<message_collection>(*current_message_id);
+				return ::transmission::detail::operations::getMessageLength<message_collection>(*current_message_id);
 			}
 			/// @}
 		private:

@@ -12,9 +12,7 @@
 #define USE_CHECKSUM_ENVELOPE
 #include "Protocol.h"
 #include <tuple-transmission/Send.h>
-#include <tuple-transmission/Transmission.h>
-#include <tuple-transmission/BoostArrayBuffer.h>
-#include <tuple-transmission/detail/ControlCodes.h>
+#include <tuple-transmission/transmitters/AutosizedBoostArrayBuffer.h>
 
 #include "OutputArray.h"
 
@@ -31,12 +29,10 @@ using namespace boost::unit_test;
 BOOST_AUTO_TEST_CASE(WholeMessageSerialize) {
 	using transmission::send;
 	using transmission::Transmission;
-	using transmission::BoostArrayBufferAutosized;
-
-	namespace ControlCodes = transmission::detail::ControlCodes;
+	using transmission::transmitters::AutosizedBoostArrayBuffer;
 
 	typedef Transmission<MyMessageCollection, MessageB> TransmissionB;
-	typedef BoostArrayBufferAutosized<TransmissionB> TransmitBufferType;
+	typedef AutosizedBoostArrayBuffer<TransmissionB> TransmitBufferType;
 
 	TransmitBufferType buf;
 	send<TransmissionB>(buf, boost::fusion::make_vector(uint8_t(5), uint8_t(10), uint8_t(15)));

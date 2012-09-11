@@ -22,7 +22,7 @@
 
 // Internal Includes
 #include "EnvelopeBase_fwd.h"
-#include "IntegralTypes.h"
+#include "../types/IntegralTypes.h"
 #include <util/BoostAssertMsg.h>
 
 // Library/third-party includes

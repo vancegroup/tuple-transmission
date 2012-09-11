@@ -21,11 +21,11 @@
 #define INCLUDED_envelopes_BasicChecksum_h_GUID_532406a6_8426_4b80_9f3c_6c7b16b7a49e
 
 // Internal Includes
-#include "../EnvelopeBase.h"
-#include "../detail/ControlCodes.h"
-#include "../IntegralTypes.h"
-#include "../ChecksumComputer.h"
-#include "../TransmitterComposition.h"
+#include "../detail/bases/EnvelopeBase.h"
+#include "../detail/constants/ControlCodes.h"
+#include "../detail/types/IntegralTypes.h"
+#include "../transmitters/ChecksumComputer.h"
+#include "../transmitters/TransmitterComposition.h"
 
 // Library/third-party includes
 #include <boost/fusion/include/for_each.hpp>
@@ -51,10 +51,10 @@ namespace transmission {
 
 			template<typename TransmitterType, typename MessageContentsType>
 			static void sendMessage(TransmitterType & tx, MessageContentsType const & contents, MessageIdType msgId) {
-				namespace ControlCodes = ::transmission::detail::ControlCodes;
-				typedef TransmitterComposition<ChecksumComputer, TransmitterType> ComposedTransmitter;
+				namespace ControlCodes = ::transmission::detail::constants::ControlCodes;
+				typedef transmitters::TransmitterComposition<transmitters::ChecksumComputer, TransmitterType> ComposedTransmitter;
 
-				ChecksumComputer checksum;
+				transmitters::ChecksumComputer checksum;
 				ComposedTransmitter txComposed(checksum, tx);
 				detail::SendContext<ComposedTransmitter> functor(txComposed);
 

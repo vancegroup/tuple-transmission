@@ -22,25 +22,27 @@
 
 // Internal Includes
 #include "MaxMessageLength.h"
+#include "../constants/MessageBufferSizeScale.h"
 
 // Library/third-party includes
 #include <boost/mpl/times.hpp>
-#include <boost/mpl/int.hpp>
 
 // Standard includes
 // - none
 
 namespace transmission {
 	namespace detail {
-		typedef boost::mpl::int_<3> MessageBufferSizeScale;
+		namespace operations {
 
-		template<typename Collection>
-		struct ComputeReceiveBufferSize {
-			typedef MaxMessageLength<Collection> MaxMessageLength;
-			enum {
-				value = (boost::mpl::times< MaxMessageLength, MessageBufferSizeScale>::value)
+			template<typename Collection>
+			struct ComputeReceiveBufferSize {
+				typedef MaxMessageLength<Collection> MaxMessageLength;
+				enum {
+					value = (boost::mpl::times< MaxMessageLength, constants::MessageBufferSizeScale>::value)
+				};
 			};
-		};
+
+		} // end of namespace operations
 	} // end of namespace detail
 } // end of namespace transmission
 
