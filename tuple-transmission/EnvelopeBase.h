@@ -53,6 +53,17 @@ namespace transmission {
 			static void sendMessage(TransmitterType & tx, MessageContentsType const & contents, MessageIdType msgId) {
 				derived::sendMessage(tx, contents, msgId);
 			}
+
+			template<typename ReceiveHandlerType>
+			static bool checkBufferForMessage(ReceiveHandlerType & recv) {
+				return derived::checkBufferForMessage(recv);
+			}
+
+			template<typename ReceiveHandlerType>
+			static bool popAndRetry(ReceiveHandlerType & recv) {
+				recv.bufferPopFront();
+				return checkBufferForMessage(recv);
+			}
 		};
 
 	} //end of namespace envelopes

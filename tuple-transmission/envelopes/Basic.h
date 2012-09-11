@@ -43,6 +43,8 @@ namespace transmission {
 			1 /* end of text */ +
 			1 /* end of transmission */ > overhead_size;
 
+			typedef EnvelopeBase<Basic> base;
+
 			template<typename MessageContentsSize>
 			struct Size : boost::mpl::plus <overhead_size, MessageContentsSize > {};
 
@@ -56,6 +58,51 @@ namespace transmission {
 				boost::fusion::for_each(contents, functor);
 				tx.output(ControlCodes::ETX);
 				tx.output(ControlCodes::EOT);
+			}
+
+			template<typename ReceiveHandlerType>
+			static bool checkBufferForMessage(ReceiveHandlerType & recv) {
+				namespace ControlCodes = ::transmission::detail::ControlCodes;
+				while (!recv.bufferEmpty()) {
+					if (recv.bufferFront() != ControlCodes::SOH) {
+						recv.bufferPopFront();
+					}
+				}
+
+				if (recv.bufferSize() < 2) {
+					// haven't seen message start and ID.
+					return false;
+				}
+				recv.setCurrentMessageId(recv.buffer(1));
+				if (!recv.isCurrentMessageIdValid()) {
+					/// False alarm: that's not a valid message ID.
+					/// Pop off the start code and try again.
+					return base::popAndRetry(recv);
+				}
+				if (recv.bufferSize() < 3) {
+					// Can't have seen ControlCodes::STX
+					return false;
+				}
+				if (recv.buffer(2) != ControlCodes::STX) {
+					/// Unexpected - this isn't the right start either.
+					/// Pop off the start code and try again.
+					return base::popAndRetry(recv);
+				}
+
+				typename ReceiveHandlerType::message_size_type msgLength = recv.getMessageLength();
+				if (recv.bufferSize() < msgLength) {
+					/// Gotta wait some more.
+					return false;
+				}
+
+				if ((recv.buffer(msgLength - 2) != ControlCodes::ETX) || (recv.buffer(msgLength - 1) != ControlCodes::EOT)) {
+					/// Message ending isn't right.
+					/// Pop off the start code and try again.
+					return base::popAndRetry(recv);
+				}
+
+				/// We passed the gauntlet!
+				return true;
 			}
 		};
 	} //end of namespace envelopes

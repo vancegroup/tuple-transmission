@@ -16,6 +16,7 @@ set(HEADERS
 	MessageSizeType.h
 	MessageSizeType_fwd.h
 	MessageType.h
+	ReceiveHandler.h
 	Send.h
 	Sizeof_fwd.h
 	Sizeof.h
