@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE(TypeSelection) {
 }
 
 BOOST_AUTO_TEST_CASE(AccurateMaxMessageLength) {
-	BOOST_CHECK_EQUAL(MaxMessageLength<MyMessageCollection>(), 9);
+	BOOST_CHECK_EQUAL(MaxMessageLength<MyMessageCollection>(), 17);
 }
 
 BOOST_AUTO_TEST_CASE(ValidMessageLengths) {
