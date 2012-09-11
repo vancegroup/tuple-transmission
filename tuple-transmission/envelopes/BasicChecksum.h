@@ -37,7 +37,7 @@
 
 namespace transmission {
 	namespace envelopes {
-		struct BasicChecksum : EnvelopeBase<BasicChecksum> {
+		struct BasicChecksum : EnvelopeBase<BasicChecksum, serializers::BitwiseCopy> {
 			typedef boost::mpl::int_ <
 			1 /* start of transmission */ +
 			1 /* message ID */ +
@@ -49,7 +49,7 @@ namespace transmission {
 			template<typename MessageContentsSize>
 			struct Size : boost::mpl::plus <overhead_size, MessageContentsSize > {};
 
-			typedef serializers::BitwiseCopy serialization_policy;
+			typedef EnvelopeBase<BasicChecksum, serializers::BitwiseCopy> base;
 
 			template<typename TransmitterType, typename MessageContentsType>
 			static void sendMessage(TransmitterType & tx, MessageContentsType const & contents, MessageIdType msgId) {
@@ -62,7 +62,7 @@ namespace transmission {
 				txComposed.output(ControlCodes::SOH);
 				txComposed.output(msgId);
 				txComposed.output(ControlCodes::STX);
-				serialization_policy::bufferTuple(txComposed, contents);
+				base::bufferTuple(txComposed, contents);
 				txComposed.output(ControlCodes::ETX);
 				tx.output(checksum.checksum());
 				tx.output(ControlCodes::EOT);

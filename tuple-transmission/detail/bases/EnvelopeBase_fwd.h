@@ -31,7 +31,7 @@
 
 namespace transmission {
 	namespace envelopes {
-		template<typename Derived>
+		template<typename Derived, typename SerializationPolicy>
 		struct EnvelopeBase;
 	} //end of namespace envelopes
 } // end of namespace transmission

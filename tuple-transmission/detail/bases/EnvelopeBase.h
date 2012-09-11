@@ -44,13 +44,27 @@ namespace transmission {
 	namespace envelopes {
 		/// @brief Template base for envelopes: used to enforce requirements
 		/// on envelope interfaces and provide for compile-time polymorphism.
-		template<typename Derived>
+		template<typename Derived, typename SerializationPolicy>
 		struct EnvelopeBase {
-			typedef EnvelopeBase<Derived> base;
+			typedef EnvelopeBase<Derived, SerializationPolicy> base;
 			typedef Derived derived;
+
+			typedef SerializationPolicy serialization_policy;
 
 			template<typename MessageSize>
 			struct Size : derived::template Size<MessageSize> {};
+
+			template<typename TransmitterType, typename Tuple>
+			static void bufferTuple(TransmitterType & tx, Tuple const & contents) {
+				typedef typename derived::serialization_policy policy;
+				policy::bufferTuple(tx, contents);
+			}
+
+			template<typename T, typename Iterator>
+			static T unbuffer(Iterator & it) {
+				typedef typename derived::serialization_policy policy;
+				policy::template unbuffer<T>(it);
+			}
 
 			template<typename TransmitterType, typename MessageContentsType>
 			static void sendMessage(TransmitterType & tx, MessageContentsType const & contents, MessageIdType msgId) {
