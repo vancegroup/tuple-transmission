@@ -31,7 +31,7 @@
 
 namespace transmission {
 	namespace serializers {
-		struct BitwiseCopy : detail::StatelessSerializer_tag {
+		struct BitwiseCopySerializer : detail::StatelessSerializer_tag {
 			template<typename TransmitterType, typename T>
 			void buffer(TransmitterType & tx, T & value) {
 				uint8_t buf[sizeof(T)];
@@ -44,7 +44,32 @@ namespace transmission {
 				tx.output(data);
 			}
 		};
-		typedef detail::SendContextWrapper<BitwiseCopy> BitwiseCopySendContext;
+
+		struct BitwiseCopyDeserializer {
+			template<typename T>
+			struct Unbuffer {
+				template<typename IteratorType>
+				T apply(IteratorType & it) {
+					T ret;
+					std::memcpy(it, &ret, sizeof(T));
+					it += sizeof(T);
+					return ret;
+				}
+			};
+		};
+
+
+		template<>
+		struct BitwiseCopyDeserializer::Unbuffer<uint8_t> {
+			template<typename IteratorType>
+			uint8_t apply(IteratorType & it) {
+				return *(it++);
+			}
+		};
+
+		//typedef detail::SendContextWrapper<BitwiseCopy> BitwiseCopySendContext;
+
+		typedef detail::SerializationPolicy<BitwiseCopySerializer, BitwiseCopyDeserializer> BitwiseCopy;
 	} // end of namespace serializers
 } // end of namespace transmission
 #endif // INCLUDED_BitwiseCopySerialization_h_GUID_4d50bc7f_c702_437a_a2df_f715f1cea845

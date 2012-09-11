@@ -24,9 +24,9 @@
 #include "../detail/bases/EnvelopeBase.h"
 #include "../detail/constants/ControlCodes.h"
 #include "../detail/types/IntegralTypes.h"
+#include "../serializers/BitwiseCopySerialization.h"
 
 // Library/third-party includes
-#include <boost/fusion/include/for_each.hpp>
 #include <boost/mpl/plus.hpp>
 #include <boost/mpl/int.hpp>
 
@@ -52,14 +52,15 @@ namespace transmission {
 			template<typename MessageContentsSize>
 			struct Size : boost::mpl::plus <overhead_size, MessageContentsSize > {};
 
+			typedef serializers::BitwiseCopy serialization_policy;
+
 			template<typename TransmitterType, typename MessageContentsType>
 			static void sendMessage(TransmitterType & tx, MessageContentsType const & contents, MessageIdType msgId) {
 				namespace ControlCodes = ::transmission::detail::constants::ControlCodes;
 				tx.output(ControlCodes::SOH);
 				tx.output(msgId);
 				tx.output(ControlCodes::STX);
-				detail::SendContext<TransmitterType> functor(tx);
-				boost::fusion::for_each(contents, functor);
+				serialization_policy::bufferTuple(tx, contents);
 				tx.output(ControlCodes::ETX);
 				tx.output(ControlCodes::EOT);
 			}

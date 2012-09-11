@@ -27,6 +27,7 @@
 #include <boost/utility/enable_if.hpp>
 #include <boost/type_traits/is_base_of.hpp>
 #include <boost/config.hpp> // for std::size_t
+#include <boost/fusion/include/for_each.hpp>
 
 // Standard includes
 // - none
@@ -48,11 +49,11 @@ namespace transmission {
 		/// must maintain state, based on inheritance from either
 		/// StatelessSerializer_tag or StatefulSerializer_tag
 		template<typename ImplementationType, typename = void>
-		class SendContextWrapper;
+		struct SendContextWrapper;
 
 		/// @brief Template specialization for stateless serializers
 		template<typename ImplementationType>
-		class SendContextWrapper<ImplementationType, typename boost::enable_if<typename boost::is_base_of<StatelessSerializer_tag, ImplementationType>::type >::type > {
+		struct SendContextWrapper<ImplementationType, typename boost::enable_if<typename boost::is_base_of<StatelessSerializer_tag, ImplementationType>::type >::type > {
 				template<typename TransmitterType>
 				class SendContext {
 					public:
@@ -71,7 +72,7 @@ namespace transmission {
 
 		/// @brief Template specialization for stateful serializers
 		template<typename ImplementationType>
-		class SendContextWrapper<ImplementationType, typename boost::enable_if<typename boost::is_base_of<StatefulSerializer_tag, ImplementationType>::type >::type > {
+		struct SendContextWrapper<ImplementationType, typename boost::enable_if<typename boost::is_base_of<StatefulSerializer_tag, ImplementationType>::type >::type > {
 				template<typename TransmitterType>
 				class SendContext {
 					public:
@@ -87,6 +88,38 @@ namespace transmission {
 						TransmitterType & tx;
 						ImplementationType impl;
 				};
+		};
+
+		template<typename ImplementationType>
+		struct DeserializerWrapper {
+			template<typename T, typename Iterator>
+			T unbuffer(Iterator & it) {
+				return ImplementationType::template Unbuffer<T>::apply(it);
+			}
+		};
+
+		template<typename SerializerImplementation, typename DeserializerImplementation>
+		struct SerializationPolicy {
+			typedef SendContextWrapper<SerializerImplementation> BufferPolicy;
+			typedef DeserializerWrapper<DeserializerImplementation> UnbufferPolicy;
+
+			template<typename TransmitterType, typename Tuple>
+			static void bufferTuple(TransmitterType & tx, Tuple const & contents) {
+				typename BufferPolicy::template SendContext<TransmitterType> functor(tx);
+				boost::fusion::for_each(contents, functor);
+			}
+
+			/*
+			template<typename TransmitterType, typename T>
+			static void bufferItem(TransmitterType & tx, T const & value) {
+				typename BufferPolicy::template SendContext<TransmitterType> functor(tx);
+				functor(value);
+			}
+			*/
+			template<typename T, typename Iterator>
+			static T unbuffer(Iterator & it) {
+				return DeserializerImplementation::template Unbuffer<T>::apply(it);
+			}
 		};
 
 	}
