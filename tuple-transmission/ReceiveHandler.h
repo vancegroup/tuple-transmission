@@ -111,6 +111,13 @@ namespace transmission {
 				}
 			}
 
+			/// @brief Gets current message ID
+			///
+			/// @note Behavior when no valid ID is set is undefined!
+			message_id_type getCurrentMessageId() const {
+				return *current_message_id;
+			}
+
 			/// @brief Looks up and returns the message length for the current message ID
 			///
 			/// Must be preceded by a call to setCurrentMessageId()
