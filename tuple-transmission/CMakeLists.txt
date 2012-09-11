@@ -8,6 +8,7 @@ set(HEADERS
 	Envelopes_fwd.h
 	IntegralTypes.h
 	MessageCollection.h
+	MessageCollectionTypes.h
 	MessageCount.h
 	MessageCount_fwd.h
 	MessageIdType.h
