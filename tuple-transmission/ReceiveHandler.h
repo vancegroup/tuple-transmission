@@ -77,9 +77,9 @@ namespace transmission {
 			///
 			/// @note Almost certainly less efficient for multiple
 			/// elements than the overload taking an iterator range!
-			template<typename InputIterator>
-			void bufferAppend(buffer_const_reference) {
-				recv_buf.push_back(input_begin, input_end);
+			void bufferAppend(buffer_const_reference element) {
+				recv_buf.push_back(element);
+			}
 			}
 
 			/// @}
