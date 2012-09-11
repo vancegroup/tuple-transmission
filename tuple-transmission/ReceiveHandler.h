@@ -42,6 +42,7 @@ namespace transmission {
 			typedef util::ReceiveBuffer< detail::ComputeReceiveBufferSize<Collection>::value > buffer_type;
 
 		public:
+			typedef ReceiveHandler<Collection> type;
 			typedef Collection message_collection;
 			typedef MessageCollectionTypes<Collection> types;
 
@@ -80,6 +81,13 @@ namespace transmission {
 			void bufferAppend(buffer_const_reference element) {
 				recv_buf.push_back(element);
 			}
+
+			/// @brief Request processing by the envelope to determine if
+			/// the buffer contains a complete and valid message, returning
+			/// the results.
+			bool checkBufferForMessage() {
+				typedef typename message_collection::envelope_type::base envelope_type;
+				return envelope_type::template checkBufferForMessage<type>(*this);
 			}
 
 			/// @}
