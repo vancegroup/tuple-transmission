@@ -29,4 +29,8 @@ add_boost_test(MessageLength
 	ValidMessageLengthsMatchCompileTime
 	InvalidMessageLength)
 
+add_boost_test(ReceiveHandler
+	SOURCES
+	ReceiveHandler.cpp)
+
 add_subdirectory(cleanbuild)
