@@ -22,7 +22,7 @@
 #include <BoostTestTargetConfig.h>
 
 // Standard includes
-#include <iostream>
+// - none
 
 using namespace boost::unit_test;
 
