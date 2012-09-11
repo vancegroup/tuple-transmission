@@ -12,6 +12,7 @@
 
 #define USE_BASIC_ENVELOPE
 #include "Protocol.h"
+#include <tuple-transmission/detail/IsIdValid.h>
 #include <tuple-transmission/detail/MessageLength.h>
 #include <tuple-transmission/detail/MaxMessageLength.h>
 
@@ -28,6 +29,7 @@ using namespace boost::unit_test;
 using transmission::detail::MaxMessageLength;
 using transmission::detail::MessageLength;
 using transmission::detail::getMessageLength;
+using transmission::detail::isIdValid;
 using transmission::MessageSizeType;
 using transmission::MinimalMessageIdType;
 using boost::mpl::int_;
@@ -53,6 +55,6 @@ BOOST_AUTO_TEST_CASE(ValidMessageLengthsMatchCompileTime) {
 }
 
 BOOST_AUTO_TEST_CASE(InvalidMessageLength) {
-	BOOST_CHECK(!getMessageLength<MyMessageCollection>(2));
+	BOOST_CHECK(!isIdValid<MyMessageCollection>(InvalidMessageId));
 }
 
