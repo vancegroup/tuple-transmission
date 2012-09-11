@@ -7,13 +7,11 @@ set(HEADERS
 	EnvelopeBase.h
 	Envelopes_fwd.h
 	IntegralTypes.h
-	MaxMessageLength.h
 	MessageCollection.h
 	MessageCount.h
 	MessageCount_fwd.h
 	MessageIdType.h
 	MessageIdType_fwd.h
-	MessageLength.h
 	MessageSizeType.h
 	MessageSizeType_fwd.h
 	MessageType.h
@@ -29,8 +27,14 @@ set(HEADERS
 	TransmitterComposition.h
 )
 
+set(DETAIL_HEADERS
+	detail/ControlCodes.h
+	detail/MaxMessageLength.h
+	detail/MessageLength.h)
+
 add_custom_target(tuple-transmission
 	SOURCES
-	${HEADERS})
+	${HEADERS}
+	${DETAIL_HEADERS})
 
-set(HEADERS ${HEADERS} PARENT_SCOPE)
+set(HEADERS ${HEADERS} ${DETAIL_HEADERS} PARENT_SCOPE)

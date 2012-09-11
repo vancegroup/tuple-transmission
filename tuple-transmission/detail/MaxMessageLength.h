@@ -21,7 +21,7 @@
 #define INCLUDED_MaxMessageLength_h_GUID_1839c18a_36e9_48ed_8cd8_02e3f34fce28
 
 // Internal Includes
-#include "Sizeof.h"
+#include "../Sizeof.h"
 
 // Library/third-party includes
 #include <boost/mpl/less.hpp>
@@ -34,19 +34,20 @@
 
 namespace transmission {
 	namespace detail {
+		namespace impl {
+			template<typename Collection>
+			struct TotalMessageSizeLess {
+				template<typename A, typename B>
+				struct apply : boost::mpl::less< Sizeof<Transmission<Collection, A> >, Sizeof<Transmission<Collection, B> > > {};
+			};
+		} // end of namespace impl
+
 		template<typename Collection>
-		struct TotalMessageSizeLess {
-			template<typename A, typename B>
-			struct apply : boost::mpl::less< Sizeof<Transmission<Collection, A> >, Sizeof<Transmission<Collection, B> > > {};
-		};
+		struct MaxMessage : boost::mpl::deref< typename boost::mpl::max_element<typename Collection::message_types, impl::TotalMessageSizeLess<Collection> >::type > {};
+
+		template<typename Collection>
+		struct MaxMessageLength : Sizeof< Transmission<Collection, typename MaxMessage<Collection>::type > > {};
 	} // end of namespace detail
-
-	template<typename Collection>
-	struct MaxMessage : boost::mpl::deref< typename boost::mpl::max_element<typename Collection::message_types, detail::TotalMessageSizeLess<Collection> >::type > {};
-
-	template<typename Collection>
-	struct MaxMessageLength : Sizeof< Transmission<Collection, typename MaxMessage<Collection>::type > > {};
-
 
 } // end of namespace transmission
 #endif // INCLUDED_MaxMessageLength_h_GUID_1839c18a_36e9_48ed_8cd8_02e3f34fce28

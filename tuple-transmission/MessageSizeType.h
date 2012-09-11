@@ -21,7 +21,7 @@
 #define INCLUDED_MessageSizeType_h_GUID_e46ad97b_2123_49bd_8b67_fc7ea9712e1c
 
 // Internal Includes
-#include "MaxMessageLength.h"
+#include "detail/MaxMessageLength.h"
 
 // Library/third-party includes
 #include <boost/integer.hpp>
@@ -32,7 +32,7 @@
 namespace transmission {
 	template<typename Collection>
 	struct MessageSizeType {
-		typedef typename boost::uint_value_t< MaxMessageLength<Collection>::value >::least type;
+		typedef typename boost::uint_value_t< detail::MaxMessageLength<Collection>::value >::least type;
 	};
 } // end of namespace transmission
 

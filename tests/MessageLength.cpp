@@ -6,15 +6,15 @@
 	Human-Computer Interaction Graduate Program
 */
 
-#define BOOST_TEST_MODULE TupleTransmission
+#define BOOST_TEST_MODULE MessageLength
 
 // Internal Includes
 
 #define TEST_ENVELOPE_TYPE ::transmission::envelopes::Basic
 #include "Protocol.h"
 #include <tuple-transmission/envelopes/Basic.h>
-#include <tuple-transmission/MessageLength.h>
-#include <tuple-transmission/MaxMessageLength.h>
+#include <tuple-transmission/detail/MessageLength.h>
+#include <tuple-transmission/detail/MaxMessageLength.h>
 
 // Library/third-party includes
 #include <boost/mpl/assert.hpp>
@@ -26,9 +26,9 @@
 
 using namespace boost::unit_test;
 
-using transmission::MaxMessageLength;
-using transmission::MessageLength;
-using transmission::getMessageLength;
+using transmission::detail::MaxMessageLength;
+using transmission::detail::MessageLength;
+using transmission::detail::getMessageLength;
 using transmission::MessageSizeType;
 using transmission::MinimalMessageIdType;
 using boost::mpl::int_;
@@ -44,13 +44,13 @@ BOOST_AUTO_TEST_CASE(AccurateMaxMessageLength) {
 }
 
 BOOST_AUTO_TEST_CASE(ValidMessageLengths) {
-	BOOST_CHECK_EQUAL(*getMessageLength<MyMessageCollection>(0), 9);
-	BOOST_CHECK_EQUAL(*getMessageLength<MyMessageCollection>(1), 8);
+	BOOST_CHECK_EQUAL(getMessageLength<MyMessageCollection>(0), 9);
+	BOOST_CHECK_EQUAL(getMessageLength<MyMessageCollection>(1), 8);
 }
 
 BOOST_AUTO_TEST_CASE(ValidMessageLengthsMatchCompileTime) {
-	BOOST_CHECK_EQUAL(*getMessageLength<MyMessageCollection>(0), (MessageLength<MyMessageCollection, int_<0> >()));
-	BOOST_CHECK_EQUAL(*getMessageLength<MyMessageCollection>(1), (MessageLength<MyMessageCollection, int_<1> >()));
+	BOOST_CHECK_EQUAL(getMessageLength<MyMessageCollection>(0), (MessageLength<MyMessageCollection, int_<0> >()));
+	BOOST_CHECK_EQUAL(getMessageLength<MyMessageCollection>(1), (MessageLength<MyMessageCollection, int_<1> >()));
 }
 
 BOOST_AUTO_TEST_CASE(InvalidMessageLength) {
