@@ -30,8 +30,10 @@
 // - none
 
 namespace transmission {
-	template<typename Derived>
-	class TransmitterBase;
+	namespace transmitters {
+		template<typename Derived>
+		class TransmitterBase;
+	} // end of namespace transmitters
 } // end of namespace transmission
 
 #endif // INCLUDED_TransmitterBase_fwd_h_GUID_7ac7a06f_b4a6_46bb_8f5b_69c13fd8918f

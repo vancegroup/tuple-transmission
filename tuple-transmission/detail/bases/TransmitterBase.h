@@ -32,58 +32,59 @@
 
 
 namespace transmission {
-	template<typename Derived>
-	class TransmitterBase {
-		public:
-			typedef TransmitterBase<Derived> base;
-			typedef Derived derived;
-			/// @name External Interface
-			/// @brief Output methods called by envelopes, or anyone else
-			/// wanting to actually use a transmitter.
-			///
-			/// Do NOT define these in your own transmitter class.
-			/// @{
+	namespace transmitters {
+		template<typename Derived>
+		class TransmitterBase {
+			public:
+				typedef TransmitterBase<Derived> base;
+				typedef Derived derived;
+				/// @name External Interface
+				/// @brief Output methods called by envelopes, or anyone else
+				/// wanting to actually use a transmitter.
+				///
+				/// Do NOT define these in your own transmitter class.
+				/// @{
 
-			/// @brief Output a single byte.
-			void output(uint8_t data) {
-				impl().write(data);
-			}
-
-			/// @brief Output multiple bytes.
-			void output(uint8_t data[], std::size_t len) {
-				impl().write(data, len);
-			}
-
-			/// @}
-
-			/// @name Transmitter implementation methods
-			/// @brief Defined by implementation classes, and used only internally.
-			/// @{
-			/// @brief Fallback multi-byte data method writing a byte at a time.
-			///
-			/// If you can do something more efficient, feel free to re-implement.
-			void write(uint8_t data[], std::size_t len) {
-				for (std::size_t i = 0; i < len; ++len) {
-					impl().write(data[i]);
+				/// @brief Output a single byte.
+				void output(uint8_t data) {
+					impl().write(data);
 				}
-			}
 
-			/// @brief Method you must define and override in your type: it all
-			/// is for naught unless you do so. This is the single-byte implementation./
-			void write(uint8_t data);
-			/// @}
-		private:
-			/// @brief Internal method to access a reference to the derived class
-			Derived & impl() {
-				return *static_cast<Derived *>(this);
-			}
+				/// @brief Output multiple bytes.
+				void output(uint8_t data[], std::size_t len) {
+					impl().write(data, len);
+				}
 
-			/// @brief Internal method to access a const reference to the derived class
-			Derived const & impl() const {
-				return *static_cast<Derived const *>(this);
-			}
-	};
+				/// @}
 
+				/// @name Transmitter implementation methods
+				/// @brief Defined by implementation classes, and used only internally.
+				/// @{
+				/// @brief Fallback multi-byte data method writing a byte at a time.
+				///
+				/// If you can do something more efficient, feel free to re-implement.
+				void write(uint8_t data[], std::size_t len) {
+					for (std::size_t i = 0; i < len; ++len) {
+						impl().write(data[i]);
+					}
+				}
+
+				/// @brief Method you must define and override in your type: it all
+				/// is for naught unless you do so. This is the single-byte implementation./
+				void write(uint8_t data);
+				/// @}
+			private:
+				/// @brief Internal method to access a reference to the derived class
+				Derived & impl() {
+					return *static_cast<Derived *>(this);
+				}
+
+				/// @brief Internal method to access a const reference to the derived class
+				Derived const & impl() const {
+					return *static_cast<Derived const *>(this);
+				}
+		};
+	} // end of namespace transmitters
 } // end of namespace transmission
 
 #endif // INCLUDED_TransmitterBase_h_GUID_16d34310_de5f_41ae_b669_8c88adb4b1e0
