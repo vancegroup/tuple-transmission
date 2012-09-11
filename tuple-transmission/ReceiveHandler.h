@@ -52,10 +52,16 @@ namespace transmission {
 			typedef buffer_value_type & buffer_reference;
 			typedef buffer_value_type const & buffer_const_reference;
 
+			/// @name Buffer Methods for Envelope Use
+			/// @brief These methods interact with the internal buffer
+			/// in ways that are primarily useful to envelope types.
+			/// @{
+			/// @brief How many elements are in the buffer?
 			buffer_size_type bufferSize() const {
 				return recv_buf.size();
 			}
 
+			/// @brief Is the buffer empty?
 			bool bufferEmpty() const {
 				return recv_buf.empty();
 			}
@@ -85,6 +91,7 @@ namespace transmission {
 			buffer_reference buffer(buffer_size_type i) {
 				return recv_buf[i];
 			}
+			/// @}
 
 			/// @name Message-related Methods
 			/// @{
