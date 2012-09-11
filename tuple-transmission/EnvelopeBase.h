@@ -23,7 +23,7 @@
 // Internal Includes
 #include "EnvelopeBase_fwd.h"
 #include "IntegralTypes.h"
-
+#include <util/BoostAssertMsg.h>
 
 // Library/third-party includes
 // - none
@@ -66,6 +66,10 @@ namespace transmission {
 			template<typename ReceiveHandlerType>
 			static bool popAndRetry(ReceiveHandlerType & recv) {
 				BOOST_TEST_MESSAGE("Envelope popAndRetry.");
+				BOOST_ASSERT_MSG(!recv.bufferEmpty(), "Error in envelope code: asking to pop and retry when buffer is empty");
+				if (recv.bufferEmpty()) {
+					return false;
+				}
 				recv.bufferPopFront();
 				return checkBufferForMessage(recv);
 			}
