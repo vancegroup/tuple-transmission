@@ -72,6 +72,8 @@ namespace transmission {
 					if (recv.bufferFront() != ControlCodes::SOH) {
 						BOOST_TEST_MESSAGE("Popping front of buffer to find SOH.");
 						recv.bufferPopFront();
+					} else {
+						break;
 					}
 				}
 
