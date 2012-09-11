@@ -93,7 +93,7 @@ namespace transmission {
 			/// The Receive Handler caches this value for message-related lookup functions, and
 			/// for use when we actually have a full message.
 			void setCurrentMessageId(message_id_type id) {
-				if (detail::isIdValid(id)) {
+				if (detail::isIdValid<message_collection>(id)) {
 					current_message_id = id;
 				} else {
 					current_message_id = boost::none_t();
