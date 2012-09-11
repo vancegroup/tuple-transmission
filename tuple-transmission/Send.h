@@ -45,7 +45,11 @@ namespace transmission {
 		typedef typename TransmissionType::envelope_type::base envelope_type;
 		typedef typename TransmissionType::message_id message_id;
 		envelope_type::sendMessage(tx, contents, static_cast<MessageIdType>(message_id()));
+	}
 
+	template<typename Collection, typename Message, typename TransmitterDerived, typename MessageContentsType>
+	void send(TransmitterBase<TransmitterDerived> & tx, MessageContentsType const & contents) {
+		send<Transmission<Collection, Message> >(tx, contents);
 	}
 }// end of namespace transmission
 
