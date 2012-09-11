@@ -21,9 +21,7 @@
 #define INCLUDED_SendMessage_h_GUID_9cbfc065_ea71_4097_8993_c4e0b0fb14c5
 
 // Internal Includes
-#include "MessageCollection.h"
-#include "detail/bases/TransmitterBase.h"
-#include "detail/bases/EnvelopeBase.h"
+#include "detail/bases/TransmitterBase_fwd.h"
 #include "detail/types/IntegralTypes.h"
 #include "Transmission.h"
 
@@ -33,28 +31,9 @@
 #include <boost/fusion/mpl.hpp>
 
 // Standard includes
-#include <cstring> // for std::memcpy
+// - none
 
 namespace transmission {
-
-	namespace detail {
-		template<typename TransmitterType>
-		struct SendContext {
-			SendContext(TransmitterType & transmit) : tx(transmit) {}
-			TransmitterType & tx;
-
-			template<typename T>
-			void operator()(T & value) const {
-				uint8_t buf[sizeof(T)];
-				std::memcpy(&(buf[0]), &value, sizeof(T));
-				tx.output(buf, sizeof(T));
-			}
-
-			void operator()(uint8_t data) const {
-				tx.output(data);
-			}
-		};
-	} // end of namespace detail
 
 	template<typename TransmissionType, typename TransmitterDerived, typename MessageContentsType>
 	void send(TransmitterBase<TransmitterDerived> & tx, MessageContentsType const & contents) {
