@@ -100,7 +100,7 @@ namespace transmission {
 				if (recv.buffer(2) != ControlCodes::STX) {
 					/// Unexpected - this isn't the right start either.
 					/// Pop off the start code and try again.
-					BOOST_TEST_MESSAGE("Popping and retrying because the third elemtn isn't STX.");
+					BOOST_TEST_MESSAGE("Popping and retrying because the third element isn't STX.");
 					return base::popAndRetry(recv);
 				}
 
