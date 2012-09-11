@@ -28,7 +28,9 @@ set(HEADERS
 )
 
 set(DETAIL_HEADERS
+	detail/ComputeReceiveBufferSize.h
 	detail/ControlCodes.h
+	detail/IsIdValid.h
 	detail/MaxMessageLength.h
 	detail/MessageLength.h)
 
