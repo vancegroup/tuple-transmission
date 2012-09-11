@@ -31,6 +31,9 @@
 // Standard includes
 // - none
 
+#ifndef BOOST_TEST_MESSAGE
+#define BOOST_TEST_MESSAGE(X)
+#endif
 
 namespace transmission {
 	namespace detail {
@@ -56,11 +59,13 @@ namespace transmission {
 
 			template<typename ReceiveHandlerType>
 			static bool checkBufferForMessage(ReceiveHandlerType & recv) {
+				BOOST_TEST_MESSAGE("Envelope checking buffer " << &recv << " for message.");
 				return derived::checkBufferForMessage(recv);
 			}
 
 			template<typename ReceiveHandlerType>
 			static bool popAndRetry(ReceiveHandlerType & recv) {
+				BOOST_TEST_MESSAGE("Envelope popAndRetry.");
 				recv.bufferPopFront();
 				return checkBufferForMessage(recv);
 			}
