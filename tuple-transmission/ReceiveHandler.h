@@ -52,6 +52,39 @@ namespace transmission {
 			typedef buffer_value_type & buffer_reference;
 			typedef buffer_value_type const & buffer_const_reference;
 
+			/// @name Buffer Methods for Data Source Use
+			/// @brief These methods interact with the internal buffer
+			/// in ways primarily useful for putting data from platform-specific
+			/// APIs into the buffer.
+			/// @{
+
+			/// @brief Returns the available (unused) number of spaces for
+			/// elements left in the buffer.
+			///
+			/// The buffer may be of a fixed size, so over-filling it would
+			/// be bad.
+			buffer_size_type bufferAvailableSpace() const {
+				return recv_buf.max_size() - recv_buf.size();
+			}
+
+			/// @brief Append the data in the half-open iterator range [input_begin, input_end)
+			template<typename InputIterator>
+			void bufferAppend(InputIterator input_begin, InputIterator input_end) {
+				recv_buf.push_back(input_begin, input_end);
+			}
+
+			/// @brief Append a single element of data
+			///
+			/// @note Almost certainly less efficient for multiple
+			/// elements than the overload taking an iterator range!
+			template<typename InputIterator>
+			void bufferAppend(buffer_const_reference) {
+				recv_buf.push_back(input_begin, input_end);
+			}
+
+			/// @}
+
+
 			/// @name Buffer Methods for Envelope Use
 			/// @brief These methods interact with the internal buffer
 			/// in ways that are primarily useful to envelope types.
