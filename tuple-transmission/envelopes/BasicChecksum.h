@@ -46,6 +46,8 @@ namespace transmission {
 			1 /* checksum */ +
 			1 /* end of transmission */ > overhead_size;
 
+			typedef boost::mpl::int_<3> data_offset;
+
 			template<typename MessageContentsSize>
 			struct Size : boost::mpl::plus <overhead_size, MessageContentsSize > {};
 

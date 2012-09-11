@@ -47,6 +47,8 @@ namespace transmission {
 			1 /* end of text */ +
 			1 /* end of transmission */ > overhead_size;
 
+			typedef boost::mpl::int_<3> data_offset;
+
 			typedef EnvelopeBase<Basic, serializers::BitwiseCopy> base;
 
 			template<typename MessageContentsSize>
