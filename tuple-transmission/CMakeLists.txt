@@ -32,6 +32,7 @@ set(HEADERS
 
 	MessageCollection.h
 	MessageType.h
+	Receive.h
 	ReceiveHandler.h
 	Send.h
 	Transmission_fwd.h
