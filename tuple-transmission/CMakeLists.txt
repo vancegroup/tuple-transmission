@@ -46,6 +46,7 @@ set(HEADERS
 
 set(GENERATED_HEADERS
 	detail/operations/DeserializeOverloads_Generated.h
+	detail/operations/SendOverloads_Generated.h
 )
 
 add_custom_target(tuple-transmission
