@@ -27,6 +27,7 @@
 #include <boost/utility/enable_if.hpp>
 #include <boost/type_traits/is_base_of.hpp>
 #include <boost/config.hpp> // for std::size_t
+#include <boost/mpl/identity.hpp>
 #include <boost/fusion/include/for_each.hpp>
 
 // Standard includes
@@ -93,7 +94,7 @@ namespace transmission {
 		template<typename ImplementationType>
 		struct DeserializerWrapper {
 			template<typename T, typename Iterator>
-			T unbuffer(Iterator & it) {
+			static T unbuffer(Iterator & it) {
 				return ImplementationType::template Unbuffer<T>::apply(it);
 			}
 		};
@@ -117,7 +118,7 @@ namespace transmission {
 			}
 			*/
 			template<typename T, typename Iterator>
-			static T unbuffer(Iterator & it) {
+			static T unbuffer(boost::mpl::identity<T> const&, Iterator & it) {
 				return DeserializerImplementation::template Unbuffer<T>::apply(it);
 			}
 		};

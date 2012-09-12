@@ -49,7 +49,7 @@ namespace transmission {
 			template<typename T>
 			struct Unbuffer {
 				template<typename IteratorType>
-				T apply(IteratorType & it) {
+				static T apply(IteratorType & it) {
 					T ret;
 					std::memcpy(it, &ret, sizeof(T));
 					it += sizeof(T);
@@ -62,7 +62,7 @@ namespace transmission {
 		template<>
 		struct BitwiseCopyDeserializer::Unbuffer<uint8_t> {
 			template<typename IteratorType>
-			uint8_t apply(IteratorType & it) {
+			static uint8_t apply(IteratorType & it) {
 				return *(it++);
 			}
 		};
