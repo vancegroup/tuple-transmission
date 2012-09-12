@@ -36,10 +36,6 @@
 #endif
 
 namespace transmission {
-	namespace detail {
-		template<typename TransmitterType>
-		struct SendContext;
-	} // end of namespace detail
 
 	namespace envelopes {
 		/// @brief Template base for envelopes: used to enforce requirements
