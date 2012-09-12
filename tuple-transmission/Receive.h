@@ -32,23 +32,23 @@
 namespace transmission {
 	template<typename Derived, typename MessageCollection>
 	class Receive {
-		private: 
+		private:
 			typedef ReceiveHandler<MessageCollection> receive_handler_type;
 		public:
 			typedef typename receive_handler_type::buffer_size_type buffer_size_type;
-			
+
 			buffer_size_type getBufferAvailableSpace() const {
 				return _recv.bufferAvailableSpace();
 			}
-			
+
 			template<typename InputIterator>
 			void appendReceived(InputIterator input_begin, InputIterator input_end) {
-				 _recv.append(input_begin, input_end);
-				 if (_recv.checkBufferForMessage()) {
-				 
-				 }
+				_recv.append(input_begin, input_end);
+				if (_recv.checkBufferForMessage()) {
+
+				}
 			}
-		
+
 		private:
 			receive_handler_type _recv;
 			Derived & getDerived() {
