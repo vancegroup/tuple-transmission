@@ -22,6 +22,8 @@
 
 // Internal Includes
 #include "ReceiveHandler.h"
+#include "detail/types/MessageCollectionTypes.h"
+#include "detail/operations/DeserializeAndInvoke.h"
 
 // Library/third-party includes
 // - none
@@ -34,6 +36,8 @@ namespace transmission {
 	class Receive {
 		private:
 			typedef ReceiveHandler<MessageCollection> receive_handler_type;
+			typedef typename MessageCollectionTypes<MessageCollection>::message_types message_types;
+			typedef typename MessageCollectionTypes<MessageCollection>::envelope_type::serialization_policy serialization_policy;
 		public:
 			typedef typename receive_handler_type::buffer_size_type buffer_size_type;
 
@@ -45,7 +49,11 @@ namespace transmission {
 			void appendReceived(InputIterator input_begin, InputIterator input_end) {
 				_recv.append(input_begin, input_end);
 				if (_recv.checkBufferForMessage()) {
-
+					detail::operations::deserializeAndInvoke<message_types, serialization_policy>(
+					    _recv.getCurrentMessageId(),
+					    getDerived(),
+					    _recv.getDataIterator()
+					);
 				}
 			}
 

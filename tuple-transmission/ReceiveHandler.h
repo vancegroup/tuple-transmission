@@ -50,6 +50,8 @@ namespace transmission {
 			typedef typename types::message_size_type message_size_type;
 			typedef typename buffer_type::size_type buffer_size_type;
 			typedef typename buffer_type::value_type buffer_value_type;
+			typedef typename buffer_type::iterator buffer_iterator;
+			typedef typename buffer_type::const_iterator buffer_const_iterator;
 			typedef buffer_value_type & buffer_reference;
 			typedef buffer_value_type const & buffer_const_reference;
 
@@ -88,6 +90,12 @@ namespace transmission {
 			bool checkBufferForMessage() {
 				typedef typename message_collection::envelope_type::base envelope_type;
 				return envelope_type::template checkBufferForMessage<type>(*this);
+			}
+
+			/// @brief Returns an iterator to the start of the data portion of
+			/// the buffer.
+			buffer_const_iterator getDataIterator() const {
+				return recv_buf.begin() + typename types::envelope_type::data_offset();
 			}
 
 			/// @}

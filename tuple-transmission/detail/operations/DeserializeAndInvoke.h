@@ -23,6 +23,7 @@
 // Internal Includes
 #include "DeserializeOverloads_Generated.h"
 #include "../types/IntegralTypes.h"
+#include <util/MPLApplyAt.h>
 
 // Library/third-party includes
 // - none
@@ -33,32 +34,31 @@
 namespace transmission {
 	namespace detail {
 		namespace operations {
-			/*
-				namespace impl {
-					template<typename SerializationPolicy, typename MessageType, typename Function, typename Iterator>
-					struct DeserializeFunctorWrapper {
-						public:
-							DeserializeFunctorWrapper(Function & func, Iterator & iter) : f(func), it(iter) {}
+			namespace impl {
+				template<typename SerializationPolicy, typename Function, typename Iterator>
+				struct DeserializeFunctorWrapper {
+					public:
+						DeserializeFunctorWrapper(Function & func, Iterator & iter) : f(func), it(iter) {}
 
-							template<typename MessageSize>
-							void operator()(MessageSize const& m) {
-								generated::deserialize<SerializationPolicy, MessageType>(f, it, m);
-							}
-						private:
-							Function & f;
-							Iterator & it;
-					}
+						template<typename MessageTypeWrapped>
+						void operator()(MessageTypeWrapped const&) {
+							generated::deserialize<SerializationPolicy, MessageTypeWrapped::value>(f, it);
+						}
+					private:
+						Function & f;
+						Iterator & it;
+				};
 
 
-				} // end of namespace impl
-				*/
-			template<typename SerializationPolicy, typename MessageType, typename Function, typename Iterator>
-			void deserializeAndInvoke(Function & f, Iterator & it) {
-//				typedef impl::DeserializeFunctorWrapper<SerializationPolicy, MessageType, Function, Iterator> WrapperType;
-//				WrapperType fWrapper(f, it);
+			} // end of namespace impl
 
-				generated::deserialize<MessageType, SerializationPolicy>(f, it);
-//				runtime_int_to_type_impl< uint8_t, generated::DeserializeMaxArity, WrapperType &>::apply(
+			/// @brief Turns the runtime id number into the corresponding message type (type sequence)
+			/// and calls the deserializer on it, passing along a functor.
+			template<typename SerializationPolicy, typename MessageTypes, typename Function, typename Iterator>
+			void deserializeAndInvoke(MessageIdType id, Function & f, Iterator & it) {
+				typedef impl::DeserializeFunctorWrapper<SerializationPolicy, Function, Iterator> WrapperType;
+				WrapperType fWrapper(f, it);
+				util::apply_at<MessageTypes>(id, fWrapper);
 			}
 		} // end of namespace operations
 	} // end of namespace detail
