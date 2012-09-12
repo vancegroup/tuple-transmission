@@ -51,9 +51,21 @@ set(GENERATED_HEADERS
 	detail/operations/DeserializeOverloads_Generated.h
 )
 
+
 add_custom_target(tuple-transmission
 	SOURCES
 	${HEADERS}
 	${GENERATED_HEADERS})
 
 set(HEADERS ${HEADERS} ${GENERATED_HEADERS} PARENT_SCOPE)
+
+###
+# Check to ensure we have all headers listed
+###
+file(GLOB_RECURSE globbed_headers RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" *.h)
+list(REMOVE_ITEM globbed_headers ${HEADERS} ${GENERATED_HEADERS})
+list(LENGTH globbed_headers num_unknown_headers)
+if(num_unknown_headers GREATER 0)
+	message(FATAL_ERROR "The following headers are present in the file system, but missing in the build system: ${globbed_headers}")
+endif()
+
