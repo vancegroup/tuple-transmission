@@ -6,7 +6,7 @@
 	Human-Computer Interaction Graduate Program
 */
 
-#define BOOST_TEST_MODULE TupleTransmission
+#define BOOST_TEST_MODULE BasicChecksum
 
 // Internal Includes
 #define USE_CHECKSUM_ENVELOPE
