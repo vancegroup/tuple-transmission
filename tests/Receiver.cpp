@@ -24,6 +24,7 @@
 
 using namespace boost::unit_test;
 
+using transmission::MessageTag;
 class TestReceiver : public transmission::Receiver<TestReceiver, MyMessageCollection> {
 	public:
 		TestReceiver() {
@@ -36,14 +37,14 @@ class TestReceiver : public transmission::Receiver<TestReceiver, MyMessageCollec
 			third = 0;
 		}
 
-		void operator()(int8_t, uint8_t, int16_t) {}
+		void operator()(MessageTag<MessageA> const&, int8_t, uint8_t, int16_t) {}
 		/// Handles MessageB
-		void operator()(/*MessageB const&,*/ uint8_t a, uint8_t b, uint8_t c) {
+		void operator()(MessageTag<MessageB> const&, uint8_t a, uint8_t b, uint8_t c) {
 			first = a;
 			second = b;
 			third = c;
 		}
-		void operator()(float, float, float) {}
+		void operator()(MessageTag<MessageC> const&, float, float, float) {}
 		uint8_t first;
 		uint8_t second;
 		uint8_t third;

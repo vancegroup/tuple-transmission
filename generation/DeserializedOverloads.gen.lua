@@ -1,25 +1,24 @@
-myMaxArity = 10;
+myMaxArity = 9;
 
 return {
 	outFile = "detail/operations/DeserializeOverloads_Generated.h";
 
 	generateOverload = function(arity)
-		out( "template<typename Sequence, typename Policy, typename Function, typename Iterator>")
-		--out(("typename enable_if<typename is_same<typename mpl::size<Sequence>::type, mpl::int_<%d> >::type, void>::type"):format(arity))
+		out( "template<typename MessageType, typename Policy, typename Function, typename Iterator>")
 		out( "void")
-		out(("deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<%d>, typename mpl::size<Sequence>::type>, void *>::type = NULL) {"):format(arity))
+		out(("deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<%d>, typename mpl::size<MessageType>::type>, void *>::type = NULL) {"):format(arity))
 		for i = 1, arity do
-			out(1, ("typedef typename mpl::at_c<Sequence, %d>::type T%d;"):format(i - 1, i) )
+			out(1, ("typedef typename mpl::at_c<MessageType, %d>::type T%d;"):format(i - 1, i) )
 		end
 		for i = 1, arity do
 			out(1, ("T%d a%d = Policy::template unbuffer(mpl::identity<T%d>(), it);"):format(i, i, i) )
 		end
 
-		out(1, "fusion::invoke<Function &>(")
+		out(1, "fusion::invoke_procedure<Function &>(")
 		out(1, 1, "f,")
 		-- Generate the tuple argument
-		out(1, 1, "fusion::vector< " .. genRange(arity, function(i) return ("T%d"):format(i) end, ", ") .. ">(")
-		out(1, 2, genRange(arity, function(i) return ("a%d"):format(i) end, ", "))
+		out(1, 1, "fusion::vector< MessageTag<MessageType> const&, " .. genRange(arity, function(i) return ("T%d"):format(i) end, ", ") .. ">(")
+		out(1, 2, "MessageTag<MessageType>(), " .. genRange(arity, function(i) return ("a%d"):format(i) end, ", "))
 		out(1, 1, ")")
 		-- Finish the call and the function
 		out(1, ");")
@@ -52,11 +51,11 @@ return {
 #define INCLUDED_DeserializeOverloads_Generated_h_GUID_77b2ed7c_5501_4195_8d2c_dac91b47cf13
 
 // Internal Includes
-// - none
+#include "../../MessageType.h"
 
 // Library/third-party includes
 #include <boost/fusion/include/vector.hpp>
-#include <boost/fusion/functional/invocation/invoke.hpp>
+#include <boost/fusion/functional/invocation/invoke_procedure.hpp>
 #include <boost/mpl/size.hpp>
 #include <boost/mpl/int.hpp>
 #include <boost/mpl/identity.hpp>

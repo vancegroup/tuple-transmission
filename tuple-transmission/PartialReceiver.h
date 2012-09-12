@@ -30,24 +30,47 @@
 // - none
 
 namespace transmission {
+	template<typename, typename>
+	struct MessageTag;
 
+	/** @brief Variant of transmission::Receiver that provides default handlers
+		for all message types.
+
+		Works the same as Receiver, except you don't have to provide all
+		the handlers, and you must include a line like the following in the
+		class (here, "MyReceiver") to explicitly use the provided defaults:
+
+		using transmission::PartialReceiver<MyReceiver, MyMessageCollection>::operator();
+	*/
 	template<typename Derived, typename MessageCollection>
 	class PartialReceiver : public Receiver<Derived, MessageCollection> {
 		public:
-			template </*typename M,*/ BOOST_PP_ENUM_PARAMS(1, typename T) >
-			void operator()(/*M const&,*/ BOOST_PP_ENUM_PARAMS(1, T)) {}
+			template <typename M, BOOST_PP_ENUM_PARAMS(1, typename T) >
+			void operator()(MessageTag<M> const&, BOOST_PP_ENUM_PARAMS(1, T)) {}
 
-			template </*typename M,*/ BOOST_PP_ENUM_PARAMS(2, typename T) >
-			void operator()(/*M const&,*/ BOOST_PP_ENUM_PARAMS(2, T)) {}
+			template <typename M, BOOST_PP_ENUM_PARAMS(2, typename T) >
+			void operator()(MessageTag<M> const&, BOOST_PP_ENUM_PARAMS(2, T)) {}
 
-			template </*typename M,*/ BOOST_PP_ENUM_PARAMS(3, typename T) >
-			void operator()(/*M const&,*/ BOOST_PP_ENUM_PARAMS(3, T)) {}
+			template <typename M, BOOST_PP_ENUM_PARAMS(3, typename T) >
+			void operator()(MessageTag<M> const&, BOOST_PP_ENUM_PARAMS(3, T)) {}
 
-			template </*typename M,*/ BOOST_PP_ENUM_PARAMS(4, typename T) >
-			void operator()(/*M const&,*/ BOOST_PP_ENUM_PARAMS(4, T)) {}
+			template <typename M, BOOST_PP_ENUM_PARAMS(4, typename T) >
+			void operator()(MessageTag<M> const&, BOOST_PP_ENUM_PARAMS(4, T)) {}
 
-			template </*typename M,*/ BOOST_PP_ENUM_PARAMS(5, typename T) >
-			void operator()(/*M const&,*/ BOOST_PP_ENUM_PARAMS(5, T)) {}
+			template <typename M, BOOST_PP_ENUM_PARAMS(5, typename T) >
+			void operator()(MessageTag<M> const&, BOOST_PP_ENUM_PARAMS(5, T)) {}
+
+			template <typename M, BOOST_PP_ENUM_PARAMS(6, typename T) >
+			void operator()(MessageTag<M> const&, BOOST_PP_ENUM_PARAMS(6, T)) {}
+
+			template <typename M, BOOST_PP_ENUM_PARAMS(7, typename T) >
+			void operator()(MessageTag<M> const&, BOOST_PP_ENUM_PARAMS(7, T)) {}
+
+			template <typename M, BOOST_PP_ENUM_PARAMS(8, typename T) >
+			void operator()(MessageTag<M> const&, BOOST_PP_ENUM_PARAMS(8, T)) {}
+
+			template <typename M, BOOST_PP_ENUM_PARAMS(9, typename T) >
+			void operator()(MessageTag<M> const&, BOOST_PP_ENUM_PARAMS(9, T)) {}
 	};
 } // end of namespace transmission
 

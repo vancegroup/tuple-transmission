@@ -38,7 +38,7 @@ namespace transmission {
 		class name as the first template argument, and your message collection
 		as the second.
 
-		You will need to write a void operator()( [...] ) for each message
+		You will need to write a void operator()(MessageTag< some_message_type> const&, [...] ) for each message
 		type in the collection.  If you intend to ignore some messages,
 		see transmission::PartialReceiver.
 	*/
