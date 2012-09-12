@@ -6,7 +6,7 @@
 	Human-Computer Interaction Graduate Program
 */
 
-#define BOOST_TEST_MODULE Receive
+#define BOOST_TEST_MODULE Receiver
 
 #include <BoostTestTargetConfig.h>
 
