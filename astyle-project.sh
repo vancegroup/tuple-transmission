@@ -2,3 +2,6 @@
 
 PROJECT=$(cd $(dirname $0) && pwd)
 astyle -n --recursive "${PROJECT}/tuple-transmission/*.h" "${PROJECT}/tests/*.cpp"
+if which lua-styler > /dev/null; then
+	lua-styler --nobackup ${PROJECT}/generation/*.lua
+fi
