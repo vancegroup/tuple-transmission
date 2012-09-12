@@ -44,31 +44,31 @@ namespace transmission {
 	class PartialReceiver : public Receiver<Derived, MessageCollection> {
 		public:
 			template <typename M, BOOST_PP_ENUM_PARAMS(1, typename T) >
-			void operator()(M const&, BOOST_PP_ENUM_PARAMS(1, T)) {}
+			void operator()(M const&, BOOST_PP_ENUM_PARAMS(1, T), typename M::message_type_tag * = NULL) {}
 
 			template <typename M, BOOST_PP_ENUM_PARAMS(2, typename T) >
-			void operator()(M const&, BOOST_PP_ENUM_PARAMS(2, T)) {}
+			void operator()(M const&, BOOST_PP_ENUM_PARAMS(2, T), typename M::message_type_tag * = NULL) {}
 
 			template <typename M, BOOST_PP_ENUM_PARAMS(3, typename T) >
-			void operator()(M const&, BOOST_PP_ENUM_PARAMS(3, T)) {}
+			void operator()(M const&, BOOST_PP_ENUM_PARAMS(3, T), typename M::message_type_tag * = NULL) {}
 
 			template <typename M, BOOST_PP_ENUM_PARAMS(4, typename T) >
-			void operator()(M const&, BOOST_PP_ENUM_PARAMS(4, T)) {}
+			void operator()(M const&, BOOST_PP_ENUM_PARAMS(4, T), typename M::message_type_tag * = NULL) {}
 
 			template <typename M, BOOST_PP_ENUM_PARAMS(5, typename T) >
-			void operator()(M const&, BOOST_PP_ENUM_PARAMS(5, T)) {}
+			void operator()(M const&, BOOST_PP_ENUM_PARAMS(5, T), typename M::message_type_tag * = NULL) {}
 
 			template <typename M, BOOST_PP_ENUM_PARAMS(6, typename T) >
-			void operator()(M const&, BOOST_PP_ENUM_PARAMS(6, T)) {}
+			void operator()(M const&, BOOST_PP_ENUM_PARAMS(6, T), typename M::message_type_tag * = NULL) {}
 
 			template <typename M, BOOST_PP_ENUM_PARAMS(7, typename T) >
-			void operator()(M const&, BOOST_PP_ENUM_PARAMS(7, T)) {}
+			void operator()(M const&, BOOST_PP_ENUM_PARAMS(7, T), typename M::message_type_tag * = NULL) {}
 
 			template <typename M, BOOST_PP_ENUM_PARAMS(8, typename T) >
-			void operator()(M const&, BOOST_PP_ENUM_PARAMS(8, T)) {}
+			void operator()(M const&, BOOST_PP_ENUM_PARAMS(8, T), typename M::message_type_tag * = NULL) {}
 
 			template <typename M, BOOST_PP_ENUM_PARAMS(9, typename T) >
-			void operator()(M const&, BOOST_PP_ENUM_PARAMS(9, T)) {}
+			void operator()(M const&, BOOST_PP_ENUM_PARAMS(9, T), typename M::message_type_tag * = NULL) {}
 	};
 } // end of namespace transmission
 
