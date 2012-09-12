@@ -48,6 +48,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
+add_subdirectory(generation)
 add_subdirectory(tuple-transmission)
 
 add_doxygen(Doxyfile NO_PDF)

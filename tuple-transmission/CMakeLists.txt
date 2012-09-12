@@ -50,11 +50,15 @@ set(GENERATED_HEADERS
 	detail/operations/DeserializeOverloads_Generated.h
 )
 
-
 add_custom_target(tuple-transmission
+	ALL
 	SOURCES
 	${HEADERS}
 	${GENERATED_HEADERS})
+
+if(TARGET regenerate-headers)
+	add_dependencies(tuple-transmission regenerate-headers)
+endif()
 
 set(HEADERS ${HEADERS} ${GENERATED_HEADERS} PARENT_SCOPE)
 
