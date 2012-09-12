@@ -23,6 +23,7 @@
 // Internal Includes
 #include "detail/bases/TransmitterBase_fwd.h"
 #include "detail/types/IntegralTypes.h"
+#include "detail/operations/SendOverloads_Generated.h"
 #include "BoundMessageType.h"
 
 // Library/third-party includes
