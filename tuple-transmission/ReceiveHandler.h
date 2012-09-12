@@ -97,6 +97,14 @@ namespace transmission {
 				return recv_buf.begin() + typename Collection::envelope_type::data_offset();
 			}
 
+			/// @brief Given that there is a full message in the buffer, pop it
+			/// (such as for after processing is complete)
+			void popMessage() {
+				BOOST_ASSERT_MSG(checkBufferForMessage(), "Must have a message before we can pop it!");
+				bufferPopFront(getMessageLength());
+				current_message_id = boost::none_t();
+			}
+
 			/// @}
 
 
