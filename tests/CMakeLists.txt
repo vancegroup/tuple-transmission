@@ -46,12 +46,22 @@ add_boost_test(ReceiveHandler
 	CorruptOrMistakenMessage_round8
 	CorruptOrMistakenMessage_round9)
 
+
+set(COMMON_RECEIVER_TESTS
+	DefaultConstruction
+	IncompleteMessages
+	CompleteMessage)
+
 add_boost_test(Receiver
 	SOURCES
-	Receiver.cpp)
+	Receiver.cpp
+	TESTS
+	${COMMON_RECEIVER_TESTS})
 
 add_boost_test(PartialReceiver
 	SOURCES
-	PartialReceiver.cpp)
+	PartialReceiver.cpp
+	TESTS
+	${COMMON_RECEIVER_TESTS})
 
 add_subdirectory(cleanbuild)
