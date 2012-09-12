@@ -5,16 +5,17 @@ return {
 
 	generateOverload = function(arity)
 		out( "template<typename Sequence, typename Policy, typename Function, typename Iterator>")
-		out(("typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<%d> >, void>::type"):format(arity))
-		out( "deserialize(Function & f, Iterator & it) {")
+		--out(("typename enable_if<typename is_same<typename mpl::size<Sequence>::type, mpl::int_<%d> >::type, void>::type"):format(arity))
+		out( "void")
+		out(("deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<%d>, typename mpl::size<Sequence>::type>, void *>::type = NULL) {"):format(arity))
 		for i = 1, arity do
-			out(1, ("typedef typename mpl::at_c<Sequence, %d>::type T%d;"):format(i, i) )
+			out(1, ("typedef typename mpl::at_c<Sequence, %d>::type T%d;"):format(i - 1, i) )
 		end
 		for i = 1, arity do
-			out(1, ("T%d a%d = Policy::template unbuffer<T%d>(it);"):format(i, i, i) )
+			out(1, ("T%d a%d = Policy::template unbuffer(mpl::identity<T%d>(), it);"):format(i, i, i) )
 		end
 
-		out(1, "fusion::invoke_function_object<Function &>(")
+		out(1, "fusion::invoke<Function &>(")
 		out(1, 1, "f,")
 		-- Generate the tuple argument
 		out(1, 1, "fusion::vector< " .. genRange(arity, function(i) return ("T%d"):format(i) end, ", ") .. ">(")
@@ -55,9 +56,11 @@ return {
 
 // Library/third-party includes
 #include <boost/fusion/include/vector.hpp>
-#include <boost/fusion/functional/invocation/invoke_function_object.hpp>
+#include <boost/fusion/functional/invocation/invoke.hpp>
 #include <boost/mpl/size.hpp>
 #include <boost/mpl/int.hpp>
+#include <boost/mpl/identity.hpp>
+#include <boost/mpl/equal_to.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/utility/enable_if.hpp>
 

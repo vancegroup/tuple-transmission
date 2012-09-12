@@ -14,7 +14,7 @@
 
 #define USE_BASIC_ENVELOPE
 #include "Protocol.h"
-#include <tuple-transmission/Receive.h>
+#include <tuple-transmission/Receiver.h>
 
 // Library/third-party includes
 #include <boost/mpl/assert.hpp>
@@ -24,7 +24,7 @@
 
 using namespace boost::unit_test;
 
-class TestReceiver : public transmission::Receive<TestReceiver, MyMessageCollection> {
+class TestReceiver : public transmission::Receiver<TestReceiver, MyMessageCollection> {
 	public:
 		TestReceiver() {
 			reset();
@@ -36,12 +36,14 @@ class TestReceiver : public transmission::Receive<TestReceiver, MyMessageCollect
 			third = 0;
 		}
 
+		void operator()(int8_t, uint8_t, int16_t) {}
 		/// Handles MessageB
 		void operator()(/*MessageB const&,*/ uint8_t a, uint8_t b, uint8_t c) {
 			first = a;
 			second = b;
 			third = c;
 		}
+		void operator()(float, float, float) {}
 		uint8_t first;
 		uint8_t second;
 		uint8_t third;
@@ -64,11 +66,19 @@ BOOST_AUTO_TEST_CASE(DefaultConstruction) {
 
 BOOST_AUTO_TEST_CASE(IncompleteMessages) {
 	TestReceiver r;
-	for (unsigned long n = 1; n <= ValidMessage.size(); ++n) {
+	for (unsigned long n = 1; n < ValidMessage.size(); ++n) {
 		appendValidMessageCharacters(r, n);
 		BOOST_CHECK_EQUAL(r.first, 0);
 		BOOST_CHECK_EQUAL(r.second, 0);
 		BOOST_CHECK_EQUAL(r.third, 0);
 	}
+}
+
+BOOST_AUTO_TEST_CASE(CompleteMessage) {
+	TestReceiver r;
+	appendValidMessageCharacters(r, ValidMessage.size());
+	BOOST_CHECK_EQUAL(r.first, 5);
+	BOOST_CHECK_EQUAL(r.second, 10);
+	BOOST_CHECK_EQUAL(r.third, 15);
 }
 

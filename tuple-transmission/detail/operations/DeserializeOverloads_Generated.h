@@ -27,9 +27,11 @@
 
 // Library/third-party includes
 #include <boost/fusion/include/vector.hpp>
-#include <boost/fusion/functional/invocation/invoke_function_object.hpp>
+#include <boost/fusion/functional/invocation/invoke.hpp>
 #include <boost/mpl/size.hpp>
 #include <boost/mpl/int.hpp>
+#include <boost/mpl/identity.hpp>
+#include <boost/mpl/equal_to.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/utility/enable_if.hpp>
 
@@ -47,11 +49,11 @@ namespace transmission {
 				typedef mpl::int_<10> DeserializeMaxArity;
 
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
-				typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<1> >, void>::type
-				deserialize(Function & f, Iterator & it) {
-					typedef typename mpl::at_c<Sequence, 1>::type T1;
-					T1 a1 = Policy::template unbuffer<T1>(it);
-					fusion::invoke_function_object<Function &>(
+				void
+				deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<1>, typename mpl::size<Sequence>::type>, void *>::type = NULL) {
+					typedef typename mpl::at_c<Sequence, 0>::type T1;
+					T1 a1 = Policy::template unbuffer(mpl::identity<T1>(), it);
+					fusion::invoke<Function &>(
 					    f,
 					    fusion::vector< T1>(
 					        a1
@@ -59,13 +61,13 @@ namespace transmission {
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
-				typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<2> >, void>::type
-				deserialize(Function & f, Iterator & it) {
-					typedef typename mpl::at_c<Sequence, 1>::type T1;
-					typedef typename mpl::at_c<Sequence, 2>::type T2;
-					T1 a1 = Policy::template unbuffer<T1>(it);
-					T2 a2 = Policy::template unbuffer<T2>(it);
-					fusion::invoke_function_object<Function &>(
+				void
+				deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<2>, typename mpl::size<Sequence>::type>, void *>::type = NULL) {
+					typedef typename mpl::at_c<Sequence, 0>::type T1;
+					typedef typename mpl::at_c<Sequence, 1>::type T2;
+					T1 a1 = Policy::template unbuffer(mpl::identity<T1>(), it);
+					T2 a2 = Policy::template unbuffer(mpl::identity<T2>(), it);
+					fusion::invoke<Function &>(
 					    f,
 					    fusion::vector< T1, T2>(
 					        a1, a2
@@ -73,15 +75,15 @@ namespace transmission {
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
-				typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<3> >, void>::type
-				deserialize(Function & f, Iterator & it) {
-					typedef typename mpl::at_c<Sequence, 1>::type T1;
-					typedef typename mpl::at_c<Sequence, 2>::type T2;
-					typedef typename mpl::at_c<Sequence, 3>::type T3;
-					T1 a1 = Policy::template unbuffer<T1>(it);
-					T2 a2 = Policy::template unbuffer<T2>(it);
-					T3 a3 = Policy::template unbuffer<T3>(it);
-					fusion::invoke_function_object<Function &>(
+				void
+				deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<3>, typename mpl::size<Sequence>::type>, void *>::type = NULL) {
+					typedef typename mpl::at_c<Sequence, 0>::type T1;
+					typedef typename mpl::at_c<Sequence, 1>::type T2;
+					typedef typename mpl::at_c<Sequence, 2>::type T3;
+					T1 a1 = Policy::template unbuffer(mpl::identity<T1>(), it);
+					T2 a2 = Policy::template unbuffer(mpl::identity<T2>(), it);
+					T3 a3 = Policy::template unbuffer(mpl::identity<T3>(), it);
+					fusion::invoke<Function &>(
 					    f,
 					    fusion::vector< T1, T2, T3>(
 					        a1, a2, a3
@@ -89,17 +91,17 @@ namespace transmission {
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
-				typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<4> >, void>::type
-				deserialize(Function & f, Iterator & it) {
-					typedef typename mpl::at_c<Sequence, 1>::type T1;
-					typedef typename mpl::at_c<Sequence, 2>::type T2;
-					typedef typename mpl::at_c<Sequence, 3>::type T3;
-					typedef typename mpl::at_c<Sequence, 4>::type T4;
-					T1 a1 = Policy::template unbuffer<T1>(it);
-					T2 a2 = Policy::template unbuffer<T2>(it);
-					T3 a3 = Policy::template unbuffer<T3>(it);
-					T4 a4 = Policy::template unbuffer<T4>(it);
-					fusion::invoke_function_object<Function &>(
+				void
+				deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<4>, typename mpl::size<Sequence>::type>, void *>::type = NULL) {
+					typedef typename mpl::at_c<Sequence, 0>::type T1;
+					typedef typename mpl::at_c<Sequence, 1>::type T2;
+					typedef typename mpl::at_c<Sequence, 2>::type T3;
+					typedef typename mpl::at_c<Sequence, 3>::type T4;
+					T1 a1 = Policy::template unbuffer(mpl::identity<T1>(), it);
+					T2 a2 = Policy::template unbuffer(mpl::identity<T2>(), it);
+					T3 a3 = Policy::template unbuffer(mpl::identity<T3>(), it);
+					T4 a4 = Policy::template unbuffer(mpl::identity<T4>(), it);
+					fusion::invoke<Function &>(
 					    f,
 					    fusion::vector< T1, T2, T3, T4>(
 					        a1, a2, a3, a4
@@ -107,19 +109,19 @@ namespace transmission {
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
-				typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<5> >, void>::type
-				deserialize(Function & f, Iterator & it) {
-					typedef typename mpl::at_c<Sequence, 1>::type T1;
-					typedef typename mpl::at_c<Sequence, 2>::type T2;
-					typedef typename mpl::at_c<Sequence, 3>::type T3;
-					typedef typename mpl::at_c<Sequence, 4>::type T4;
-					typedef typename mpl::at_c<Sequence, 5>::type T5;
-					T1 a1 = Policy::template unbuffer<T1>(it);
-					T2 a2 = Policy::template unbuffer<T2>(it);
-					T3 a3 = Policy::template unbuffer<T3>(it);
-					T4 a4 = Policy::template unbuffer<T4>(it);
-					T5 a5 = Policy::template unbuffer<T5>(it);
-					fusion::invoke_function_object<Function &>(
+				void
+				deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<5>, typename mpl::size<Sequence>::type>, void *>::type = NULL) {
+					typedef typename mpl::at_c<Sequence, 0>::type T1;
+					typedef typename mpl::at_c<Sequence, 1>::type T2;
+					typedef typename mpl::at_c<Sequence, 2>::type T3;
+					typedef typename mpl::at_c<Sequence, 3>::type T4;
+					typedef typename mpl::at_c<Sequence, 4>::type T5;
+					T1 a1 = Policy::template unbuffer(mpl::identity<T1>(), it);
+					T2 a2 = Policy::template unbuffer(mpl::identity<T2>(), it);
+					T3 a3 = Policy::template unbuffer(mpl::identity<T3>(), it);
+					T4 a4 = Policy::template unbuffer(mpl::identity<T4>(), it);
+					T5 a5 = Policy::template unbuffer(mpl::identity<T5>(), it);
+					fusion::invoke<Function &>(
 					    f,
 					    fusion::vector< T1, T2, T3, T4, T5>(
 					        a1, a2, a3, a4, a5
@@ -127,21 +129,21 @@ namespace transmission {
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
-				typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<6> >, void>::type
-				deserialize(Function & f, Iterator & it) {
-					typedef typename mpl::at_c<Sequence, 1>::type T1;
-					typedef typename mpl::at_c<Sequence, 2>::type T2;
-					typedef typename mpl::at_c<Sequence, 3>::type T3;
-					typedef typename mpl::at_c<Sequence, 4>::type T4;
-					typedef typename mpl::at_c<Sequence, 5>::type T5;
-					typedef typename mpl::at_c<Sequence, 6>::type T6;
-					T1 a1 = Policy::template unbuffer<T1>(it);
-					T2 a2 = Policy::template unbuffer<T2>(it);
-					T3 a3 = Policy::template unbuffer<T3>(it);
-					T4 a4 = Policy::template unbuffer<T4>(it);
-					T5 a5 = Policy::template unbuffer<T5>(it);
-					T6 a6 = Policy::template unbuffer<T6>(it);
-					fusion::invoke_function_object<Function &>(
+				void
+				deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<6>, typename mpl::size<Sequence>::type>, void *>::type = NULL) {
+					typedef typename mpl::at_c<Sequence, 0>::type T1;
+					typedef typename mpl::at_c<Sequence, 1>::type T2;
+					typedef typename mpl::at_c<Sequence, 2>::type T3;
+					typedef typename mpl::at_c<Sequence, 3>::type T4;
+					typedef typename mpl::at_c<Sequence, 4>::type T5;
+					typedef typename mpl::at_c<Sequence, 5>::type T6;
+					T1 a1 = Policy::template unbuffer(mpl::identity<T1>(), it);
+					T2 a2 = Policy::template unbuffer(mpl::identity<T2>(), it);
+					T3 a3 = Policy::template unbuffer(mpl::identity<T3>(), it);
+					T4 a4 = Policy::template unbuffer(mpl::identity<T4>(), it);
+					T5 a5 = Policy::template unbuffer(mpl::identity<T5>(), it);
+					T6 a6 = Policy::template unbuffer(mpl::identity<T6>(), it);
+					fusion::invoke<Function &>(
 					    f,
 					    fusion::vector< T1, T2, T3, T4, T5, T6>(
 					        a1, a2, a3, a4, a5, a6
@@ -149,23 +151,23 @@ namespace transmission {
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
-				typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<7> >, void>::type
-				deserialize(Function & f, Iterator & it) {
-					typedef typename mpl::at_c<Sequence, 1>::type T1;
-					typedef typename mpl::at_c<Sequence, 2>::type T2;
-					typedef typename mpl::at_c<Sequence, 3>::type T3;
-					typedef typename mpl::at_c<Sequence, 4>::type T4;
-					typedef typename mpl::at_c<Sequence, 5>::type T5;
-					typedef typename mpl::at_c<Sequence, 6>::type T6;
-					typedef typename mpl::at_c<Sequence, 7>::type T7;
-					T1 a1 = Policy::template unbuffer<T1>(it);
-					T2 a2 = Policy::template unbuffer<T2>(it);
-					T3 a3 = Policy::template unbuffer<T3>(it);
-					T4 a4 = Policy::template unbuffer<T4>(it);
-					T5 a5 = Policy::template unbuffer<T5>(it);
-					T6 a6 = Policy::template unbuffer<T6>(it);
-					T7 a7 = Policy::template unbuffer<T7>(it);
-					fusion::invoke_function_object<Function &>(
+				void
+				deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<7>, typename mpl::size<Sequence>::type>, void *>::type = NULL) {
+					typedef typename mpl::at_c<Sequence, 0>::type T1;
+					typedef typename mpl::at_c<Sequence, 1>::type T2;
+					typedef typename mpl::at_c<Sequence, 2>::type T3;
+					typedef typename mpl::at_c<Sequence, 3>::type T4;
+					typedef typename mpl::at_c<Sequence, 4>::type T5;
+					typedef typename mpl::at_c<Sequence, 5>::type T6;
+					typedef typename mpl::at_c<Sequence, 6>::type T7;
+					T1 a1 = Policy::template unbuffer(mpl::identity<T1>(), it);
+					T2 a2 = Policy::template unbuffer(mpl::identity<T2>(), it);
+					T3 a3 = Policy::template unbuffer(mpl::identity<T3>(), it);
+					T4 a4 = Policy::template unbuffer(mpl::identity<T4>(), it);
+					T5 a5 = Policy::template unbuffer(mpl::identity<T5>(), it);
+					T6 a6 = Policy::template unbuffer(mpl::identity<T6>(), it);
+					T7 a7 = Policy::template unbuffer(mpl::identity<T7>(), it);
+					fusion::invoke<Function &>(
 					    f,
 					    fusion::vector< T1, T2, T3, T4, T5, T6, T7>(
 					        a1, a2, a3, a4, a5, a6, a7
@@ -173,25 +175,25 @@ namespace transmission {
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
-				typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<8> >, void>::type
-				deserialize(Function & f, Iterator & it) {
-					typedef typename mpl::at_c<Sequence, 1>::type T1;
-					typedef typename mpl::at_c<Sequence, 2>::type T2;
-					typedef typename mpl::at_c<Sequence, 3>::type T3;
-					typedef typename mpl::at_c<Sequence, 4>::type T4;
-					typedef typename mpl::at_c<Sequence, 5>::type T5;
-					typedef typename mpl::at_c<Sequence, 6>::type T6;
-					typedef typename mpl::at_c<Sequence, 7>::type T7;
-					typedef typename mpl::at_c<Sequence, 8>::type T8;
-					T1 a1 = Policy::template unbuffer<T1>(it);
-					T2 a2 = Policy::template unbuffer<T2>(it);
-					T3 a3 = Policy::template unbuffer<T3>(it);
-					T4 a4 = Policy::template unbuffer<T4>(it);
-					T5 a5 = Policy::template unbuffer<T5>(it);
-					T6 a6 = Policy::template unbuffer<T6>(it);
-					T7 a7 = Policy::template unbuffer<T7>(it);
-					T8 a8 = Policy::template unbuffer<T8>(it);
-					fusion::invoke_function_object<Function &>(
+				void
+				deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<8>, typename mpl::size<Sequence>::type>, void *>::type = NULL) {
+					typedef typename mpl::at_c<Sequence, 0>::type T1;
+					typedef typename mpl::at_c<Sequence, 1>::type T2;
+					typedef typename mpl::at_c<Sequence, 2>::type T3;
+					typedef typename mpl::at_c<Sequence, 3>::type T4;
+					typedef typename mpl::at_c<Sequence, 4>::type T5;
+					typedef typename mpl::at_c<Sequence, 5>::type T6;
+					typedef typename mpl::at_c<Sequence, 6>::type T7;
+					typedef typename mpl::at_c<Sequence, 7>::type T8;
+					T1 a1 = Policy::template unbuffer(mpl::identity<T1>(), it);
+					T2 a2 = Policy::template unbuffer(mpl::identity<T2>(), it);
+					T3 a3 = Policy::template unbuffer(mpl::identity<T3>(), it);
+					T4 a4 = Policy::template unbuffer(mpl::identity<T4>(), it);
+					T5 a5 = Policy::template unbuffer(mpl::identity<T5>(), it);
+					T6 a6 = Policy::template unbuffer(mpl::identity<T6>(), it);
+					T7 a7 = Policy::template unbuffer(mpl::identity<T7>(), it);
+					T8 a8 = Policy::template unbuffer(mpl::identity<T8>(), it);
+					fusion::invoke<Function &>(
 					    f,
 					    fusion::vector< T1, T2, T3, T4, T5, T6, T7, T8>(
 					        a1, a2, a3, a4, a5, a6, a7, a8
@@ -199,27 +201,27 @@ namespace transmission {
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
-				typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<9> >, void>::type
-				deserialize(Function & f, Iterator & it) {
-					typedef typename mpl::at_c<Sequence, 1>::type T1;
-					typedef typename mpl::at_c<Sequence, 2>::type T2;
-					typedef typename mpl::at_c<Sequence, 3>::type T3;
-					typedef typename mpl::at_c<Sequence, 4>::type T4;
-					typedef typename mpl::at_c<Sequence, 5>::type T5;
-					typedef typename mpl::at_c<Sequence, 6>::type T6;
-					typedef typename mpl::at_c<Sequence, 7>::type T7;
-					typedef typename mpl::at_c<Sequence, 8>::type T8;
-					typedef typename mpl::at_c<Sequence, 9>::type T9;
-					T1 a1 = Policy::template unbuffer<T1>(it);
-					T2 a2 = Policy::template unbuffer<T2>(it);
-					T3 a3 = Policy::template unbuffer<T3>(it);
-					T4 a4 = Policy::template unbuffer<T4>(it);
-					T5 a5 = Policy::template unbuffer<T5>(it);
-					T6 a6 = Policy::template unbuffer<T6>(it);
-					T7 a7 = Policy::template unbuffer<T7>(it);
-					T8 a8 = Policy::template unbuffer<T8>(it);
-					T9 a9 = Policy::template unbuffer<T9>(it);
-					fusion::invoke_function_object<Function &>(
+				void
+				deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<9>, typename mpl::size<Sequence>::type>, void *>::type = NULL) {
+					typedef typename mpl::at_c<Sequence, 0>::type T1;
+					typedef typename mpl::at_c<Sequence, 1>::type T2;
+					typedef typename mpl::at_c<Sequence, 2>::type T3;
+					typedef typename mpl::at_c<Sequence, 3>::type T4;
+					typedef typename mpl::at_c<Sequence, 4>::type T5;
+					typedef typename mpl::at_c<Sequence, 5>::type T6;
+					typedef typename mpl::at_c<Sequence, 6>::type T7;
+					typedef typename mpl::at_c<Sequence, 7>::type T8;
+					typedef typename mpl::at_c<Sequence, 8>::type T9;
+					T1 a1 = Policy::template unbuffer(mpl::identity<T1>(), it);
+					T2 a2 = Policy::template unbuffer(mpl::identity<T2>(), it);
+					T3 a3 = Policy::template unbuffer(mpl::identity<T3>(), it);
+					T4 a4 = Policy::template unbuffer(mpl::identity<T4>(), it);
+					T5 a5 = Policy::template unbuffer(mpl::identity<T5>(), it);
+					T6 a6 = Policy::template unbuffer(mpl::identity<T6>(), it);
+					T7 a7 = Policy::template unbuffer(mpl::identity<T7>(), it);
+					T8 a8 = Policy::template unbuffer(mpl::identity<T8>(), it);
+					T9 a9 = Policy::template unbuffer(mpl::identity<T9>(), it);
+					fusion::invoke<Function &>(
 					    f,
 					    fusion::vector< T1, T2, T3, T4, T5, T6, T7, T8, T9>(
 					        a1, a2, a3, a4, a5, a6, a7, a8, a9
@@ -227,29 +229,29 @@ namespace transmission {
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
-				typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<10> >, void>::type
-				deserialize(Function & f, Iterator & it) {
-					typedef typename mpl::at_c<Sequence, 1>::type T1;
-					typedef typename mpl::at_c<Sequence, 2>::type T2;
-					typedef typename mpl::at_c<Sequence, 3>::type T3;
-					typedef typename mpl::at_c<Sequence, 4>::type T4;
-					typedef typename mpl::at_c<Sequence, 5>::type T5;
-					typedef typename mpl::at_c<Sequence, 6>::type T6;
-					typedef typename mpl::at_c<Sequence, 7>::type T7;
-					typedef typename mpl::at_c<Sequence, 8>::type T8;
-					typedef typename mpl::at_c<Sequence, 9>::type T9;
-					typedef typename mpl::at_c<Sequence, 10>::type T10;
-					T1 a1 = Policy::template unbuffer<T1>(it);
-					T2 a2 = Policy::template unbuffer<T2>(it);
-					T3 a3 = Policy::template unbuffer<T3>(it);
-					T4 a4 = Policy::template unbuffer<T4>(it);
-					T5 a5 = Policy::template unbuffer<T5>(it);
-					T6 a6 = Policy::template unbuffer<T6>(it);
-					T7 a7 = Policy::template unbuffer<T7>(it);
-					T8 a8 = Policy::template unbuffer<T8>(it);
-					T9 a9 = Policy::template unbuffer<T9>(it);
-					T10 a10 = Policy::template unbuffer<T10>(it);
-					fusion::invoke_function_object<Function &>(
+				void
+				deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<10>, typename mpl::size<Sequence>::type>, void *>::type = NULL) {
+					typedef typename mpl::at_c<Sequence, 0>::type T1;
+					typedef typename mpl::at_c<Sequence, 1>::type T2;
+					typedef typename mpl::at_c<Sequence, 2>::type T3;
+					typedef typename mpl::at_c<Sequence, 3>::type T4;
+					typedef typename mpl::at_c<Sequence, 4>::type T5;
+					typedef typename mpl::at_c<Sequence, 5>::type T6;
+					typedef typename mpl::at_c<Sequence, 6>::type T7;
+					typedef typename mpl::at_c<Sequence, 7>::type T8;
+					typedef typename mpl::at_c<Sequence, 8>::type T9;
+					typedef typename mpl::at_c<Sequence, 9>::type T10;
+					T1 a1 = Policy::template unbuffer(mpl::identity<T1>(), it);
+					T2 a2 = Policy::template unbuffer(mpl::identity<T2>(), it);
+					T3 a3 = Policy::template unbuffer(mpl::identity<T3>(), it);
+					T4 a4 = Policy::template unbuffer(mpl::identity<T4>(), it);
+					T5 a5 = Policy::template unbuffer(mpl::identity<T5>(), it);
+					T6 a6 = Policy::template unbuffer(mpl::identity<T6>(), it);
+					T7 a7 = Policy::template unbuffer(mpl::identity<T7>(), it);
+					T8 a8 = Policy::template unbuffer(mpl::identity<T8>(), it);
+					T9 a9 = Policy::template unbuffer(mpl::identity<T9>(), it);
+					T10 a10 = Policy::template unbuffer(mpl::identity<T10>(), it);
+					fusion::invoke<Function &>(
 					    f,
 					    fusion::vector< T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(
 					        a1, a2, a3, a4, a5, a6, a7, a8, a9, a10

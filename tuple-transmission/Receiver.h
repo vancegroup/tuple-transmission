@@ -17,12 +17,11 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #pragma once
-#ifndef INCLUDED_Receive_h_GUID_9e1418a4_6874_426b_9113_cc5e57ee3fb5
-#define INCLUDED_Receive_h_GUID_9e1418a4_6874_426b_9113_cc5e57ee3fb5
+#ifndef INCLUDED_Receiver_h_GUID_9e1418a4_6874_426b_9113_cc5e57ee3fb5
+#define INCLUDED_Receiver_h_GUID_9e1418a4_6874_426b_9113_cc5e57ee3fb5
 
 // Internal Includes
 #include "ReceiveHandler.h"
-#include "detail/types/MessageCollectionTypes.h"
 #include "detail/operations/DeserializeAndInvoke.h"
 
 // Library/third-party includes
@@ -33,13 +32,14 @@
 
 namespace transmission {
 	template<typename Derived, typename MessageCollection>
-	class Receive {
+	class Receiver {
 		private:
 			typedef ReceiveHandler<MessageCollection> receive_handler_type;
 			typedef typename MessageCollection::message_types message_types;
 			typedef typename MessageCollection::envelope_type::serialization_policy serialization_policy;
 		public:
 			typedef typename receive_handler_type::buffer_size_type buffer_size_type;
+			typedef void result_type;
 
 			buffer_size_type getBufferAvailableSpace() const {
 				return _recv.bufferAvailableSpace();
@@ -47,7 +47,7 @@ namespace transmission {
 
 			template<typename InputIterator>
 			void appendReceived(InputIterator input_begin, InputIterator input_end) {
-				_recv.append(input_begin, input_end);
+				_recv.bufferAppend(input_begin, input_end);
 				if (_recv.checkBufferForMessage()) {
 					detail::operations::deserializeAndInvoke<message_types, serialization_policy>(
 					    _recv.getCurrentMessageId(),
@@ -68,4 +68,4 @@ namespace transmission {
 	};
 } // end of namespace transmission
 
-#endif // INCLUDED_Receive_h_GUID_9e1418a4_6874_426b_9113_cc5e57ee3fb5
+#endif // INCLUDED_Receiver_h_GUID_9e1418a4_6874_426b_9113_cc5e57ee3fb5

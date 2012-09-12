@@ -42,7 +42,12 @@ namespace transmission {
 
 						template<typename MessageTypeWrapped>
 						void operator()(MessageTypeWrapped const&) {
-							generated::deserialize<SerializationPolicy, MessageTypeWrapped::value>(f, it);
+							namespace mpl = boost::mpl;
+							generated::deserialize<typename MessageTypeWrapped::type, SerializationPolicy>(
+							    f,
+							    it/*,
+							    mpl::identity< typename mpl::size<typename MessageTypeWrapped::type>::type >()*/
+							);
 						}
 					private:
 						Function & f;
@@ -54,10 +59,11 @@ namespace transmission {
 
 			/// @brief Turns the runtime id number into the corresponding message type (type sequence)
 			/// and calls the deserializer on it, passing along a functor.
-			template<typename SerializationPolicy, typename MessageTypes, typename Function, typename Iterator>
-			void deserializeAndInvoke(MessageIdType id, Function & f, Iterator & it) {
+			template<typename MessageTypes, typename SerializationPolicy, typename Function, typename Iterator>
+			void deserializeAndInvoke(MessageIdType id, Function & f, Iterator const & it) {
+				Iterator modifyable_iter = it;
 				typedef impl::DeserializeFunctorWrapper<SerializationPolicy, Function, Iterator> WrapperType;
-				WrapperType fWrapper(f, it);
+				WrapperType fWrapper(f, modifyable_iter);
 				util::apply_at<MessageTypes>(id, fWrapper);
 			}
 		} // end of namespace operations

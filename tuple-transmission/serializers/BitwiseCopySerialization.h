@@ -51,7 +51,7 @@ namespace transmission {
 				template<typename IteratorType>
 				static T apply(IteratorType & it) {
 					T ret;
-					std::memcpy(it, &ret, sizeof(T));
+					std::memcpy(&ret, it, sizeof(T));
 					it += sizeof(T);
 					return ret;
 				}
