@@ -21,7 +21,7 @@
 #define INCLUDED_Receive_h_GUID_9e1418a4_6874_426b_9113_cc5e57ee3fb5
 
 // Internal Includes
-// - none
+#include "ReceiveHandler.h"
 
 // Library/third-party includes
 // - none
@@ -44,7 +44,9 @@ namespace transmission {
 			template<typename InputIterator>
 			void appendReceived(InputIterator input_begin, InputIterator input_end) {
 				 _recv.append(input_begin, input_end);
+				 if (_recv.checkBufferForMessage()) {
 				 
+				 }
 			}
 		
 		private:
