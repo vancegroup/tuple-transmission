@@ -31,14 +31,9 @@ using transmission::detail::operations::MessageLength;
 using transmission::detail::operations::getMessageLength;
 using transmission::detail::operations::isIdValid;
 using transmission::MessageSizeType;
-using transmission::MinimalMessageIdType;
+using transmission::MessageIdType;
 using boost::mpl::int_;
 using boost::is_same;
-
-BOOST_AUTO_TEST_CASE(TypeSelection) {
-	BOOST_MPL_ASSERT((is_same<MessageSizeType<MyMessageCollection>::type, uint8_t>));
-	BOOST_MPL_ASSERT((is_same<MinimalMessageIdType<MyMessageCollection>::type, uint8_t>));
-}
 
 BOOST_AUTO_TEST_CASE(AccurateMaxMessageLength) {
 	BOOST_CHECK_EQUAL(MaxMessageLength<MyMessageCollection>(), 17);

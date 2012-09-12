@@ -22,9 +22,13 @@
 
 // Internal Includes
 #include "envelopes/Envelopes_fwd.h"
+#include "detail/types/IntegralTypes.h"
 
 // Library/third-party includes
-// - none
+#include <boost/mpl/assert.hpp>
+#include <boost/mpl/size.hpp>
+#include <boost/mpl/int.hpp>
+#include <boost/mpl/less.hpp>
 
 // Standard includes
 // - none
@@ -51,6 +55,7 @@ namespace transmission {
 		typedef MessageCollection<MessageTypeSequence, EnvelopeType> type;
 		typedef EnvelopeType envelope_type;
 		typedef MessageTypeSequence message_types;
+		BOOST_MPL_ASSERT((boost::mpl::less< typename boost::mpl::size<message_types>::type, boost::mpl::int_<MaxMessageId> >));
 	};
 	/// @}
 } // end of namespace transmission

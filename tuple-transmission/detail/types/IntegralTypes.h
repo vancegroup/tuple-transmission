@@ -21,6 +21,7 @@
 #define INCLUDED_IntegralTypes_h_GUID_b0170a70_b25e_464c_8aea_fd8c654e95f2
 
 // Internal Includes
+#include "MessageIdType.h"
 #include <util/booststdint.h>
 
 // Library/third-party includes
@@ -30,7 +31,6 @@
 // - none
 
 namespace transmission {
-	typedef stdint::uint8_t MessageIdType;
 	using stdint::uint8_t;
 } // end of namespace transmission
 

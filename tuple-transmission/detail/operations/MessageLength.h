@@ -61,7 +61,7 @@ namespace transmission {
 			///
 			/// @note Behavior if id is not valid is undefined - see isIdValid()
 			template<typename Collection>
-			typename MessageSizeType<Collection>::type getMessageLength(typename MinimalMessageIdType<Collection>::type id) {
+			typename MessageSizeType<Collection>::type getMessageLength(MessageIdType id) {
 				if (!isIdValid<Collection>(id)) {
 					return typename MessageSizeType<Collection>::type();
 				}

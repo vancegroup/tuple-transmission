@@ -21,18 +21,18 @@
 #define INCLUDED_MessageIdType_h_GUID_5d3f6687_240b_49f7_b325_52c417787cad
 
 // Internal Includes
-#include "../operations/MessageCount.h"
+#include <util/booststdint.h>
 
 // Library/third-party includes
-#include <boost/integer.hpp>
+// - none
 
 // Standard includes
 // - none
 
 namespace transmission {
-	template<typename Collection>
-	struct MinimalMessageIdType {
-		typedef typename boost::uint_value_t<detail::operations::MessageCount<Collection>::value>::least type;
+	typedef stdint::uint8_t MessageIdType;
+	enum {
+		MaxMessageId = 255
 	};
 } // end of namespace transmission
 

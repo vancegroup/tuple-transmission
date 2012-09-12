@@ -21,8 +21,6 @@ set(HEADERS
 	detail/operations/Sizeof.h
 
 	detail/types/IntegralTypes.h
-	detail/types/MessageCollectionTypes.h
-	detail/types/MessageIdType_fwd.h
 	detail/types/MessageIdType.h
 	detail/types/MessageSizeType_fwd.h
 	detail/types/MessageSizeType.h

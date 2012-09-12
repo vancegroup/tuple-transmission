@@ -35,7 +35,7 @@ namespace transmission {
 		namespace operations {
 			/// @brief Given a message collection, is this message ID valid?
 			template<typename Collection>
-			bool isIdValid(typename MinimalMessageIdType<Collection>::type id) {
+			bool isIdValid(MessageIdType id) {
 				return id < MessageCount<Collection>();
 			}
 		} // end of namespace operations

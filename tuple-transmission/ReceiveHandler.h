@@ -24,7 +24,8 @@
 #include "detail/operations/ComputeReceiveBufferSize.h"
 #include "detail/operations/IsIdValid.h"
 #include "detail/operations/MessageLength.h"         // for getMessageLength
-#include "detail/types/MessageCollectionTypes.h"
+#include "detail/types/MessageSizeType.h"
+#include "detail/types/MessageIdType.h"
 #include <util/ReceiveBuffer.h>
 
 // Library/third-party includes
@@ -44,10 +45,8 @@ namespace transmission {
 		public:
 			typedef ReceiveHandler<Collection> type;
 			typedef Collection message_collection;
-			typedef MessageCollectionTypes<Collection> types;
 
-			typedef typename types::message_id_type message_id_type;
-			typedef typename types::message_size_type message_size_type;
+			typedef typename MessageSizeType<Collection>::type message_size_type;
 			typedef typename buffer_type::size_type buffer_size_type;
 			typedef typename buffer_type::value_type buffer_value_type;
 			typedef typename buffer_type::iterator buffer_iterator;
@@ -95,7 +94,7 @@ namespace transmission {
 			/// @brief Returns an iterator to the start of the data portion of
 			/// the buffer.
 			buffer_const_iterator getDataIterator() const {
-				return recv_buf.begin() + typename types::envelope_type::data_offset();
+				return recv_buf.begin() + typename Collection::envelope_type::data_offset();
 			}
 
 			/// @}
@@ -148,7 +147,7 @@ namespace transmission {
 			///
 			/// The Receive Handler caches this value for message-related lookup functions, and
 			/// for use when we actually have a full message.
-			void setCurrentMessageId(message_id_type id) {
+			void setCurrentMessageId(MessageIdType id) {
 				if (detail::operations::isIdValid<message_collection>(id)) {
 					current_message_id = id;
 				} else {
@@ -170,7 +169,7 @@ namespace transmission {
 			/// @brief Gets current message ID
 			///
 			/// @note Behavior when no valid ID is set is undefined!
-			message_id_type getCurrentMessageId() const {
+			MessageIdType getCurrentMessageId() const {
 				return *current_message_id;
 			}
 
@@ -184,7 +183,7 @@ namespace transmission {
 			/// @}
 		private:
 
-			boost::optional<message_id_type> current_message_id;
+			boost::optional<MessageIdType> current_message_id;
 			buffer_type recv_buf;
 	};
 } // end of namespace transmission

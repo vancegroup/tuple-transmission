@@ -24,7 +24,6 @@ add_boost_test(MessageLength
 	SOURCES
 	MessageLength.cpp
 	TESTS
-	TypeSelection
 	AccurateMaxMessageLength
 	ValidMessageLengths
 	ValidMessageLengthsMatchCompileTime
