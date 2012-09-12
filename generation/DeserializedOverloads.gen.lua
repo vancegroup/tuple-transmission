@@ -17,8 +17,8 @@ return {
 		out(1, "fusion::invoke_procedure<Function &>(")
 		out(1, 1, "f,")
 		-- Generate the tuple argument
-		out(1, 1, "fusion::vector< MessageTag<MessageType> const&, " .. genRange(arity, function(i) return ("T%d"):format(i) end, ", ") .. ">(")
-		out(1, 2, "MessageTag<MessageType>(), " .. genRange(arity, function(i) return ("a%d"):format(i) end, ", "))
+		out(1, 1, "fusion::vector< MessageType const&, " .. genRange(arity, function(i) return ("T%d"):format(i) end, ", ") .. ">(")
+		out(1, 2, "MessageType(), " .. genRange(arity, function(i) return ("a%d"):format(i) end, ", "))
 		out(1, 1, ")")
 		-- Finish the call and the function
 		out(1, ");")
@@ -51,7 +51,7 @@ return {
 #define INCLUDED_DeserializeOverloads_Generated_h_GUID_77b2ed7c_5501_4195_8d2c_dac91b47cf13
 
 // Internal Includes
-#include "../../MessageType.h"
+// - none
 
 // Library/third-party includes
 #include <boost/fusion/include/vector.hpp>

@@ -23,7 +23,7 @@
 #define INCLUDED_DeserializeOverloads_Generated_h_GUID_77b2ed7c_5501_4195_8d2c_dac91b47cf13
 
 // Internal Includes
-#include "../../MessageType.h"
+// - none
 
 // Library/third-party includes
 #include <boost/fusion/include/vector.hpp>
@@ -55,8 +55,8 @@ namespace transmission {
 					T1 a1 = Policy::template unbuffer(mpl::identity<T1>(), it);
 					fusion::invoke_procedure<Function &>(
 					    f,
-					    fusion::vector< MessageTag<MessageType> const&, T1>(
-					        MessageTag<MessageType>(), a1
+					    fusion::vector< MessageType const&, T1>(
+					        MessageType(), a1
 					    )
 					);
 				}
@@ -69,8 +69,8 @@ namespace transmission {
 					T2 a2 = Policy::template unbuffer(mpl::identity<T2>(), it);
 					fusion::invoke_procedure<Function &>(
 					    f,
-					    fusion::vector< MessageTag<MessageType> const&, T1, T2>(
-					        MessageTag<MessageType>(), a1, a2
+					    fusion::vector< MessageType const&, T1, T2>(
+					        MessageType(), a1, a2
 					    )
 					);
 				}
@@ -85,8 +85,8 @@ namespace transmission {
 					T3 a3 = Policy::template unbuffer(mpl::identity<T3>(), it);
 					fusion::invoke_procedure<Function &>(
 					    f,
-					    fusion::vector< MessageTag<MessageType> const&, T1, T2, T3>(
-					        MessageTag<MessageType>(), a1, a2, a3
+					    fusion::vector< MessageType const&, T1, T2, T3>(
+					        MessageType(), a1, a2, a3
 					    )
 					);
 				}
@@ -103,8 +103,8 @@ namespace transmission {
 					T4 a4 = Policy::template unbuffer(mpl::identity<T4>(), it);
 					fusion::invoke_procedure<Function &>(
 					    f,
-					    fusion::vector< MessageTag<MessageType> const&, T1, T2, T3, T4>(
-					        MessageTag<MessageType>(), a1, a2, a3, a4
+					    fusion::vector< MessageType const&, T1, T2, T3, T4>(
+					        MessageType(), a1, a2, a3, a4
 					    )
 					);
 				}
@@ -123,8 +123,8 @@ namespace transmission {
 					T5 a5 = Policy::template unbuffer(mpl::identity<T5>(), it);
 					fusion::invoke_procedure<Function &>(
 					    f,
-					    fusion::vector< MessageTag<MessageType> const&, T1, T2, T3, T4, T5>(
-					        MessageTag<MessageType>(), a1, a2, a3, a4, a5
+					    fusion::vector< MessageType const&, T1, T2, T3, T4, T5>(
+					        MessageType(), a1, a2, a3, a4, a5
 					    )
 					);
 				}
@@ -145,8 +145,8 @@ namespace transmission {
 					T6 a6 = Policy::template unbuffer(mpl::identity<T6>(), it);
 					fusion::invoke_procedure<Function &>(
 					    f,
-					    fusion::vector< MessageTag<MessageType> const&, T1, T2, T3, T4, T5, T6>(
-					        MessageTag<MessageType>(), a1, a2, a3, a4, a5, a6
+					    fusion::vector< MessageType const&, T1, T2, T3, T4, T5, T6>(
+					        MessageType(), a1, a2, a3, a4, a5, a6
 					    )
 					);
 				}
@@ -169,8 +169,8 @@ namespace transmission {
 					T7 a7 = Policy::template unbuffer(mpl::identity<T7>(), it);
 					fusion::invoke_procedure<Function &>(
 					    f,
-					    fusion::vector< MessageTag<MessageType> const&, T1, T2, T3, T4, T5, T6, T7>(
-					        MessageTag<MessageType>(), a1, a2, a3, a4, a5, a6, a7
+					    fusion::vector< MessageType const&, T1, T2, T3, T4, T5, T6, T7>(
+					        MessageType(), a1, a2, a3, a4, a5, a6, a7
 					    )
 					);
 				}
@@ -195,8 +195,8 @@ namespace transmission {
 					T8 a8 = Policy::template unbuffer(mpl::identity<T8>(), it);
 					fusion::invoke_procedure<Function &>(
 					    f,
-					    fusion::vector< MessageTag<MessageType> const&, T1, T2, T3, T4, T5, T6, T7, T8>(
-					        MessageTag<MessageType>(), a1, a2, a3, a4, a5, a6, a7, a8
+					    fusion::vector< MessageType const&, T1, T2, T3, T4, T5, T6, T7, T8>(
+					        MessageType(), a1, a2, a3, a4, a5, a6, a7, a8
 					    )
 					);
 				}
@@ -223,8 +223,8 @@ namespace transmission {
 					T9 a9 = Policy::template unbuffer(mpl::identity<T9>(), it);
 					fusion::invoke_procedure<Function &>(
 					    f,
-					    fusion::vector< MessageTag<MessageType> const&, T1, T2, T3, T4, T5, T6, T7, T8, T9>(
-					        MessageTag<MessageType>(), a1, a2, a3, a4, a5, a6, a7, a8, a9
+					    fusion::vector< MessageType const&, T1, T2, T3, T4, T5, T6, T7, T8, T9>(
+					        MessageType(), a1, a2, a3, a4, a5, a6, a7, a8, a9
 					    )
 					);
 				}

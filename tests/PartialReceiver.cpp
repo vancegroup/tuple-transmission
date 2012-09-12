@@ -40,7 +40,7 @@ class TestReceiver : public transmission::PartialReceiver<TestReceiver, MyMessag
 		}
 
 		/// Handles MessageB
-		void operator()(MessageTag<MessageB> const&, uint8_t a, uint8_t b, uint8_t c) {
+		void operator()(MessageB const&, uint8_t a, uint8_t b, uint8_t c) {
 			first = a;
 			second = b;
 			third = c;
