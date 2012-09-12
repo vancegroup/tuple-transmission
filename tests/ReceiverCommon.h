@@ -1,5 +1,5 @@
 
-void appendValidMessageCharacters(TestReceiver & recv, std::size_t n, std::size_t start = 0) {
+inline void appendValidMessageCharacters(TestReceiver & recv, std::size_t n, std::size_t start = 0) {
 	BOOST_TEST_MESSAGE("Inserting valid message elements [" << start << ", " << start + n - 1 << "]");
 	BOOST_ASSERT(start + n <= ValidMessage.size());
 	recv.appendReceived(ValidMessage.begin() + start, ValidMessage.begin() + start + n);

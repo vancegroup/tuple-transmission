@@ -27,7 +27,7 @@ using namespace boost::unit_test;
 // {{ControlCodes::SOH, 1, ControlCodes::STX, 5, 10, 15, ControlCodes::ETX, ControlCodes::EOT}};
 typedef transmission::ReceiveHandler<MyMessageCollection> MyReceiveHandler;
 
-void appendValidMessageCharacters(MyReceiveHandler & recv, std::size_t n, std::size_t start = 0) {
+inline void appendValidMessageCharacters(MyReceiveHandler & recv, std::size_t n, std::size_t start = 0) {
 	BOOST_TEST_MESSAGE("Inserting valid message elements [" << start << ", " << start + n - 1 << "]");
 	BOOST_ASSERT(start + n <= ValidMessage.size());
 	recv.bufferAppend(ValidMessage.begin() + start, ValidMessage.begin() + start + n);
