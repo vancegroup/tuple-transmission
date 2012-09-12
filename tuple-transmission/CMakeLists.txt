@@ -11,6 +11,7 @@ set(HEADERS
 	detail/constants/MessageBufferSizeScale.h
 
 	detail/operations/ComputeReceiveBufferSize.h
+	detail/operations/DeserializeAndInvoke.h
 	detail/operations/IsIdValid.h
 	detail/operations/MaxMessageLength.h
 	detail/operations/MessageCount_fwd.h
@@ -46,9 +47,13 @@ set(HEADERS
 	transmitters/TransmitterComposition.h
 )
 
+set(GENERATED_HEADERS
+	detail/operations/DeserializeOverloads_Generated.h
+)
+
 add_custom_target(tuple-transmission
 	SOURCES
 	${HEADERS}
-	${DETAIL_HEADERS})
+	${GENERATED_HEADERS})
 
-set(HEADERS ${HEADERS} ${DETAIL_HEADERS} PARENT_SCOPE)
+set(HEADERS ${HEADERS} ${GENERATED_HEADERS} PARENT_SCOPE)
