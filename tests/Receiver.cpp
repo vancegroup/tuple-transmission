@@ -24,7 +24,6 @@
 
 using namespace boost::unit_test;
 
-using transmission::MessageTag;
 class TestReceiver : public transmission::Receiver<TestReceiver, MyMessageCollection> {
 	public:
 		TestReceiver() {

@@ -54,13 +54,6 @@ namespace transmission {
 		typedef void message_type_tag;
 	};
 
-	template<typename T, typename = void>
-	struct MessageTag;
-
-	template<typename T>
-	struct MessageTag<T, typename T::message_type_tag> {
-		MessageTag() {}
-	};
 	/// @}
 } // end of namespace transmission
 

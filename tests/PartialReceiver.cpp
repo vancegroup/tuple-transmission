@@ -23,7 +23,6 @@
 #include <iostream>
 
 using namespace boost::unit_test;
-using transmission::MessageTag;
 
 class TestReceiver : public transmission::PartialReceiver<TestReceiver, MyMessageCollection> {
 	public:
