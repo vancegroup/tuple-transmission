@@ -54,7 +54,7 @@ namespace transmission {
 					    f,
 					    fusion::vector< T1>(
 					        a1
-					        )
+					    )
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
@@ -68,7 +68,7 @@ namespace transmission {
 					    f,
 					    fusion::vector< T1, T2>(
 					        a1, a2
-					        )
+					    )
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
@@ -84,7 +84,7 @@ namespace transmission {
 					    f,
 					    fusion::vector< T1, T2, T3>(
 					        a1, a2, a3
-					        )
+					    )
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
@@ -102,7 +102,7 @@ namespace transmission {
 					    f,
 					    fusion::vector< T1, T2, T3, T4>(
 					        a1, a2, a3, a4
-					        )
+					    )
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
@@ -122,7 +122,7 @@ namespace transmission {
 					    f,
 					    fusion::vector< T1, T2, T3, T4, T5>(
 					        a1, a2, a3, a4, a5
-					        )
+					    )
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
@@ -144,7 +144,7 @@ namespace transmission {
 					    f,
 					    fusion::vector< T1, T2, T3, T4, T5, T6>(
 					        a1, a2, a3, a4, a5, a6
-					        )
+					    )
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
@@ -168,7 +168,7 @@ namespace transmission {
 					    f,
 					    fusion::vector< T1, T2, T3, T4, T5, T6, T7>(
 					        a1, a2, a3, a4, a5, a6, a7
-					        )
+					    )
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
@@ -194,7 +194,7 @@ namespace transmission {
 					    f,
 					    fusion::vector< T1, T2, T3, T4, T5, T6, T7, T8>(
 					        a1, a2, a3, a4, a5, a6, a7, a8
-					        )
+					    )
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
@@ -222,7 +222,7 @@ namespace transmission {
 					    f,
 					    fusion::vector< T1, T2, T3, T4, T5, T6, T7, T8, T9>(
 					        a1, a2, a3, a4, a5, a6, a7, a8, a9
-					        )
+					    )
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
@@ -252,7 +252,7 @@ namespace transmission {
 					    f,
 					    fusion::vector< T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(
 					        a1, a2, a3, a4, a5, a6, a7, a8, a9, a10
-					        )
+					    )
 					);
 				}
 			} // end of namespace generated

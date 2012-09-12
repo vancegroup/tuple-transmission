@@ -17,7 +17,7 @@ return {
 		-- Generate the tuple argument
 		out(1, 1, "fusion::vector< " .. genRange(arity, function(i) return ("T%d"):format(i) end, ", ") .. ">(")
 		out(1, 2, genRange(arity, function(i) return ("a%d"):format(i) end, ", "))
-		out(1, 2, ")")
+		out(1, 1, ")")
 		-- Finish the call and the function
 		out(1, ");")
 		out("}")
