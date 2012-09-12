@@ -25,7 +25,7 @@
 #include "../types/MessageIdType.h"
 #include "MessageCount.h"
 #include "IsIdValid.h"
-#include "../../Transmission.h"
+#include "../../BoundMessageType.h"
 #include <util/MPLApplyAt.h>
 
 // Library/third-party includes
@@ -46,7 +46,7 @@ namespace transmission {
 
 					template<typename T>
 					void operator()(T const&) {
-						ret = Sizeof< Transmission<Collection, typename T::type> >();
+						ret = Sizeof< BoundMessageType<Collection, typename T::type> >();
 					}
 
 					SizeType & ret;
@@ -55,7 +55,7 @@ namespace transmission {
 
 			/// @brief Compile-time lookup of message length by ID
 			template<typename Collection, typename MessageId>
-			struct MessageLength : Sizeof < Transmission < Collection, typename boost::mpl::at<typename Collection::message_types, MessageId>::type > > {};
+			struct MessageLength : Sizeof < BoundMessageType < Collection, typename boost::mpl::at<typename Collection::message_types, MessageId>::type > > {};
 
 			/// @brief Runtime lookup of message length by ID
 			///

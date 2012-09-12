@@ -27,22 +27,22 @@
 
 using namespace boost::unit_test;
 using transmission::send;
-using transmission::Transmission;
+using transmission::BoundMessageType;
 using transmission::transmitters::BoostArrayBuffer;
 using transmission::transmitters::AutosizedBoostArrayBuffer;
 
-BOOST_AUTO_TEST_CASE(WholeMessageSerialize) {
+BOOST_AUTO_TEST_CASE(WholeMessageSerializeAutobuffer) {
 
-	typedef Transmission<MyMessageCollection, MessageB> TransmissionB;
-	typedef AutosizedBoostArrayBuffer<TransmissionB> TransmitBufferType;
+	typedef BoundMessageType<MyMessageCollection, MessageB> BoundMessageB;
+	typedef AutosizedBoostArrayBuffer<BoundMessageB> TransmitBufferType;
 
 	TransmitBufferType buf;
-	send<TransmissionB>(buf, boost::fusion::make_vector(uint8_t(5), uint8_t(10), uint8_t(15)));
+	send<MyMessageCollection, MessageB>(buf, boost::fusion::make_vector(uint8_t(5), uint8_t(10), uint8_t(15)));
 	boost::array<uint8_t, 8> expected = {{ControlCodes::SOH, 1, ControlCodes::STX, 5, 10, 15, ControlCodes::ETX, ControlCodes::EOT}};
 	BOOST_CHECK_EQUAL((buf.buffer) , expected);
 }
 
-BOOST_AUTO_TEST_CASE(WholeMessageSerializeAutotransmission) {
+BOOST_AUTO_TEST_CASE(WholeMessageSerialize) {
 	typedef BoostArrayBuffer<8> TransmitBufferType;
 
 	TransmitBufferType buf;

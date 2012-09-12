@@ -38,8 +38,8 @@ namespace transmission {
 
 		/// @brief A version of BoostArrayBuffer that automatically computes
 		/// the precise size needed for a single transmission type.
-		template<typename TransmissionType>
-		class AutosizedBoostArrayBuffer : public BoostArrayBuffer< detail::operations::Sizeof<TransmissionType>::value > {};
+		template<typename BoundMessage>
+		class AutosizedBoostArrayBuffer : public BoostArrayBuffer< detail::operations::Sizeof<BoundMessage>::value > {};
 
 		/// @}
 	} // end of namespace transmitters

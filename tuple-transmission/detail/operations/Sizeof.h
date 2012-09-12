@@ -22,8 +22,7 @@
 
 // Internal Includes
 #include "Sizeof_fwd.h"
-#include "../bases/TransmissionBase_fwd.h"
-#include "../../Transmission_fwd.h"
+#include "../../BoundMessageType_fwd.h"
 
 // Library/third-party includes
 #include <boost/mpl/accumulate.hpp>
@@ -39,7 +38,7 @@ namespace transmission {
 		namespace operations {
 
 			/// @brief Metafunction to compute the size of a message given a typelist.
-			template<typename MPLTypeSequence, typename = void>
+			template<typename MPLTypeSequence>
 			struct Sizeof : boost::mpl::accumulate
 					< MPLTypeSequence
 					, boost::mpl::int_<0>
@@ -47,20 +46,18 @@ namespace transmission {
 					>::type {};
 
 			namespace detail {
-				template<typename EnvelopeType, typename MessageType>
-				struct SizeofTransmission_Helper {
-					typedef typename EnvelopeType::base envelope_type;
-					typedef Sizeof<MessageType> inner_size;
+				template<typename BoundMessage>
+				struct SizeofBoundMessageType_Helper {
+					typedef typename BoundMessage::envelope_type envelope_type;
+					typedef Sizeof<typename BoundMessage::message_type> inner_size;
 					typedef typename envelope_type::template Size< inner_size > size;
 				};
 			}
-			/// @brief Template specialization for TransmissionBase
-			template<typename EnvelopeType, typename MessageID, typename MessageType>
-			struct Sizeof< TransmissionBase<EnvelopeType, MessageID, MessageType>, void > : detail::SizeofTransmission_Helper<EnvelopeType, MessageType>::size {};
 
-			/// @brief Template specialization for Transmission
+			/// @brief Template specialization for BoundMessageType
 			template<typename MessageCollection, typename MessageType>
-			struct Sizeof< Transmission<MessageCollection, MessageType>, void> : Sizeof< typename Transmission<MessageCollection, MessageType>::transmission_type > {};
+			struct Sizeof< BoundMessageType<MessageCollection, MessageType> > :
+					detail::SizeofBoundMessageType_Helper<BoundMessageType<MessageCollection, MessageType> >::size {};
 
 		} // end of namespace operations
 	} // end of namespace detail

@@ -8,17 +8,16 @@ add_boost_test(Sizeof
 	SOURCES
 	Sizeof.cpp
 	TESTS
-	SizeofRefactored
+	GeneralSizeof
 	SizeofMessageVsTypelist
-	WholeMessageSize
-	WholeMessageSizeDirectConstruction)
+	WholeMessageSize)
 
 add_boost_test(TupleTransmission
 	SOURCES
 	TupleTransmission.cpp
 	TESTS
-	WholeMessageSerialize
-	WholeMessageSerializeAutotransmission)
+	WholeMessageSerializeAutobuffer
+	WholeMessageSerialize)
 
 add_boost_test(MessageLength
 	SOURCES

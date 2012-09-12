@@ -2,8 +2,6 @@ set(HEADERS
 	detail/bases/EnvelopeBase_fwd.h
 	detail/bases/EnvelopeBase.h
 	detail/bases/SerializerBase.h
-	detail/bases/TransmissionBase_fwd.h
-	detail/bases/TransmissionBase.h
 	detail/bases/TransmitterBase_fwd.h
 	detail/bases/TransmitterBase.h
 
@@ -29,14 +27,14 @@ set(HEADERS
 	envelopes/Basic.h
 	envelopes/Envelopes_fwd.h
 
+	BoundMessageType_fwd.h
+	BoundMessageType.h
 	MessageCollection.h
 	MessageType.h
 	PartialReceiver.h
 	Receiver.h
 	ReceiveHandler.h
 	Send.h
-	Transmission_fwd.h
-	Transmission.h
 
 	serializers/BitwiseCopySerialization.h
 

@@ -22,6 +22,7 @@
 
 // Internal Includes
 #include "Sizeof.h"
+#include "../../BoundMessageType.h"
 
 // Library/third-party includes
 #include <boost/mpl/less.hpp>
@@ -40,7 +41,7 @@ namespace transmission {
 				template<typename Collection>
 				struct TotalMessageSizeLess {
 					template<typename A, typename B>
-					struct apply : boost::mpl::less< Sizeof<Transmission<Collection, A> >, Sizeof<Transmission<Collection, B> > > {};
+					struct apply : boost::mpl::less< Sizeof<BoundMessageType<Collection, A> >, Sizeof<BoundMessageType<Collection, B> > > {};
 				};
 			} // end of namespace impl
 
@@ -48,7 +49,7 @@ namespace transmission {
 			struct MaxMessage : boost::mpl::deref< typename boost::mpl::max_element<typename Collection::message_types, impl::TotalMessageSizeLess<Collection> >::type > {};
 
 			template<typename Collection>
-			struct MaxMessageLength : Sizeof< Transmission<Collection, typename MaxMessage<Collection>::type > > {};
+			struct MaxMessageLength : Sizeof< BoundMessageType<Collection, typename MaxMessage<Collection>::type > > {};
 		} // end of namespace operations
 	} // end of namespace detail
 } // end of namespace transmission
