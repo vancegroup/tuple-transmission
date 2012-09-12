@@ -60,7 +60,7 @@ namespace transmission {
 			/// @brief Turns the runtime id number into the corresponding message type (type sequence)
 			/// and calls the deserializer on it, passing along a functor.
 			template<typename MessageTypes, typename SerializationPolicy, typename Function, typename Iterator>
-			void deserializeAndInvoke(MessageIdType id, Function & f, Iterator const & it) {
+			inline void deserializeAndInvoke(MessageIdType id, Function & f, Iterator const & it) {
 				Iterator modifyable_iter = it;
 				typedef impl::DeserializeFunctorWrapper<SerializationPolicy, Function, Iterator> WrapperType;
 				WrapperType fWrapper(f, modifyable_iter);

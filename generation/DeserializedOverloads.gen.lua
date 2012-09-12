@@ -5,7 +5,7 @@ return {
 
 	generateOverload = function(arity)
 		out( "template<typename MessageType, typename Policy, typename Function, typename Iterator>")
-		out( "void")
+		out( "inline void")
 		out(("deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<%d>, typename mpl::size<MessageType>::type>, void *>::type = NULL) {"):format(arity))
 		for i = 1, arity do
 			out(1, ("typedef typename mpl::at_c<MessageType, %d>::type T%d;"):format(i - 1, i) )

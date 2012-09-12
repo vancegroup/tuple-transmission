@@ -42,7 +42,7 @@ namespace transmission {
 		Then, pass your "transmitter" and a boost::fusion sequence containing values for the message.
 	*/
 	template<typename Collection, typename Message, typename TransmitterDerived, typename MessageContentsType>
-	void send(transmitters::TransmitterBase<TransmitterDerived> & tx, MessageContentsType const & contents) {
+	inline void send(transmitters::TransmitterBase<TransmitterDerived> & tx, MessageContentsType const & contents) {
 		/// Check to be sure we got what we expected
 		BOOST_MPL_ASSERT((boost::mpl::equal<Message, MessageContentsType>));
 

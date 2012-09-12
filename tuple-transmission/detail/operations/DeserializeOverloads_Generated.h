@@ -49,7 +49,7 @@ namespace transmission {
 				typedef mpl::int_<9> DeserializeMaxArity;
 
 				template<typename MessageType, typename Policy, typename Function, typename Iterator>
-				void
+				inline void
 				deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<1>, typename mpl::size<MessageType>::type>, void *>::type = NULL) {
 					typedef typename mpl::at_c<MessageType, 0>::type T1;
 					T1 a1 = Policy::template unbuffer(mpl::identity<T1>(), it);
@@ -61,7 +61,7 @@ namespace transmission {
 					);
 				}
 				template<typename MessageType, typename Policy, typename Function, typename Iterator>
-				void
+				inline void
 				deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<2>, typename mpl::size<MessageType>::type>, void *>::type = NULL) {
 					typedef typename mpl::at_c<MessageType, 0>::type T1;
 					typedef typename mpl::at_c<MessageType, 1>::type T2;
@@ -75,7 +75,7 @@ namespace transmission {
 					);
 				}
 				template<typename MessageType, typename Policy, typename Function, typename Iterator>
-				void
+				inline void
 				deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<3>, typename mpl::size<MessageType>::type>, void *>::type = NULL) {
 					typedef typename mpl::at_c<MessageType, 0>::type T1;
 					typedef typename mpl::at_c<MessageType, 1>::type T2;
@@ -91,7 +91,7 @@ namespace transmission {
 					);
 				}
 				template<typename MessageType, typename Policy, typename Function, typename Iterator>
-				void
+				inline void
 				deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<4>, typename mpl::size<MessageType>::type>, void *>::type = NULL) {
 					typedef typename mpl::at_c<MessageType, 0>::type T1;
 					typedef typename mpl::at_c<MessageType, 1>::type T2;
@@ -109,7 +109,7 @@ namespace transmission {
 					);
 				}
 				template<typename MessageType, typename Policy, typename Function, typename Iterator>
-				void
+				inline void
 				deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<5>, typename mpl::size<MessageType>::type>, void *>::type = NULL) {
 					typedef typename mpl::at_c<MessageType, 0>::type T1;
 					typedef typename mpl::at_c<MessageType, 1>::type T2;
@@ -129,7 +129,7 @@ namespace transmission {
 					);
 				}
 				template<typename MessageType, typename Policy, typename Function, typename Iterator>
-				void
+				inline void
 				deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<6>, typename mpl::size<MessageType>::type>, void *>::type = NULL) {
 					typedef typename mpl::at_c<MessageType, 0>::type T1;
 					typedef typename mpl::at_c<MessageType, 1>::type T2;
@@ -151,7 +151,7 @@ namespace transmission {
 					);
 				}
 				template<typename MessageType, typename Policy, typename Function, typename Iterator>
-				void
+				inline void
 				deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<7>, typename mpl::size<MessageType>::type>, void *>::type = NULL) {
 					typedef typename mpl::at_c<MessageType, 0>::type T1;
 					typedef typename mpl::at_c<MessageType, 1>::type T2;
@@ -175,7 +175,7 @@ namespace transmission {
 					);
 				}
 				template<typename MessageType, typename Policy, typename Function, typename Iterator>
-				void
+				inline void
 				deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<8>, typename mpl::size<MessageType>::type>, void *>::type = NULL) {
 					typedef typename mpl::at_c<MessageType, 0>::type T1;
 					typedef typename mpl::at_c<MessageType, 1>::type T2;
@@ -201,7 +201,7 @@ namespace transmission {
 					);
 				}
 				template<typename MessageType, typename Policy, typename Function, typename Iterator>
-				void
+				inline void
 				deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<9>, typename mpl::size<MessageType>::type>, void *>::type = NULL) {
 					typedef typename mpl::at_c<MessageType, 0>::type T1;
 					typedef typename mpl::at_c<MessageType, 1>::type T2;
