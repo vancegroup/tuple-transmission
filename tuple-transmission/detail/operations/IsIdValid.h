@@ -29,6 +29,7 @@
 
 // Standard includes
 // - none
+
 namespace transmission {
 	namespace detail {
 		namespace operations {
