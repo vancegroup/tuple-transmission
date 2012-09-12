@@ -36,8 +36,8 @@ namespace transmission {
 	class Receive {
 		private:
 			typedef ReceiveHandler<MessageCollection> receive_handler_type;
-			typedef typename MessageCollectionTypes<MessageCollection>::message_types message_types;
-			typedef typename MessageCollectionTypes<MessageCollection>::envelope_type::serialization_policy serialization_policy;
+			typedef typename MessageCollection::message_types message_types;
+			typedef typename MessageCollection::envelope_type::serialization_policy serialization_policy;
 		public:
 			typedef typename receive_handler_type::buffer_size_type buffer_size_type;
 
