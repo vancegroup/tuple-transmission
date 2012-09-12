@@ -47,4 +47,8 @@ add_boost_test(ReceiveHandler
 	CorruptOrMistakenMessage_round8
 	CorruptOrMistakenMessage_round9)
 
+add_boost_test(Receive
+	SOURCES
+	Receive.cpp)
+
 add_subdirectory(cleanbuild)
