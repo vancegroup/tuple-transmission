@@ -49,3 +49,5 @@ if(LUA_EXECUTABLE)
 	endif()
 
 endif()
+
+set_property(DIRECTORY PROPERTY CLEAN_NO_CUSTOM TRUE)
