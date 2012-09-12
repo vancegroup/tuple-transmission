@@ -51,10 +51,10 @@ namespace transmission {
 					typedef typename mpl::at_c<Sequence, 1>::type T1;
 					T1 a1 = Policy::template unbuffer<T1>(it);
 					fusion::invoke_function_object<Function &>(
-						f,
-						fusion::vector< T1>(
-							a1
-						)
+					    f,
+					    fusion::vector< T1>(
+					        a1
+					        )
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
@@ -65,10 +65,10 @@ namespace transmission {
 					T1 a1 = Policy::template unbuffer<T1>(it);
 					T2 a2 = Policy::template unbuffer<T2>(it);
 					fusion::invoke_function_object<Function &>(
-						f,
-						fusion::vector< T1, T2>(
-							a1, a2
-						)
+					    f,
+					    fusion::vector< T1, T2>(
+					        a1, a2
+					        )
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
@@ -81,10 +81,10 @@ namespace transmission {
 					T2 a2 = Policy::template unbuffer<T2>(it);
 					T3 a3 = Policy::template unbuffer<T3>(it);
 					fusion::invoke_function_object<Function &>(
-						f,
-						fusion::vector< T1, T2, T3>(
-							a1, a2, a3
-						)
+					    f,
+					    fusion::vector< T1, T2, T3>(
+					        a1, a2, a3
+					        )
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
@@ -99,10 +99,10 @@ namespace transmission {
 					T3 a3 = Policy::template unbuffer<T3>(it);
 					T4 a4 = Policy::template unbuffer<T4>(it);
 					fusion::invoke_function_object<Function &>(
-						f,
-						fusion::vector< T1, T2, T3, T4>(
-							a1, a2, a3, a4
-						)
+					    f,
+					    fusion::vector< T1, T2, T3, T4>(
+					        a1, a2, a3, a4
+					        )
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
@@ -119,10 +119,10 @@ namespace transmission {
 					T4 a4 = Policy::template unbuffer<T4>(it);
 					T5 a5 = Policy::template unbuffer<T5>(it);
 					fusion::invoke_function_object<Function &>(
-						f,
-						fusion::vector< T1, T2, T3, T4, T5>(
-							a1, a2, a3, a4, a5
-						)
+					    f,
+					    fusion::vector< T1, T2, T3, T4, T5>(
+					        a1, a2, a3, a4, a5
+					        )
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
@@ -141,10 +141,10 @@ namespace transmission {
 					T5 a5 = Policy::template unbuffer<T5>(it);
 					T6 a6 = Policy::template unbuffer<T6>(it);
 					fusion::invoke_function_object<Function &>(
-						f,
-						fusion::vector< T1, T2, T3, T4, T5, T6>(
-							a1, a2, a3, a4, a5, a6
-						)
+					    f,
+					    fusion::vector< T1, T2, T3, T4, T5, T6>(
+					        a1, a2, a3, a4, a5, a6
+					        )
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
@@ -165,10 +165,10 @@ namespace transmission {
 					T6 a6 = Policy::template unbuffer<T6>(it);
 					T7 a7 = Policy::template unbuffer<T7>(it);
 					fusion::invoke_function_object<Function &>(
-						f,
-						fusion::vector< T1, T2, T3, T4, T5, T6, T7>(
-							a1, a2, a3, a4, a5, a6, a7
-						)
+					    f,
+					    fusion::vector< T1, T2, T3, T4, T5, T6, T7>(
+					        a1, a2, a3, a4, a5, a6, a7
+					        )
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
@@ -191,10 +191,10 @@ namespace transmission {
 					T7 a7 = Policy::template unbuffer<T7>(it);
 					T8 a8 = Policy::template unbuffer<T8>(it);
 					fusion::invoke_function_object<Function &>(
-						f,
-						fusion::vector< T1, T2, T3, T4, T5, T6, T7, T8>(
-							a1, a2, a3, a4, a5, a6, a7, a8
-						)
+					    f,
+					    fusion::vector< T1, T2, T3, T4, T5, T6, T7, T8>(
+					        a1, a2, a3, a4, a5, a6, a7, a8
+					        )
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
@@ -219,10 +219,10 @@ namespace transmission {
 					T8 a8 = Policy::template unbuffer<T8>(it);
 					T9 a9 = Policy::template unbuffer<T9>(it);
 					fusion::invoke_function_object<Function &>(
-						f,
-						fusion::vector< T1, T2, T3, T4, T5, T6, T7, T8, T9>(
-							a1, a2, a3, a4, a5, a6, a7, a8, a9
-						)
+					    f,
+					    fusion::vector< T1, T2, T3, T4, T5, T6, T7, T8, T9>(
+					        a1, a2, a3, a4, a5, a6, a7, a8, a9
+					        )
 					);
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
@@ -249,10 +249,10 @@ namespace transmission {
 					T9 a9 = Policy::template unbuffer<T9>(it);
 					T10 a10 = Policy::template unbuffer<T10>(it);
 					fusion::invoke_function_object<Function &>(
-						f,
-						fusion::vector< T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(
-							a1, a2, a3, a4, a5, a6, a7, a8, a9, a10
-						)
+					    f,
+					    fusion::vector< T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(
+					        a1, a2, a3, a4, a5, a6, a7, a8, a9, a10
+					        )
 					);
 				}
 			} // end of namespace generated
