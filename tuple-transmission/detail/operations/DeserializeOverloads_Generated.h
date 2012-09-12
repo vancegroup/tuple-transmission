@@ -44,10 +44,11 @@ namespace transmission {
 				namespace fusion = boost::fusion;
 				using boost::enable_if;
 				using boost::is_same;
+				typedef mpl::int_<10> DeserializeMaxArity;
 
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
 				typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<1> >, void>::type
-				deserialize(Function & f, Iterator & it, mpl::int_<1> &) {
+				deserialize(Function & f, Iterator & it) {
 					typedef typename mpl::at_c<Sequence, 1>::type T1;
 					T1 a1 = Policy::template unbuffer<T1>(it);
 					fusion::invoke_function_object<Function &>(
@@ -59,7 +60,7 @@ namespace transmission {
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
 				typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<2> >, void>::type
-				deserialize(Function & f, Iterator & it, mpl::int_<2> &) {
+				deserialize(Function & f, Iterator & it) {
 					typedef typename mpl::at_c<Sequence, 1>::type T1;
 					typedef typename mpl::at_c<Sequence, 2>::type T2;
 					T1 a1 = Policy::template unbuffer<T1>(it);
@@ -73,7 +74,7 @@ namespace transmission {
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
 				typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<3> >, void>::type
-				deserialize(Function & f, Iterator & it, mpl::int_<3> &) {
+				deserialize(Function & f, Iterator & it) {
 					typedef typename mpl::at_c<Sequence, 1>::type T1;
 					typedef typename mpl::at_c<Sequence, 2>::type T2;
 					typedef typename mpl::at_c<Sequence, 3>::type T3;
@@ -89,7 +90,7 @@ namespace transmission {
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
 				typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<4> >, void>::type
-				deserialize(Function & f, Iterator & it, mpl::int_<4> &) {
+				deserialize(Function & f, Iterator & it) {
 					typedef typename mpl::at_c<Sequence, 1>::type T1;
 					typedef typename mpl::at_c<Sequence, 2>::type T2;
 					typedef typename mpl::at_c<Sequence, 3>::type T3;
@@ -107,7 +108,7 @@ namespace transmission {
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
 				typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<5> >, void>::type
-				deserialize(Function & f, Iterator & it, mpl::int_<5> &) {
+				deserialize(Function & f, Iterator & it) {
 					typedef typename mpl::at_c<Sequence, 1>::type T1;
 					typedef typename mpl::at_c<Sequence, 2>::type T2;
 					typedef typename mpl::at_c<Sequence, 3>::type T3;
@@ -127,7 +128,7 @@ namespace transmission {
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
 				typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<6> >, void>::type
-				deserialize(Function & f, Iterator & it, mpl::int_<6> &) {
+				deserialize(Function & f, Iterator & it) {
 					typedef typename mpl::at_c<Sequence, 1>::type T1;
 					typedef typename mpl::at_c<Sequence, 2>::type T2;
 					typedef typename mpl::at_c<Sequence, 3>::type T3;
@@ -149,7 +150,7 @@ namespace transmission {
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
 				typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<7> >, void>::type
-				deserialize(Function & f, Iterator & it, mpl::int_<7> &) {
+				deserialize(Function & f, Iterator & it) {
 					typedef typename mpl::at_c<Sequence, 1>::type T1;
 					typedef typename mpl::at_c<Sequence, 2>::type T2;
 					typedef typename mpl::at_c<Sequence, 3>::type T3;
@@ -173,7 +174,7 @@ namespace transmission {
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
 				typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<8> >, void>::type
-				deserialize(Function & f, Iterator & it, mpl::int_<8> &) {
+				deserialize(Function & f, Iterator & it) {
 					typedef typename mpl::at_c<Sequence, 1>::type T1;
 					typedef typename mpl::at_c<Sequence, 2>::type T2;
 					typedef typename mpl::at_c<Sequence, 3>::type T3;
@@ -199,7 +200,7 @@ namespace transmission {
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
 				typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<9> >, void>::type
-				deserialize(Function & f, Iterator & it, mpl::int_<9> &) {
+				deserialize(Function & f, Iterator & it) {
 					typedef typename mpl::at_c<Sequence, 1>::type T1;
 					typedef typename mpl::at_c<Sequence, 2>::type T2;
 					typedef typename mpl::at_c<Sequence, 3>::type T3;
@@ -227,7 +228,7 @@ namespace transmission {
 				}
 				template<typename Sequence, typename Policy, typename Function, typename Iterator>
 				typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<10> >, void>::type
-				deserialize(Function & f, Iterator & it, mpl::int_<10> &) {
+				deserialize(Function & f, Iterator & it) {
 					typedef typename mpl::at_c<Sequence, 1>::type T1;
 					typedef typename mpl::at_c<Sequence, 2>::type T2;
 					typedef typename mpl::at_c<Sequence, 3>::type T3;

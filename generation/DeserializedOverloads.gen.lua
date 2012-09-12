@@ -1,10 +1,12 @@
+myMaxArity = 10;
+
 return {
 	outFile = "detail/operations/DeserializeOverloads_Generated.h";
 
 	generateOverload = function(arity)
 		out( "template<typename Sequence, typename Policy, typename Function, typename Iterator>")
 		out(("typename enable_if<is_same<typename mpl::size<Sequence>::type, mpl::int_<%d> >, void>::type"):format(arity))
-		out(("deserialize(Function & f, Iterator & it, mpl::int_<%d> &) {"):format(arity) )
+		out( "deserialize(Function & f, Iterator & it) {")
 		for i = 1, arity do
 			out(1, ("typedef typename mpl::at_c<Sequence, %d>::type T%d;"):format(i, i) )
 		end
@@ -70,6 +72,7 @@ namespace transmission {
 				namespace fusion = boost::fusion;
 				using boost::enable_if;
 				using boost::is_same;
+				typedef mpl::int_<]] .. tostring(myMaxArity) .. [[> DeserializeMaxArity;
 ]];
 
 	suffix = [[
@@ -82,5 +85,6 @@ namespace transmission {
 
 	baseIndent = 4;
 
-	maxArity = 10;
+	maxArity = myMaxArity;
+
 }
