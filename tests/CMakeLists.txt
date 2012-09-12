@@ -50,4 +50,8 @@ add_boost_test(Receiver
 	SOURCES
 	Receiver.cpp)
 
+add_boost_test(PartialReceiver
+	SOURCES
+	PartialReceiver.cpp)
+
 add_subdirectory(cleanbuild)
