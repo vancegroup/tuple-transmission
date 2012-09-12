@@ -110,13 +110,6 @@ namespace transmission {
 				boost::fusion::for_each(contents, functor);
 			}
 
-			/*
-			template<typename TransmitterType, typename T>
-			static void bufferItem(TransmitterType & tx, T const & value) {
-				typename BufferPolicy::template SendContext<TransmitterType> functor(tx);
-				functor(value);
-			}
-			*/
 			template<typename T, typename Iterator>
 			static T unbuffer(boost::mpl::identity<T> const&, Iterator & it) {
 				return DeserializerImplementation::template Unbuffer<T>::apply(it);
