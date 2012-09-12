@@ -13,11 +13,11 @@ return {
 		end
 
 		out(1, "fusion::invoke_function_object<Function &>(")
-		out(2, "f,")
+		out(1, 1, "f,")
 		-- Generate the tuple argument
-		out(2, "fusion::vector< " .. genRange(arity, function(i) return ("T%d"):format(i) end, ", ") .. ">(")
-		out(3, genRange(arity, function(i) return ("a%d"):format(i) end, ", "))
-		out(2, ")")
+		out(1, 1, "fusion::vector< " .. genRange(arity, function(i) return ("T%d"):format(i) end, ", ") .. ">(")
+		out(1, 2, genRange(arity, function(i) return ("a%d"):format(i) end, ", "))
+		out(1, 2, ")")
 		-- Finish the call and the function
 		out(1, ");")
 		out("}")

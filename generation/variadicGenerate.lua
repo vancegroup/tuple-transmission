@@ -4,8 +4,8 @@
 local lines = {}
 
 -- Utility function
-local indent = function(amount)
-	return ("\t"):rep(amount + data.baseIndent)
+local indent = function(amount, functionIndents)
+	return ("\t"):rep(amount + data.baseIndent) .. ("    "):rep(functionIndents)
 end
 
 -- Main
@@ -34,12 +34,26 @@ local main = function(arg)
 end
 
 --[[ Functions callable by generation data ]]
-out = function(a, b)
-	if type(a) == "string" then
-		table.insert(lines, indent(0) .. a)
-	else
-		table.insert(lines, indent(a) .. b)
+out = function(regularIndents, argumentIndents, line)
+	local reg, arg, theLine
+	if type(regularIndents) == "string" then
+		reg = 0
+		arg = 0
+		theLine = regularIndents
+	elseif type(regularIndents) == "number" then
+		reg = regularIndents
+		if type(argumentIndents) == "string" then
+			arg = 0
+			theLine = argumentIndents
+		elseif type(argumentIndents) == "number" then
+			arg = argumentIndents
+			theLine = tostring(line)
+		else
+			error("You passed one of the few incorrect argument sets to 'out'!", 2)
+		end
 	end
+
+	table.insert(lines, indent(reg, arg) .. theLine)
 end
 
 genRange = function(count, f, sep)
