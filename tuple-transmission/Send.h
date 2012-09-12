@@ -35,17 +35,18 @@
 
 namespace transmission {
 
+	/** @brief The main function to send a message.
+
+		Takes two explicit template parameters: the MessageCollection and the MessageType.
+		Then, pass your "transmitter" and a boost::fusion sequence containing values for the message.
+	*/
 	template<typename Collection, typename Message, typename TransmitterDerived, typename MessageContentsType>
 	void send(transmitters::TransmitterBase<TransmitterDerived> & tx, MessageContentsType const & contents) {
-		typedef BoundMessageType<Collection, Message> bound_message;
-
 		/// Check to be sure we got what we expected
-		typedef MessageContentsType message_contents_type;
-		typedef typename bound_message::message_type message_type;
-		BOOST_MPL_ASSERT((boost::mpl::equal<message_type, message_contents_type>));
+		BOOST_MPL_ASSERT((boost::mpl::equal<Message, MessageContentsType>));
 
+		typedef BoundMessageType<Collection, Message> bound_message;
 		typedef typename bound_message::envelope_type envelope_type;
-
 		envelope_type::sendMessage(tx, contents, static_cast<MessageIdType>(typename bound_message::message_id()));
 	}
 }// end of namespace transmission
