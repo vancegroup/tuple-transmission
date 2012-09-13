@@ -1,28 +1,47 @@
+local generateHelper = function(arity, MessageCollectionType, MessageType, message_sequence_type)
+	-- SFINAE return type
+	out(("inline typename enable_if< mpl::equal<mpl::int_<%d>, MessageArity<%s> >, void>::type"):format(arity, MessageType))
+
+	-- Compute the argument list our function will take
+	local arguments = {"transmitters::TransmitterBase<TransmitterDerived> & tx"}
+	for i = 1, arity do
+		table.insert(arguments, ("typename mpl::at_c<%s, %d>::type a%d"):format(message_sequence_type, i - 1, i))
+	end
+
+	out(("send(%s) {\n"):format(cat(arguments, ",\n" .. indent(0, 0) .. "     ")))
+
+	out(1, ("::transmission::send<%s, %s>("):format(MessageCollectionType, MessageType))
+	out(1, 1, "tx,")
+	out(1, 1, "fusion::make_list(" .. genRange(arity, function(i) return ("a%d"):format(i) end) .. ")")
+	out(1, ");")
+	out("}\n")
+end
+
 return {
 	outFile = "detail/operations/SendOverloads_Generated.h";
 	baseIndent = 4;
 	minArity = SendOverloadMinArity;
 	maxArity = SendOverloadMaxArity;
 	generate = function(arity)
-		out( "template<typename Collection, typename Message, typename TransmitterDerived>")
-		out(("inline typename enable_if< mpl::equal_to<mpl::int_<%d>, typename mpl::size<Message>::type>, void>::type"):format(arity))
+		-- Version with two explicit template parameters
+		out( "/// @brief Overload of transmission::send() taking a message collection and a message type as explicit")
+		out(("/// template parameters, and taking a transmitter, plus values for %d message fields directly"):format(arity))
+		out( "/// instead of a boost::fusion sequence containing the field values.")
+		out( "template<typename MessageCollectionType, typename MessageType, typename TransmitterDerived>")
+		generateHelper(arity,
+			"MessageCollectionType",
+			"MessageType",
+			"typename MessageType::sequence_type")
 
-		local arguments = {"transmitters::TransmitterBase<TransmitterDerived> & tx"}
-		if arity > 0 then
-			table.insert(arguments, genRange(arity, function(i) return ("typename mpl::at_c<Message, %d>::type a%d"):format(i - 1, i) end))
-		end
-		out(("send(%s) {"):format(commaJoin(arguments)))
-
-		out(1, "::transmission::send<Collection, Message>(")
-		out(1, 1, "tx,")
-		out(1, 1, "fusion::make_list(")
-		if arity > 0 then
-			out(1, 2, genRange(arity, function(i) return ("a%d"):format(i) end))
-		end
-		out(1, 1, ")")
-		-- Finish the call and the function
-		out(1, ");")
-		out("}\n")
+		-- Version with just one explicit template parameter
+		out( "/// @brief Overload of transmission::send() taking a BoundMessageType as the only explicit")
+		out(("/// template parameter, and taking a transmitter, plus values for %d message fields directly"):format(arity))
+		out( "/// instead of a boost::fusion sequence containing the field values.")
+		out( "template<typename BoundMessage, typename TransmitterDerived>")
+		generateHelper(arity,
+			"typename BoundMessage::message_collection",
+			"typename BoundMessage::message_type",
+			"typename BoundMessage::message_type::sequence_type")
 	end;
 
 	prefix = [[
@@ -52,6 +71,7 @@ return {
 
 // Internal Includes
 #include "../constants/ArityConfig.h"
+#include "MessageArity.h"
 #include "../bases/TransmitterBase_fwd.h"
 
 // Library/third-party includes
@@ -59,7 +79,7 @@ return {
 #include <boost/mpl/size.hpp>
 #include <boost/mpl/int.hpp>
 #include <boost/mpl/at.hpp>
-#include <boost/mpl/equal_to.hpp>
+#include <boost/mpl/equal.hpp>
 #include <boost/utility/enable_if.hpp>
 
 // Standard includes
@@ -77,6 +97,7 @@ namespace transmission {
 				namespace fusion = boost::fusion;
 				using boost::enable_if;
 				typedef mpl::int_<]] .. tostring(SendOverloadMaxArity) .. [[> SendOverloadMaxArity;
+
 ]];
 
 	suffix = [[

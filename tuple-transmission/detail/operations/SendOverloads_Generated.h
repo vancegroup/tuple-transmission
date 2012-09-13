@@ -24,6 +24,7 @@
 
 // Internal Includes
 #include "../constants/ArityConfig.h"
+#include "MessageArity.h"
 #include "../bases/TransmitterBase_fwd.h"
 
 // Library/third-party includes
@@ -31,7 +32,7 @@
 #include <boost/mpl/size.hpp>
 #include <boost/mpl/int.hpp>
 #include <boost/mpl/at.hpp>
-#include <boost/mpl/equal_to.hpp>
+#include <boost/mpl/equal.hpp>
 #include <boost/utility/enable_if.hpp>
 
 // Standard includes
@@ -50,112 +51,354 @@ namespace transmission {
 				using boost::enable_if;
 				typedef mpl::int_<9> SendOverloadMaxArity;
 
-				template<typename Collection, typename Message, typename TransmitterDerived>
-				inline typename enable_if< mpl::equal_to<mpl::int_<0>, typename mpl::size<Message>::type>, void>::type
+
+				/// @brief Overload of transmission::send() taking a message collection and a message type as explicit
+				/// template parameters, and taking a transmitter, plus values for 0 message fields directly
+				/// instead of a boost::fusion sequence containing the field values.
+				template<typename MessageCollectionType, typename MessageType, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal<mpl::int_<0>, MessageArity<MessageType> >, void>::type
 				send(transmitters::TransmitterBase<TransmitterDerived> & tx) {
-					::transmission::send<Collection, Message>(
+
+					::transmission::send<MessageCollectionType, MessageType>(
 					    tx,
-					    fusion::make_list(
-					    )
+					    fusion::make_list()
 					);
 				}
 
-				template<typename Collection, typename Message, typename TransmitterDerived>
-				inline typename enable_if< mpl::equal_to<mpl::int_<1>, typename mpl::size<Message>::type>, void>::type
-				send(transmitters::TransmitterBase<TransmitterDerived> & tx, typename mpl::at_c<Message, 0>::type a1) {
-					::transmission::send<Collection, Message>(
+				/// @brief Overload of transmission::send() taking a BoundMessageType as the only explicit
+				/// template parameter, and taking a transmitter, plus values for 0 message fields directly
+				/// instead of a boost::fusion sequence containing the field values.
+				template<typename BoundMessage, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal<mpl::int_<0>, MessageArity<typename BoundMessage::message_type> >, void>::type
+				send(transmitters::TransmitterBase<TransmitterDerived> & tx) {
+
+					::transmission::send<typename BoundMessage::message_collection, typename BoundMessage::message_type>(
 					    tx,
-					    fusion::make_list(
-					        a1
-					    )
+					    fusion::make_list()
 					);
 				}
 
-				template<typename Collection, typename Message, typename TransmitterDerived>
-				inline typename enable_if< mpl::equal_to<mpl::int_<2>, typename mpl::size<Message>::type>, void>::type
-				send(transmitters::TransmitterBase<TransmitterDerived> & tx, typename mpl::at_c<Message, 0>::type a1, typename mpl::at_c<Message, 1>::type a2) {
-					::transmission::send<Collection, Message>(
+				/// @brief Overload of transmission::send() taking a message collection and a message type as explicit
+				/// template parameters, and taking a transmitter, plus values for 1 message fields directly
+				/// instead of a boost::fusion sequence containing the field values.
+				template<typename MessageCollectionType, typename MessageType, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal<mpl::int_<1>, MessageArity<MessageType> >, void>::type
+				send(transmitters::TransmitterBase<TransmitterDerived> & tx,
+				     typename mpl::at_c<typename MessageType::sequence_type, 0>::type a1) {
+
+					::transmission::send<MessageCollectionType, MessageType>(
 					    tx,
-					    fusion::make_list(
-					        a1, a2
-					    )
+					    fusion::make_list(a1)
 					);
 				}
 
-				template<typename Collection, typename Message, typename TransmitterDerived>
-				inline typename enable_if< mpl::equal_to<mpl::int_<3>, typename mpl::size<Message>::type>, void>::type
-				send(transmitters::TransmitterBase<TransmitterDerived> & tx, typename mpl::at_c<Message, 0>::type a1, typename mpl::at_c<Message, 1>::type a2, typename mpl::at_c<Message, 2>::type a3) {
-					::transmission::send<Collection, Message>(
+				/// @brief Overload of transmission::send() taking a BoundMessageType as the only explicit
+				/// template parameter, and taking a transmitter, plus values for 1 message fields directly
+				/// instead of a boost::fusion sequence containing the field values.
+				template<typename BoundMessage, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal<mpl::int_<1>, MessageArity<typename BoundMessage::message_type> >, void>::type
+				send(transmitters::TransmitterBase<TransmitterDerived> & tx,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 0>::type a1) {
+
+					::transmission::send<typename BoundMessage::message_collection, typename BoundMessage::message_type>(
 					    tx,
-					    fusion::make_list(
-					        a1, a2, a3
-					    )
+					    fusion::make_list(a1)
 					);
 				}
 
-				template<typename Collection, typename Message, typename TransmitterDerived>
-				inline typename enable_if< mpl::equal_to<mpl::int_<4>, typename mpl::size<Message>::type>, void>::type
-				send(transmitters::TransmitterBase<TransmitterDerived> & tx, typename mpl::at_c<Message, 0>::type a1, typename mpl::at_c<Message, 1>::type a2, typename mpl::at_c<Message, 2>::type a3, typename mpl::at_c<Message, 3>::type a4) {
-					::transmission::send<Collection, Message>(
+				/// @brief Overload of transmission::send() taking a message collection and a message type as explicit
+				/// template parameters, and taking a transmitter, plus values for 2 message fields directly
+				/// instead of a boost::fusion sequence containing the field values.
+				template<typename MessageCollectionType, typename MessageType, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal<mpl::int_<2>, MessageArity<MessageType> >, void>::type
+				send(transmitters::TransmitterBase<TransmitterDerived> & tx,
+				     typename mpl::at_c<typename MessageType::sequence_type, 0>::type a1,
+				     typename mpl::at_c<typename MessageType::sequence_type, 1>::type a2) {
+
+					::transmission::send<MessageCollectionType, MessageType>(
 					    tx,
-					    fusion::make_list(
-					        a1, a2, a3, a4
-					    )
+					    fusion::make_list(a1, a2)
 					);
 				}
 
-				template<typename Collection, typename Message, typename TransmitterDerived>
-				inline typename enable_if< mpl::equal_to<mpl::int_<5>, typename mpl::size<Message>::type>, void>::type
-				send(transmitters::TransmitterBase<TransmitterDerived> & tx, typename mpl::at_c<Message, 0>::type a1, typename mpl::at_c<Message, 1>::type a2, typename mpl::at_c<Message, 2>::type a3, typename mpl::at_c<Message, 3>::type a4, typename mpl::at_c<Message, 4>::type a5) {
-					::transmission::send<Collection, Message>(
+				/// @brief Overload of transmission::send() taking a BoundMessageType as the only explicit
+				/// template parameter, and taking a transmitter, plus values for 2 message fields directly
+				/// instead of a boost::fusion sequence containing the field values.
+				template<typename BoundMessage, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal<mpl::int_<2>, MessageArity<typename BoundMessage::message_type> >, void>::type
+				send(transmitters::TransmitterBase<TransmitterDerived> & tx,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 0>::type a1,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 1>::type a2) {
+
+					::transmission::send<typename BoundMessage::message_collection, typename BoundMessage::message_type>(
 					    tx,
-					    fusion::make_list(
-					        a1, a2, a3, a4, a5
-					    )
+					    fusion::make_list(a1, a2)
 					);
 				}
 
-				template<typename Collection, typename Message, typename TransmitterDerived>
-				inline typename enable_if< mpl::equal_to<mpl::int_<6>, typename mpl::size<Message>::type>, void>::type
-				send(transmitters::TransmitterBase<TransmitterDerived> & tx, typename mpl::at_c<Message, 0>::type a1, typename mpl::at_c<Message, 1>::type a2, typename mpl::at_c<Message, 2>::type a3, typename mpl::at_c<Message, 3>::type a4, typename mpl::at_c<Message, 4>::type a5, typename mpl::at_c<Message, 5>::type a6) {
-					::transmission::send<Collection, Message>(
+				/// @brief Overload of transmission::send() taking a message collection and a message type as explicit
+				/// template parameters, and taking a transmitter, plus values for 3 message fields directly
+				/// instead of a boost::fusion sequence containing the field values.
+				template<typename MessageCollectionType, typename MessageType, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal<mpl::int_<3>, MessageArity<MessageType> >, void>::type
+				send(transmitters::TransmitterBase<TransmitterDerived> & tx,
+				     typename mpl::at_c<typename MessageType::sequence_type, 0>::type a1,
+				     typename mpl::at_c<typename MessageType::sequence_type, 1>::type a2,
+				     typename mpl::at_c<typename MessageType::sequence_type, 2>::type a3) {
+
+					::transmission::send<MessageCollectionType, MessageType>(
 					    tx,
-					    fusion::make_list(
-					        a1, a2, a3, a4, a5, a6
-					    )
+					    fusion::make_list(a1, a2, a3)
 					);
 				}
 
-				template<typename Collection, typename Message, typename TransmitterDerived>
-				inline typename enable_if< mpl::equal_to<mpl::int_<7>, typename mpl::size<Message>::type>, void>::type
-				send(transmitters::TransmitterBase<TransmitterDerived> & tx, typename mpl::at_c<Message, 0>::type a1, typename mpl::at_c<Message, 1>::type a2, typename mpl::at_c<Message, 2>::type a3, typename mpl::at_c<Message, 3>::type a4, typename mpl::at_c<Message, 4>::type a5, typename mpl::at_c<Message, 5>::type a6, typename mpl::at_c<Message, 6>::type a7) {
-					::transmission::send<Collection, Message>(
+				/// @brief Overload of transmission::send() taking a BoundMessageType as the only explicit
+				/// template parameter, and taking a transmitter, plus values for 3 message fields directly
+				/// instead of a boost::fusion sequence containing the field values.
+				template<typename BoundMessage, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal<mpl::int_<3>, MessageArity<typename BoundMessage::message_type> >, void>::type
+				send(transmitters::TransmitterBase<TransmitterDerived> & tx,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 0>::type a1,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 1>::type a2,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 2>::type a3) {
+
+					::transmission::send<typename BoundMessage::message_collection, typename BoundMessage::message_type>(
 					    tx,
-					    fusion::make_list(
-					        a1, a2, a3, a4, a5, a6, a7
-					    )
+					    fusion::make_list(a1, a2, a3)
 					);
 				}
 
-				template<typename Collection, typename Message, typename TransmitterDerived>
-				inline typename enable_if< mpl::equal_to<mpl::int_<8>, typename mpl::size<Message>::type>, void>::type
-				send(transmitters::TransmitterBase<TransmitterDerived> & tx, typename mpl::at_c<Message, 0>::type a1, typename mpl::at_c<Message, 1>::type a2, typename mpl::at_c<Message, 2>::type a3, typename mpl::at_c<Message, 3>::type a4, typename mpl::at_c<Message, 4>::type a5, typename mpl::at_c<Message, 5>::type a6, typename mpl::at_c<Message, 6>::type a7, typename mpl::at_c<Message, 7>::type a8) {
-					::transmission::send<Collection, Message>(
+				/// @brief Overload of transmission::send() taking a message collection and a message type as explicit
+				/// template parameters, and taking a transmitter, plus values for 4 message fields directly
+				/// instead of a boost::fusion sequence containing the field values.
+				template<typename MessageCollectionType, typename MessageType, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal<mpl::int_<4>, MessageArity<MessageType> >, void>::type
+				send(transmitters::TransmitterBase<TransmitterDerived> & tx,
+				     typename mpl::at_c<typename MessageType::sequence_type, 0>::type a1,
+				     typename mpl::at_c<typename MessageType::sequence_type, 1>::type a2,
+				     typename mpl::at_c<typename MessageType::sequence_type, 2>::type a3,
+				     typename mpl::at_c<typename MessageType::sequence_type, 3>::type a4) {
+
+					::transmission::send<MessageCollectionType, MessageType>(
 					    tx,
-					    fusion::make_list(
-					        a1, a2, a3, a4, a5, a6, a7, a8
-					    )
+					    fusion::make_list(a1, a2, a3, a4)
 					);
 				}
 
-				template<typename Collection, typename Message, typename TransmitterDerived>
-				inline typename enable_if< mpl::equal_to<mpl::int_<9>, typename mpl::size<Message>::type>, void>::type
-				send(transmitters::TransmitterBase<TransmitterDerived> & tx, typename mpl::at_c<Message, 0>::type a1, typename mpl::at_c<Message, 1>::type a2, typename mpl::at_c<Message, 2>::type a3, typename mpl::at_c<Message, 3>::type a4, typename mpl::at_c<Message, 4>::type a5, typename mpl::at_c<Message, 5>::type a6, typename mpl::at_c<Message, 6>::type a7, typename mpl::at_c<Message, 7>::type a8, typename mpl::at_c<Message, 8>::type a9) {
-					::transmission::send<Collection, Message>(
+				/// @brief Overload of transmission::send() taking a BoundMessageType as the only explicit
+				/// template parameter, and taking a transmitter, plus values for 4 message fields directly
+				/// instead of a boost::fusion sequence containing the field values.
+				template<typename BoundMessage, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal<mpl::int_<4>, MessageArity<typename BoundMessage::message_type> >, void>::type
+				send(transmitters::TransmitterBase<TransmitterDerived> & tx,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 0>::type a1,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 1>::type a2,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 2>::type a3,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 3>::type a4) {
+
+					::transmission::send<typename BoundMessage::message_collection, typename BoundMessage::message_type>(
 					    tx,
-					    fusion::make_list(
-					        a1, a2, a3, a4, a5, a6, a7, a8, a9
-					    )
+					    fusion::make_list(a1, a2, a3, a4)
+					);
+				}
+
+				/// @brief Overload of transmission::send() taking a message collection and a message type as explicit
+				/// template parameters, and taking a transmitter, plus values for 5 message fields directly
+				/// instead of a boost::fusion sequence containing the field values.
+				template<typename MessageCollectionType, typename MessageType, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal<mpl::int_<5>, MessageArity<MessageType> >, void>::type
+				send(transmitters::TransmitterBase<TransmitterDerived> & tx,
+				     typename mpl::at_c<typename MessageType::sequence_type, 0>::type a1,
+				     typename mpl::at_c<typename MessageType::sequence_type, 1>::type a2,
+				     typename mpl::at_c<typename MessageType::sequence_type, 2>::type a3,
+				     typename mpl::at_c<typename MessageType::sequence_type, 3>::type a4,
+				     typename mpl::at_c<typename MessageType::sequence_type, 4>::type a5) {
+
+					::transmission::send<MessageCollectionType, MessageType>(
+					    tx,
+					    fusion::make_list(a1, a2, a3, a4, a5)
+					);
+				}
+
+				/// @brief Overload of transmission::send() taking a BoundMessageType as the only explicit
+				/// template parameter, and taking a transmitter, plus values for 5 message fields directly
+				/// instead of a boost::fusion sequence containing the field values.
+				template<typename BoundMessage, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal<mpl::int_<5>, MessageArity<typename BoundMessage::message_type> >, void>::type
+				send(transmitters::TransmitterBase<TransmitterDerived> & tx,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 0>::type a1,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 1>::type a2,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 2>::type a3,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 3>::type a4,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 4>::type a5) {
+
+					::transmission::send<typename BoundMessage::message_collection, typename BoundMessage::message_type>(
+					    tx,
+					    fusion::make_list(a1, a2, a3, a4, a5)
+					);
+				}
+
+				/// @brief Overload of transmission::send() taking a message collection and a message type as explicit
+				/// template parameters, and taking a transmitter, plus values for 6 message fields directly
+				/// instead of a boost::fusion sequence containing the field values.
+				template<typename MessageCollectionType, typename MessageType, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal<mpl::int_<6>, MessageArity<MessageType> >, void>::type
+				send(transmitters::TransmitterBase<TransmitterDerived> & tx,
+				     typename mpl::at_c<typename MessageType::sequence_type, 0>::type a1,
+				     typename mpl::at_c<typename MessageType::sequence_type, 1>::type a2,
+				     typename mpl::at_c<typename MessageType::sequence_type, 2>::type a3,
+				     typename mpl::at_c<typename MessageType::sequence_type, 3>::type a4,
+				     typename mpl::at_c<typename MessageType::sequence_type, 4>::type a5,
+				     typename mpl::at_c<typename MessageType::sequence_type, 5>::type a6) {
+
+					::transmission::send<MessageCollectionType, MessageType>(
+					    tx,
+					    fusion::make_list(a1, a2, a3, a4, a5, a6)
+					);
+				}
+
+				/// @brief Overload of transmission::send() taking a BoundMessageType as the only explicit
+				/// template parameter, and taking a transmitter, plus values for 6 message fields directly
+				/// instead of a boost::fusion sequence containing the field values.
+				template<typename BoundMessage, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal<mpl::int_<6>, MessageArity<typename BoundMessage::message_type> >, void>::type
+				send(transmitters::TransmitterBase<TransmitterDerived> & tx,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 0>::type a1,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 1>::type a2,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 2>::type a3,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 3>::type a4,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 4>::type a5,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 5>::type a6) {
+
+					::transmission::send<typename BoundMessage::message_collection, typename BoundMessage::message_type>(
+					    tx,
+					    fusion::make_list(a1, a2, a3, a4, a5, a6)
+					);
+				}
+
+				/// @brief Overload of transmission::send() taking a message collection and a message type as explicit
+				/// template parameters, and taking a transmitter, plus values for 7 message fields directly
+				/// instead of a boost::fusion sequence containing the field values.
+				template<typename MessageCollectionType, typename MessageType, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal<mpl::int_<7>, MessageArity<MessageType> >, void>::type
+				send(transmitters::TransmitterBase<TransmitterDerived> & tx,
+				     typename mpl::at_c<typename MessageType::sequence_type, 0>::type a1,
+				     typename mpl::at_c<typename MessageType::sequence_type, 1>::type a2,
+				     typename mpl::at_c<typename MessageType::sequence_type, 2>::type a3,
+				     typename mpl::at_c<typename MessageType::sequence_type, 3>::type a4,
+				     typename mpl::at_c<typename MessageType::sequence_type, 4>::type a5,
+				     typename mpl::at_c<typename MessageType::sequence_type, 5>::type a6,
+				     typename mpl::at_c<typename MessageType::sequence_type, 6>::type a7) {
+
+					::transmission::send<MessageCollectionType, MessageType>(
+					    tx,
+					    fusion::make_list(a1, a2, a3, a4, a5, a6, a7)
+					);
+				}
+
+				/// @brief Overload of transmission::send() taking a BoundMessageType as the only explicit
+				/// template parameter, and taking a transmitter, plus values for 7 message fields directly
+				/// instead of a boost::fusion sequence containing the field values.
+				template<typename BoundMessage, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal<mpl::int_<7>, MessageArity<typename BoundMessage::message_type> >, void>::type
+				send(transmitters::TransmitterBase<TransmitterDerived> & tx,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 0>::type a1,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 1>::type a2,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 2>::type a3,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 3>::type a4,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 4>::type a5,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 5>::type a6,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 6>::type a7) {
+
+					::transmission::send<typename BoundMessage::message_collection, typename BoundMessage::message_type>(
+					    tx,
+					    fusion::make_list(a1, a2, a3, a4, a5, a6, a7)
+					);
+				}
+
+				/// @brief Overload of transmission::send() taking a message collection and a message type as explicit
+				/// template parameters, and taking a transmitter, plus values for 8 message fields directly
+				/// instead of a boost::fusion sequence containing the field values.
+				template<typename MessageCollectionType, typename MessageType, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal<mpl::int_<8>, MessageArity<MessageType> >, void>::type
+				send(transmitters::TransmitterBase<TransmitterDerived> & tx,
+				     typename mpl::at_c<typename MessageType::sequence_type, 0>::type a1,
+				     typename mpl::at_c<typename MessageType::sequence_type, 1>::type a2,
+				     typename mpl::at_c<typename MessageType::sequence_type, 2>::type a3,
+				     typename mpl::at_c<typename MessageType::sequence_type, 3>::type a4,
+				     typename mpl::at_c<typename MessageType::sequence_type, 4>::type a5,
+				     typename mpl::at_c<typename MessageType::sequence_type, 5>::type a6,
+				     typename mpl::at_c<typename MessageType::sequence_type, 6>::type a7,
+				     typename mpl::at_c<typename MessageType::sequence_type, 7>::type a8) {
+
+					::transmission::send<MessageCollectionType, MessageType>(
+					    tx,
+					    fusion::make_list(a1, a2, a3, a4, a5, a6, a7, a8)
+					);
+				}
+
+				/// @brief Overload of transmission::send() taking a BoundMessageType as the only explicit
+				/// template parameter, and taking a transmitter, plus values for 8 message fields directly
+				/// instead of a boost::fusion sequence containing the field values.
+				template<typename BoundMessage, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal<mpl::int_<8>, MessageArity<typename BoundMessage::message_type> >, void>::type
+				send(transmitters::TransmitterBase<TransmitterDerived> & tx,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 0>::type a1,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 1>::type a2,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 2>::type a3,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 3>::type a4,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 4>::type a5,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 5>::type a6,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 6>::type a7,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 7>::type a8) {
+
+					::transmission::send<typename BoundMessage::message_collection, typename BoundMessage::message_type>(
+					    tx,
+					    fusion::make_list(a1, a2, a3, a4, a5, a6, a7, a8)
+					);
+				}
+
+				/// @brief Overload of transmission::send() taking a message collection and a message type as explicit
+				/// template parameters, and taking a transmitter, plus values for 9 message fields directly
+				/// instead of a boost::fusion sequence containing the field values.
+				template<typename MessageCollectionType, typename MessageType, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal<mpl::int_<9>, MessageArity<MessageType> >, void>::type
+				send(transmitters::TransmitterBase<TransmitterDerived> & tx,
+				     typename mpl::at_c<typename MessageType::sequence_type, 0>::type a1,
+				     typename mpl::at_c<typename MessageType::sequence_type, 1>::type a2,
+				     typename mpl::at_c<typename MessageType::sequence_type, 2>::type a3,
+				     typename mpl::at_c<typename MessageType::sequence_type, 3>::type a4,
+				     typename mpl::at_c<typename MessageType::sequence_type, 4>::type a5,
+				     typename mpl::at_c<typename MessageType::sequence_type, 5>::type a6,
+				     typename mpl::at_c<typename MessageType::sequence_type, 6>::type a7,
+				     typename mpl::at_c<typename MessageType::sequence_type, 7>::type a8,
+				     typename mpl::at_c<typename MessageType::sequence_type, 8>::type a9) {
+
+					::transmission::send<MessageCollectionType, MessageType>(
+					    tx,
+					    fusion::make_list(a1, a2, a3, a4, a5, a6, a7, a8, a9)
+					);
+				}
+
+				/// @brief Overload of transmission::send() taking a BoundMessageType as the only explicit
+				/// template parameter, and taking a transmitter, plus values for 9 message fields directly
+				/// instead of a boost::fusion sequence containing the field values.
+				template<typename BoundMessage, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal<mpl::int_<9>, MessageArity<typename BoundMessage::message_type> >, void>::type
+				send(transmitters::TransmitterBase<TransmitterDerived> & tx,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 0>::type a1,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 1>::type a2,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 2>::type a3,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 3>::type a4,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 4>::type a5,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 5>::type a6,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 6>::type a7,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 7>::type a8,
+				     typename mpl::at_c<typename BoundMessage::message_type::sequence_type, 8>::type a9) {
+
+					::transmission::send<typename BoundMessage::message_collection, typename BoundMessage::message_type>(
+					    tx,
+					    fusion::make_list(a1, a2, a3, a4, a5, a6, a7, a8, a9)
 					);
 				}
 
