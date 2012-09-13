@@ -49,6 +49,9 @@ class TestReceiver : public transmission::Receiver<TestReceiver, MyMessageCollec
 		uint8_t third;
 
 		void operator()(MessageD const&, uint8_t, uint8_t, uint8_t) {}
+
+
+		void operator()(EmptyMessage const&) {}
 };
 
 #include "ReceiverCommon.h"
