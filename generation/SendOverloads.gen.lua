@@ -2,8 +2,9 @@ myMaxArity = 9;
 
 return {
 	outFile = "detail/operations/SendOverloads_Generated.h";
-
-	generateOverload = function(arity)
+	baseIndent = 4;
+	maxArity = myMaxArity;
+	generate = function(arity)
 		out( "template<typename Collection, typename Message, typename TransmitterDerived>")
 		out(("inline typename enable_if< mpl::equal_to<mpl::int_<%d>, typename mpl::size<Message>::type>, void>::type"):format(arity))
 		local arguments = genRange(arity, function(i) return ("typename mpl::at_c<Message, %d>::type a%d"):format(i, i) end, ", ")
@@ -88,9 +89,4 @@ namespace transmission {
 } // end of namespace transmission
 #endif // INCLUDED_SendOverloads_Generated_h_GUID_ceb4f589_526e_49d7_84c5_0b38f6d1fc42
 ]];
-
-	baseIndent = 4;
-
-	maxArity = myMaxArity;
-
 }

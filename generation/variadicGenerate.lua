@@ -25,8 +25,12 @@ local main = function(arg)
 	data = dofile(arg[1])
 
 	table.insert(lines, data.prefix:format(source))
-	for i = 1, data.maxArity do
-		data.generateOverload(i)
+	local minArity = 1
+	local maxArity = 9
+	if data.minArity ~= nil then minArity = data.minArity end
+	if data.maxArity ~= nil then maxArity = data.maxArity end
+	for i = minArity, maxArity do
+		data.generate(i)
 	end
 	table.insert(lines, data.suffix)
 

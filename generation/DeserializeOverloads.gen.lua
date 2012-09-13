@@ -2,8 +2,9 @@ myMaxArity = 9;
 
 return {
 	outFile = "detail/operations/DeserializeOverloads_Generated.h";
-
-	generateOverload = function(arity)
+	baseIndent = 4;
+	maxArity = myMaxArity;
+	generate = function(arity)
 		out( "template<typename MessageType, typename Policy, typename Function, typename Iterator>")
 		out( "inline void")
 		out(("deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<%d>, typename mpl::size<MessageType>::type>, void *>::type = NULL) {"):format(arity))
@@ -84,9 +85,4 @@ namespace transmission {
 } // end of namespace transmission
 #endif // INCLUDED_DeserializeOverloads_Generated_h_GUID_77b2ed7c_5501_4195_8d2c_dac91b47cf13
 ]];
-
-	baseIndent = 4;
-
-	maxArity = myMaxArity;
-
 }
