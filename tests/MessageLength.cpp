@@ -11,7 +11,7 @@
 // Internal Includes
 
 #define USE_BASIC_ENVELOPE
-#include "Protocol.h"
+#include "ProtocolForTest.h"
 #include <tuple-transmission/detail/operations/IsIdValid.h>
 #include <tuple-transmission/detail/operations/MessageLength.h>
 #include <tuple-transmission/detail/operations/MaxMessageLength.h>

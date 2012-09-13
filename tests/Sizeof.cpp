@@ -12,7 +12,7 @@
 
 #define USE_BASIC_ENVELOPE
 
-#include "Protocol.h"
+#include "ProtocolForTest.h"
 #include <tuple-transmission/detail/operations/Sizeof.h>
 #include <tuple-transmission/BoundMessageType.h>
 #include <util/booststdint.h>

@@ -13,7 +13,7 @@
 // Internal Includes
 
 #define USE_BASIC_ENVELOPE
-#include "Protocol.h"
+#include "ProtocolForTest.h"
 #include <tuple-transmission/Receiver.h>
 
 // Library/third-party includes

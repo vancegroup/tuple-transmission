@@ -11,7 +11,7 @@
 // Internal Includes
 
 #define USE_BASIC_ENVELOPE
-#include "Protocol.h"
+#include "ProtocolForTest.h"
 #include <tuple-transmission/Send.h>
 #include <tuple-transmission/transmitters/BoostArrayBuffer.h>
 #include <tuple-transmission/transmitters/AutosizedBoostArrayBuffer.h>
