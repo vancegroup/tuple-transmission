@@ -65,7 +65,7 @@ genRange = function(count, f, sep)
 	for i = 1, count do
 		table.insert(ret, f(i))
 	end
-	return cat(ret, sep or "")
+	return cat(ret, sep or ", ")
 end
 
 cat = table.concat

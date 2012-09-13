@@ -11,8 +11,8 @@ return {
 
 		-- Tuple values
 		if arity > 0 then
-			table.insert(argumentTypes, genRange(arity, function(i) return ("typename T%d"):format(i) end, ", "))
-			table.insert(arguments, genRange(arity, function(i) return ("T%d"):format(i) end, ", "))
+			table.insert(argumentTypes, genRange(arity, function(i) return ("typename T%d"):format(i) end))
+			table.insert(arguments, genRange(arity, function(i) return ("T%d"):format(i) end))
 		end
 
 		-- SFINAE test to ensure the first argument is actually a message type.
