@@ -3,12 +3,16 @@ myMaxArity = 9;
 return {
 	outFile = "detail/operations/SendOverloads_Generated.h";
 	baseIndent = 4;
+	minArity = 0;
 	maxArity = myMaxArity;
 	generate = function(arity)
 		out( "template<typename Collection, typename Message, typename TransmitterDerived>")
 		out(("inline typename enable_if< mpl::equal_to<mpl::int_<%d>, typename mpl::size<Message>::type>, void>::type"):format(arity))
-		local arguments = genRange(arity, function(i) return ("typename mpl::at_c<Message, %d>::type a%d"):format(i - 1, i) end, ", ")
-		out(("send(transmitters::TransmitterBase<TransmitterDerived> & tx, %s) {"):format(arguments))
+		local arguments = {"transmitters::TransmitterBase<TransmitterDerived> & tx"}
+		if arity > 0 then
+			table.insert(arguments, genRange(arity, function(i) return ("typename mpl::at_c<Message, %d>::type a%d"):format(i - 1, i) end))
+		end
+		out(("send(%s) {"):format(commaJoin(arguments)))
 		--[[for i = 1, arity do
 			out(1, ("typedef typename mpl::at_c<MessageType, %d>::type T%d;"):format(i - 1, i) )
 		end
@@ -22,7 +26,9 @@ return {
 		out(1, 2, "MessageType(), " .. genRange(arity, function(i) return ("a%d"):format(i) end, ", "))
 		out(1, 1, ")")]]
 		out(1, 1, "fusion::make_list(")
-		out(1, 2, genRange(arity, function(i) return ("a%d"):format(i) end, ", "))
+		if arity > 0 then
+			out(1, 2, genRange(arity, function(i) return ("a%d"):format(i) end))
+		end
 		out(1, 1, ")")
 		-- Finish the call and the function
 		out(1, ");")

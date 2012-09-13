@@ -50,12 +50,22 @@ namespace transmission {
 
 				template<typename MessageType, typename Policy, typename Function, typename Iterator>
 				inline void
+				deserialize(Function & f, Iterator & , typename enable_if< mpl::equal_to<mpl::int_<0>, typename mpl::size<MessageType>::type>, void *>::type = NULL) {
+					fusion::invoke_procedure<Function &>(
+					    f,
+					    fusion::vector< MessageType const& >(
+					        MessageType()
+					    )
+					);
+				}
+				template<typename MessageType, typename Policy, typename Function, typename Iterator>
+				inline void
 				deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<1>, typename mpl::size<MessageType>::type>, void *>::type = NULL) {
 					typedef typename mpl::at_c<MessageType, 0>::type T1;
 					T1 a1 = Policy::template unbuffer(mpl::identity<T1>(), it);
 					fusion::invoke_procedure<Function &>(
 					    f,
-					    fusion::vector< MessageType const&, T1>(
+					    fusion::vector< MessageType const&, T1 >(
 					        MessageType(), a1
 					    )
 					);
@@ -69,7 +79,7 @@ namespace transmission {
 					T2 a2 = Policy::template unbuffer(mpl::identity<T2>(), it);
 					fusion::invoke_procedure<Function &>(
 					    f,
-					    fusion::vector< MessageType const&, T1, T2>(
+					    fusion::vector< MessageType const&, T1, T2 >(
 					        MessageType(), a1, a2
 					    )
 					);
@@ -85,7 +95,7 @@ namespace transmission {
 					T3 a3 = Policy::template unbuffer(mpl::identity<T3>(), it);
 					fusion::invoke_procedure<Function &>(
 					    f,
-					    fusion::vector< MessageType const&, T1, T2, T3>(
+					    fusion::vector< MessageType const&, T1, T2, T3 >(
 					        MessageType(), a1, a2, a3
 					    )
 					);
@@ -103,7 +113,7 @@ namespace transmission {
 					T4 a4 = Policy::template unbuffer(mpl::identity<T4>(), it);
 					fusion::invoke_procedure<Function &>(
 					    f,
-					    fusion::vector< MessageType const&, T1, T2, T3, T4>(
+					    fusion::vector< MessageType const&, T1, T2, T3, T4 >(
 					        MessageType(), a1, a2, a3, a4
 					    )
 					);
@@ -123,7 +133,7 @@ namespace transmission {
 					T5 a5 = Policy::template unbuffer(mpl::identity<T5>(), it);
 					fusion::invoke_procedure<Function &>(
 					    f,
-					    fusion::vector< MessageType const&, T1, T2, T3, T4, T5>(
+					    fusion::vector< MessageType const&, T1, T2, T3, T4, T5 >(
 					        MessageType(), a1, a2, a3, a4, a5
 					    )
 					);
@@ -145,7 +155,7 @@ namespace transmission {
 					T6 a6 = Policy::template unbuffer(mpl::identity<T6>(), it);
 					fusion::invoke_procedure<Function &>(
 					    f,
-					    fusion::vector< MessageType const&, T1, T2, T3, T4, T5, T6>(
+					    fusion::vector< MessageType const&, T1, T2, T3, T4, T5, T6 >(
 					        MessageType(), a1, a2, a3, a4, a5, a6
 					    )
 					);
@@ -169,7 +179,7 @@ namespace transmission {
 					T7 a7 = Policy::template unbuffer(mpl::identity<T7>(), it);
 					fusion::invoke_procedure<Function &>(
 					    f,
-					    fusion::vector< MessageType const&, T1, T2, T3, T4, T5, T6, T7>(
+					    fusion::vector< MessageType const&, T1, T2, T3, T4, T5, T6, T7 >(
 					        MessageType(), a1, a2, a3, a4, a5, a6, a7
 					    )
 					);
@@ -195,7 +205,7 @@ namespace transmission {
 					T8 a8 = Policy::template unbuffer(mpl::identity<T8>(), it);
 					fusion::invoke_procedure<Function &>(
 					    f,
-					    fusion::vector< MessageType const&, T1, T2, T3, T4, T5, T6, T7, T8>(
+					    fusion::vector< MessageType const&, T1, T2, T3, T4, T5, T6, T7, T8 >(
 					        MessageType(), a1, a2, a3, a4, a5, a6, a7, a8
 					    )
 					);
@@ -223,7 +233,7 @@ namespace transmission {
 					T9 a9 = Policy::template unbuffer(mpl::identity<T9>(), it);
 					fusion::invoke_procedure<Function &>(
 					    f,
-					    fusion::vector< MessageType const&, T1, T2, T3, T4, T5, T6, T7, T8, T9>(
+					    fusion::vector< MessageType const&, T1, T2, T3, T4, T5, T6, T7, T8, T9 >(
 					        MessageType(), a1, a2, a3, a4, a5, a6, a7, a8, a9
 					    )
 					);

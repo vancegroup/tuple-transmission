@@ -3,23 +3,34 @@ myMaxArity = 9;
 return {
 	outFile = "detail/operations/DeserializeOverloads_Generated.h";
 	baseIndent = 4;
+	minArity = 0;
 	maxArity = myMaxArity;
 	generate = function(arity)
 		out( "template<typename MessageType, typename Policy, typename Function, typename Iterator>")
 		out( "inline void")
-		out(("deserialize(Function & f, Iterator & it, typename enable_if< mpl::equal_to<mpl::int_<%d>, typename mpl::size<MessageType>::type>, void *>::type = NULL) {"):format(arity))
-		for i = 1, arity do
-			out(1, ("typedef typename mpl::at_c<MessageType, %d>::type T%d;"):format(i - 1, i) )
-		end
-		for i = 1, arity do
-			out(1, ("T%d a%d = Policy::template unbuffer(mpl::identity<T%d>(), it);"):format(i, i, i) )
+		local iteratorName = "it"
+		if arity == 0 then iteratorName = "" end
+		out(("deserialize(Function & f, Iterator & %s, typename enable_if< mpl::equal_to<mpl::int_<%d>, typename mpl::size<MessageType>::type>, void *>::type = NULL) {"):format(iteratorName, arity))
+		if arity > 0 then
+			for i = 1, arity do
+				out(1, ("typedef typename mpl::at_c<MessageType, %d>::type T%d;"):format(i - 1, i) )
+			end
+			for i = 1, arity do
+				out(1, ("T%d a%d = Policy::template unbuffer(mpl::identity<T%d>(), it);"):format(i, i, i) )
+			end
 		end
 
+		local tupleTemplateParams = {"MessageType const&"}
+		local tupleConstructorArgs = {"MessageType()"}
+		if arity > 0 then
+			table.insert(tupleTemplateParams, genRange(arity, function(i) return ("T%d"):format(i) end))
+			table.insert(tupleConstructorArgs, genRange(arity, function(i) return ("a%d"):format(i) end))
+		end
 		out(1, "fusion::invoke_procedure<Function &>(")
 		out(1, 1, "f,")
 		-- Generate the tuple argument
-		out(1, 1, "fusion::vector< MessageType const&, " .. genRange(arity, function(i) return ("T%d"):format(i) end, ", ") .. ">(")
-		out(1, 2, "MessageType(), " .. genRange(arity, function(i) return ("a%d"):format(i) end, ", "))
+		out(1, 1, ("fusion::vector< %s >("):format(commaJoin(tupleTemplateParams)))
+		out(1, 2, commaJoin(tupleConstructorArgs))
 		out(1, 1, ")")
 		-- Finish the call and the function
 		out(1, ");")

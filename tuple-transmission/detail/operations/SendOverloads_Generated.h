@@ -48,6 +48,15 @@ namespace transmission {
 				typedef mpl::int_<9> SendOverloadMaxArity;
 
 				template<typename Collection, typename Message, typename TransmitterDerived>
+				inline typename enable_if< mpl::equal_to<mpl::int_<0>, typename mpl::size<Message>::type>, void>::type
+				send(transmitters::TransmitterBase<TransmitterDerived> & tx) {
+					::transmission::send<Collection, Message>(
+					    tx,
+					    fusion::make_list(
+					    )
+					);
+				}
+				template<typename Collection, typename Message, typename TransmitterDerived>
 				inline typename enable_if< mpl::equal_to<mpl::int_<1>, typename mpl::size<Message>::type>, void>::type
 				send(transmitters::TransmitterBase<TransmitterDerived> & tx, typename mpl::at_c<Message, 0>::type a1) {
 					::transmission::send<Collection, Message>(
