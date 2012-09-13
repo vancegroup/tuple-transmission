@@ -52,6 +52,24 @@ namespace transmission {
 				}
 
 				typedef std::vector<uint8_t> BufferType;
+
+				typedef typename BufferType::value_type value_type;
+				typedef typename BufferType::iterator iterator;
+				typedef typename BufferType::const_iterator const_iterator;
+
+				iterator begin() {
+					return buffer.begin();
+				}
+				const_iterator begin() const {
+					return buffer.begin();
+				}
+				iterator end() {
+					return buffer.end();
+				}
+				const_iterator end() const {
+					return buffer.end();
+				}
+
 				BufferType buffer;
 
 			private:
