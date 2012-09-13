@@ -31,7 +31,6 @@ set(HEADERS
 	BoundMessageType.h
 	MessageCollection.h
 	MessageType.h
-	PartialReceiver.h
 	Receiver.h
 	ReceiveHandler.h
 	Send.h
@@ -47,6 +46,7 @@ set(HEADERS
 set(GENERATED_HEADERS
 	detail/operations/DeserializeOverloads_Generated.h
 	detail/operations/SendOverloads_Generated.h
+	PartialReceiver.h
 )
 
 add_custom_target(tuple-transmission

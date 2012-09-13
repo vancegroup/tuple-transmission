@@ -2,10 +2,13 @@ find_program(LUA_EXECUTABLE NAMES lua lua51 lua5.1)
 
 set(GENERATION_DATAFILES
 	DeserializeOverloads.gen.lua
+	PartialReceiver.gen.lua
 	SendOverloads.gen.lua)
+
 set(SCRIPTS
 	query.lua
 	variadicGenerate.lua)
+
 if(LUA_EXECUTABLE)
 	set(OUTDIR "${CMAKE_CURRENT_SOURCE_DIR}/../tuple-transmission")
 	foreach(script ${SCRIPTS})
