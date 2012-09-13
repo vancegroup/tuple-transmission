@@ -28,6 +28,9 @@
 
 // Library/third-party includes
 #include <boost/mpl/equal.hpp>
+#include <boost/mpl/or.hpp>
+#include <boost/mpl/and.hpp>
+#include <boost/mpl/empty.hpp>
 #include <boost/mpl/assert.hpp>
 #include <boost/fusion/mpl.hpp>
 
@@ -43,8 +46,17 @@ namespace transmission {
 	*/
 	template<typename Collection, typename Message, typename TransmitterDerived, typename MessageContentsType>
 	inline void send(transmitters::TransmitterBase<TransmitterDerived> & tx, MessageContentsType const & contents) {
-		/// Check to be sure we got what we expected
-		BOOST_MPL_ASSERT((boost::mpl::equal<Message, MessageContentsType>));
+		using boost::mpl::equal;
+		using boost::mpl::or_;
+		using boost::mpl::and_;
+		using boost::mpl::empty;
+		/// Check to be sure we got what we expected:
+		/// either the typelists are the same or they are both empty.
+		BOOST_MPL_ASSERT((
+		                     or_ <
+		                     equal<Message, MessageContentsType>
+		                     , and_< empty<Message>, empty<MessageContentsType> >
+		                     >));
 
 		typedef BoundMessageType<Collection, Message> bound_message;
 		typedef typename bound_message::envelope_type envelope_type;
