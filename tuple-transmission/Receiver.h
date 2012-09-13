@@ -22,10 +22,11 @@
 
 // Internal Includes
 #include "ReceiveHandler.h"
+#include "detail/types/MessageIdType.h"
 #include "detail/operations/DeserializeAndInvoke.h"
 
 // Library/third-party includes
-// - none
+#include <boost/optional.hpp>
 
 // Standard includes
 // - none
@@ -64,17 +65,25 @@ namespace transmission {
 				return processMessages();
 			}
 
+			/// @brief Returns the ID of the last message received, if applicable.
+			boost::optional<MessageIdType> getLastMessageId() const {
+				return _lastMessageId;
+			}
+
 		private:
 			uint8_t processMessages(uint8_t msgCount = 0) {
 				if (_recv.checkBufferForMessage()) {
 					typedef typename MessageCollection::envelope_type::serialization_policy serialization_policy;
 					typedef typename MessageCollection::message_types message_types;
 
+					_lastMessageId = _recv.getCurrentMessageId();
+
 					detail::operations::deserializeAndInvoke<message_types, serialization_policy>(
 					    _recv.getCurrentMessageId(),
 					    getDerived(),
 					    _recv.getDataIterator()
 					);
+
 					// Remove handled message
 					_recv.popMessage();
 
@@ -83,13 +92,17 @@ namespace transmission {
 				}
 				return msgCount;
 			}
-			receive_handler_type _recv;
+
 			Derived & getDerived() {
 				return *(static_cast<Derived*>(this));
 			}
+
 			Derived const & getDerived() const {
 				return *(static_cast<Derived const *>(this));
 			}
+
+			receive_handler_type _recv;
+			boost::optional<MessageIdType> _lastMessageId;
 	};
 } // end of namespace transmission
 
