@@ -67,4 +67,10 @@ add_boost_test(PartialReceiver
 	TESTS
 	${COMMON_RECEIVER_TESTS})
 
+add_boost_test(ChecksumReceiver
+	SOURCES
+	ChecksumReceiver.cpp
+	TESTS
+	${COMMON_RECEIVER_TESTS})
+
 add_subdirectory(cleanbuild)
