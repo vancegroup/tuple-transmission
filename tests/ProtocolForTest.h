@@ -56,7 +56,7 @@ struct MessageC : transmission::MessageTypeBase<boost::mpl::vector<float, float,
 struct MessageD : transmission::MessageTypeBase<boost::mpl::vector<uint8_t, uint8_t, uint8_t> > {};
 struct EmptyMessage : transmission::MessageTypeBase<boost::mpl::vector<> > {};
 
-struct MaxArityMessage : transmission::MessageTypeBase<boost::mpl::vector<uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t> > {};
+struct MaxArityMessage : transmission::MessageTypeBase<boost::mpl::vector<uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t> > {};
 
 BOOST_MPL_ASSERT((boost::mpl::equal<
 		boost::mpl::size<MaxArityMessage>::type,
