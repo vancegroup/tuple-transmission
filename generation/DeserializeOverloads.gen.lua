@@ -4,32 +4,50 @@ return {
 	minArity = ReceiveMinArity;
 	maxArity = ReceiveMaxArity;
 	generate = function(arity)
+		-- Start our function template declaration/inline definition
 		out( "template<typename MessageType, typename Policy, typename Function, typename Iterator>")
 		out( "inline void")
+
+		-- Avoid unused argument warning for 0-arity messages
 		local iteratorName = "it"
 		if arity == 0 then iteratorName = "" end
+
+		-- Write function name and parameters, including a SFINAE dummy
+		-- that checks message arity.
 		out(("deserialize(Function & f, Iterator & %s, typename enable_if< mpl::equal_to<mpl::int_<%d>, typename mpl::size<MessageType>::type>, void *>::type = NULL) {"):format(iteratorName, arity))
+
 		if arity > 0 then
+			-- Create typedefs for each of the types in the message
 			for i = 1, arity do
 				out(1, ("typedef typename mpl::at_c<MessageType, %d>::type T%d;"):format(i - 1, i) )
 			end
+
+			-- Unbuffer (in order!) those types into temporary variables
+			-- Can't just unbuffer in function call because relative order
+			-- of eval of function arguments is undefined!
 			for i = 1, arity do
 				out(1, ("T%d a%d = Policy::template unbuffer(mpl::identity<T%d>(), it);"):format(i, i, i) )
 			end
 		end
 
+		-- Come up with the tuple's type args and constructor args for use below
 		local tupleTemplateParams = {"MessageType const&"}
 		local tupleConstructorArgs = {"MessageType()"}
 		if arity > 0 then
 			table.insert(tupleTemplateParams, genRange(arity, function(i) return ("T%d"):format(i) end))
 			table.insert(tupleConstructorArgs, genRange(arity, function(i) return ("a%d"):format(i) end))
 		end
+
+		-- Start the call, specify the function passing by reference,
+		-- and pass the function
 		out(1, "fusion::invoke_procedure<Function &>(")
 		out(1, 1, "f,")
-		-- Generate the tuple argument
+
+		-- Generate the tuple argument with the args computed above
 		out(1, 1, ("fusion::vector< %s >("):format(commaJoin(tupleTemplateParams)))
 		out(1, 2, commaJoin(tupleConstructorArgs))
 		out(1, 1, ")")
+
 		-- Finish the call and the function
 		out(1, ");")
 		out("}\n")
@@ -70,7 +88,6 @@ return {
 #include <boost/mpl/int.hpp>
 #include <boost/mpl/identity.hpp>
 #include <boost/mpl/equal_to.hpp>
-#include <boost/type_traits/is_same.hpp>
 #include <boost/utility/enable_if.hpp>
 
 // Standard includes
@@ -83,7 +100,6 @@ namespace transmission {
 				namespace mpl = boost::mpl;
 				namespace fusion = boost::fusion;
 				using boost::enable_if;
-				using boost::is_same;
 				typedef mpl::int_<]] .. tostring(ReceiveMaxArity) .. [[> DeserializeMaxArity;
 ]];
 

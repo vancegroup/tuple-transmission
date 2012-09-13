@@ -31,10 +31,7 @@ local main = function(arg)
 	data = dofile(arg[1])
 
 	table.insert(lines, data.prefix:format(source))
-	local minArity = ReceiveMinArity
-	local maxArity = ReceiveMaxArity
-	if data.minArity ~= nil then minArity = data.minArity end
-	if data.maxArity ~= nil then maxArity = data.maxArity end
+
 	for i = data.minArity, data.maxArity do
 		data.generate(i)
 	end

@@ -32,7 +32,6 @@
 #include <boost/mpl/int.hpp>
 #include <boost/mpl/identity.hpp>
 #include <boost/mpl/equal_to.hpp>
-#include <boost/type_traits/is_same.hpp>
 #include <boost/utility/enable_if.hpp>
 
 // Standard includes
@@ -45,7 +44,6 @@ namespace transmission {
 				namespace mpl = boost::mpl;
 				namespace fusion = boost::fusion;
 				using boost::enable_if;
-				using boost::is_same;
 				typedef mpl::int_<9> DeserializeMaxArity;
 
 				template<typename MessageType, typename Policy, typename Function, typename Iterator>

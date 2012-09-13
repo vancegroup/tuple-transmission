@@ -38,8 +38,10 @@
 // - none
 
 namespace transmission {
+	// Forward-declare the main send function that we'll invoke after making a fusion sequence
 	template<typename Collection, typename Message, typename TransmitterDerived, typename MessageContentsType>
 	void send(transmitters::TransmitterBase<TransmitterDerived> & tx, MessageContentsType const & contents);
+
 	namespace detail {
 		namespace operations {
 			namespace generated {

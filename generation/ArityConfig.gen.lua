@@ -1,11 +1,15 @@
 return {
 	outFile = "detail/constants/ArityConfig.h";
 	baseIndent = 0;
+	-- Setting min and max arity to 0 to have just one call into the generate function.
 	minArity = 0;
 	maxArity = 0;
 	generate = function()
+		-- Fusion definitions - must be before including any fusion header!
 		out(("#define FUSION_MAX_LIST_SIZE %d"):format(SendOverloadMaxArity))
 		out(("#define BOOST_FUSION_INVOKE_PROCEDURE_MAX_ARITY %d"):format(ReceiveMaxArity))
+
+		-- An enum recording the receive max arity as used to generate headers
 		out("namespace transmission {")
 		out(1, "namespace detail {")
 		out(2, "namespace constants {")

@@ -6,23 +6,15 @@ return {
 	generate = function(arity)
 		out( "template<typename Collection, typename Message, typename TransmitterDerived>")
 		out(("inline typename enable_if< mpl::equal_to<mpl::int_<%d>, typename mpl::size<Message>::type>, void>::type"):format(arity))
+
 		local arguments = {"transmitters::TransmitterBase<TransmitterDerived> & tx"}
 		if arity > 0 then
 			table.insert(arguments, genRange(arity, function(i) return ("typename mpl::at_c<Message, %d>::type a%d"):format(i - 1, i) end))
 		end
 		out(("send(%s) {"):format(commaJoin(arguments)))
-		--[[for i = 1, arity do
-			out(1, ("typedef typename mpl::at_c<MessageType, %d>::type T%d;"):format(i - 1, i) )
-		end
-		]]
 
 		out(1, "::transmission::send<Collection, Message>(")
 		out(1, 1, "tx,")
-		-- Generate the tuple argument
-		--[[
-		out(1, 1, "fusion::vector< MessageType const&, " .. genRange(arity, function(i) return ("T%d"):format(i) end, ", ") .. ">(")
-		out(1, 2, "MessageType(), " .. genRange(arity, function(i) return ("a%d"):format(i) end, ", "))
-		out(1, 1, ")")]]
 		out(1, 1, "fusion::make_list(")
 		if arity > 0 then
 			out(1, 2, genRange(arity, function(i) return ("a%d"):format(i) end))
@@ -74,8 +66,10 @@ return {
 // - none
 
 namespace transmission {
+	// Forward-declare the main send function that we'll invoke after making a fusion sequence
 	template<typename Collection, typename Message, typename TransmitterDerived, typename MessageContentsType>
 	void send(transmitters::TransmitterBase<TransmitterDerived> & tx, MessageContentsType const & contents);
+
 	namespace detail {
 		namespace operations {
 			namespace generated {
