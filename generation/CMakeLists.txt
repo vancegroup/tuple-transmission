@@ -1,7 +1,7 @@
 find_program(LUA_EXECUTABLE NAMES lua lua51 lua5.1)
 
 set(GENERATION_DATAFILES
-	DeserializedOverloads.gen.lua
+	DeserializeOverloads.gen.lua
 	SendOverloads.gen.lua)
 set(SCRIPTS
 	query.lua
