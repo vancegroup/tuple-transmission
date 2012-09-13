@@ -21,6 +21,7 @@
 #define INCLUDED_SerializerBase_h_GUID_c34cd60a_eb2c_4fa4_b774_bfb021305cec
 
 // Internal Includes
+#include "../constants/ArityConfig.h"
 #include "../types/IntegralTypes.h"
 
 // Library/third-party includes

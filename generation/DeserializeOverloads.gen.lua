@@ -1,10 +1,8 @@
-myMaxArity = 9;
-
 return {
 	outFile = "detail/operations/DeserializeOverloads_Generated.h";
 	baseIndent = 4;
-	minArity = 0;
-	maxArity = myMaxArity;
+	minArity = ReceiveMinArity;
+	maxArity = ReceiveMaxArity;
 	generate = function(arity)
 		out( "template<typename MessageType, typename Policy, typename Function, typename Iterator>")
 		out( "inline void")
@@ -63,7 +61,7 @@ return {
 #define INCLUDED_DeserializeOverloads_Generated_h_GUID_77b2ed7c_5501_4195_8d2c_dac91b47cf13
 
 // Internal Includes
-// - none
+#include "../constants/ArityConfig.h"
 
 // Library/third-party includes
 #include <boost/fusion/include/vector.hpp>
@@ -86,7 +84,7 @@ namespace transmission {
 				namespace fusion = boost::fusion;
 				using boost::enable_if;
 				using boost::is_same;
-				typedef mpl::int_<]] .. tostring(myMaxArity) .. [[> DeserializeMaxArity;
+				typedef mpl::int_<]] .. tostring(ReceiveMaxArity) .. [[> DeserializeMaxArity;
 ]];
 
 	suffix = [[

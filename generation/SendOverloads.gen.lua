@@ -1,10 +1,8 @@
-myMaxArity = 9;
-
 return {
 	outFile = "detail/operations/SendOverloads_Generated.h";
 	baseIndent = 4;
-	minArity = 0;
-	maxArity = myMaxArity;
+	minArity = SendOverloadMinArity;
+	maxArity = SendOverloadMaxArity;
 	generate = function(arity)
 		out( "template<typename Collection, typename Message, typename TransmitterDerived>")
 		out(("inline typename enable_if< mpl::equal_to<mpl::int_<%d>, typename mpl::size<Message>::type>, void>::type"):format(arity))
@@ -61,6 +59,7 @@ return {
 #define INCLUDED_SendOverloads_Generated_h_GUID_ceb4f589_526e_49d7_84c5_0b38f6d1fc42
 
 // Internal Includes
+#include "../constants/ArityConfig.h"
 #include "../bases/TransmitterBase_fwd.h"
 
 // Library/third-party includes
@@ -83,7 +82,7 @@ namespace transmission {
 				namespace mpl = boost::mpl;
 				namespace fusion = boost::fusion;
 				using boost::enable_if;
-				typedef mpl::int_<]] .. tostring(myMaxArity) .. [[> SendOverloadMaxArity;
+				typedef mpl::int_<]] .. tostring(SendOverloadMaxArity) .. [[> SendOverloadMaxArity;
 ]];
 
 	suffix = [[

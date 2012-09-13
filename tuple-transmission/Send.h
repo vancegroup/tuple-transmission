@@ -21,6 +21,7 @@
 #define INCLUDED_SendMessage_h_GUID_9cbfc065_ea71_4097_8993_c4e0b0fb14c5
 
 // Internal Includes
+#include "detail/constants/ArityConfig.h"
 #include "detail/bases/TransmitterBase_fwd.h"
 #include "detail/types/IntegralTypes.h"
 #include "detail/operations/SendOverloads_Generated.h"

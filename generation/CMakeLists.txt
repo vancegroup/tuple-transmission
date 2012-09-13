@@ -2,6 +2,7 @@ find_program(LUA_EXECUTABLE NAMES lua lua51 lua5.1)
 
 set(GENERATION_DATAFILES
 	DeserializeOverloads.gen.lua
+	ArityConfig.gen.lua
 	PartialReceiver.gen.lua
 	SendOverloads.gen.lua)
 

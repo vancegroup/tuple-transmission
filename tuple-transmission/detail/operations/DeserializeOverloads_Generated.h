@@ -23,7 +23,7 @@
 #define INCLUDED_DeserializeOverloads_Generated_h_GUID_77b2ed7c_5501_4195_8d2c_dac91b47cf13
 
 // Internal Includes
-// - none
+#include "../constants/ArityConfig.h"
 
 // Library/third-party includes
 #include <boost/fusion/include/vector.hpp>

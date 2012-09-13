@@ -23,6 +23,7 @@
 #define INCLUDED_SendOverloads_Generated_h_GUID_ceb4f589_526e_49d7_84c5_0b38f6d1fc42
 
 // Internal Includes
+#include "../constants/ArityConfig.h"
 #include "../bases/TransmitterBase_fwd.h"
 
 // Library/third-party includes

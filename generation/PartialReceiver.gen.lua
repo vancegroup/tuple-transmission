@@ -1,8 +1,8 @@
 return {
 	outFile = "PartialReceiver.h";
 	baseIndent = 3;
-	minArity = 0;
-	maxArity = 9;
+	minArity = ReceiveMinArity;
+	maxArity = ReceiveMaxArity;
 
 	generate = function(arity)
 		-- Message type "tag" argument

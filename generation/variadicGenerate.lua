@@ -1,5 +1,11 @@
 #!/usr/bin/env lua
 
+-- Library-wide configuration values
+ReceiveMinArity = 0
+ReceiveMaxArity = 9
+SendOverloadMinArity = 0
+SendOverloadMaxArity = 9
+
 -- Data
 local lines = {}
 
@@ -25,17 +31,19 @@ local main = function(arg)
 	data = dofile(arg[1])
 
 	table.insert(lines, data.prefix:format(source))
-	local minArity = 1
-	local maxArity = 9
+	local minArity = ReceiveMinArity
+	local maxArity = ReceiveMaxArity
 	if data.minArity ~= nil then minArity = data.minArity end
 	if data.maxArity ~= nil then maxArity = data.maxArity end
-	for i = minArity, maxArity do
+	for i = data.minArity, data.maxArity do
 		data.generate(i)
 	end
 	table.insert(lines, data.suffix)
 
 	print(cat(lines, "\n"))
 end
+
+
 
 --[[ Functions callable by generation data ]]
 out = function(regularIndents, argumentIndents, line)
