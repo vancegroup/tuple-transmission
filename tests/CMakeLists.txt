@@ -50,7 +50,8 @@ add_boost_test(ReceiveHandler
 set(COMMON_RECEIVER_TESTS
 	DefaultConstruction
 	IncompleteMessages
-	CompleteMessage)
+	CompleteMessage
+	DifferentMessageSameSignature)
 
 add_boost_test(Receiver
 	SOURCES

@@ -1,4 +1,6 @@
 
+using transmission::BoundMessageType;
+
 inline void appendValidMessageCharacters(TestReceiver & recv, std::size_t n, std::size_t start = 0) {
 	BOOST_TEST_MESSAGE("Inserting valid message elements [" << start << ", " << start + n - 1 << "]");
 	BOOST_ASSERT(start + n <= ValidMessage.size());
@@ -31,3 +33,16 @@ BOOST_AUTO_TEST_CASE(CompleteMessage) {
 	BOOST_CHECK_EQUAL(r.third, 15);
 }
 
+
+BOOST_AUTO_TEST_CASE(DifferentMessageSameSignature) {
+	TestReceiver r;
+	typedef BoundMessageType<MyMessageCollection, MessageD> BoundMessageD;
+
+	/// Change the ID to MessageD which has the same signature.
+	ValidMessageBufferType buf = ValidMessage;
+	buf[MessageIdIndex] = BoundMessageD::message_id();
+	r.appendReceived(buf.begin(), buf.end());
+	BOOST_CHECK_EQUAL(r.first, 0);
+	BOOST_CHECK_EQUAL(r.second, 0);
+	BOOST_CHECK_EQUAL(r.third, 0);
+}
