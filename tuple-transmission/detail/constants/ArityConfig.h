@@ -43,7 +43,7 @@
 
 
 #define FUSION_MAX_LIST_SIZE 9
-#define BOOST_FUSION_INVOKE_PROCEDURE_MAX_ARITY 9
+#define BOOST_FUSION_INVOKE_PROCEDURE_MAX_ARITY 10
 namespace transmission {
 	namespace detail {
 		namespace constants {
