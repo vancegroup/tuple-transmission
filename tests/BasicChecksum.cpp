@@ -10,7 +10,7 @@
 
 // Internal Includes
 #define USE_CHECKSUM_ENVELOPE
-#include "Protocol.h"
+#include "ProtocolForTest.h"
 #include <tuple-transmission/Send.h>
 #include <tuple-transmission/transmitters/AutosizedBoostArrayBuffer.h>
 
