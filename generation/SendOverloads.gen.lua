@@ -32,7 +32,7 @@ return {
 		out(1, 1, ")")
 		-- Finish the call and the function
 		out(1, ");")
-		out("}")
+		out("}\n")
 	end;
 
 	prefix = [[

@@ -56,6 +56,7 @@ namespace transmission {
 					    )
 					);
 				}
+
 				template<typename Collection, typename Message, typename TransmitterDerived>
 				inline typename enable_if< mpl::equal_to<mpl::int_<1>, typename mpl::size<Message>::type>, void>::type
 				send(transmitters::TransmitterBase<TransmitterDerived> & tx, typename mpl::at_c<Message, 0>::type a1) {
@@ -66,6 +67,7 @@ namespace transmission {
 					    )
 					);
 				}
+
 				template<typename Collection, typename Message, typename TransmitterDerived>
 				inline typename enable_if< mpl::equal_to<mpl::int_<2>, typename mpl::size<Message>::type>, void>::type
 				send(transmitters::TransmitterBase<TransmitterDerived> & tx, typename mpl::at_c<Message, 0>::type a1, typename mpl::at_c<Message, 1>::type a2) {
@@ -76,6 +78,7 @@ namespace transmission {
 					    )
 					);
 				}
+
 				template<typename Collection, typename Message, typename TransmitterDerived>
 				inline typename enable_if< mpl::equal_to<mpl::int_<3>, typename mpl::size<Message>::type>, void>::type
 				send(transmitters::TransmitterBase<TransmitterDerived> & tx, typename mpl::at_c<Message, 0>::type a1, typename mpl::at_c<Message, 1>::type a2, typename mpl::at_c<Message, 2>::type a3) {
@@ -86,6 +89,7 @@ namespace transmission {
 					    )
 					);
 				}
+
 				template<typename Collection, typename Message, typename TransmitterDerived>
 				inline typename enable_if< mpl::equal_to<mpl::int_<4>, typename mpl::size<Message>::type>, void>::type
 				send(transmitters::TransmitterBase<TransmitterDerived> & tx, typename mpl::at_c<Message, 0>::type a1, typename mpl::at_c<Message, 1>::type a2, typename mpl::at_c<Message, 2>::type a3, typename mpl::at_c<Message, 3>::type a4) {
@@ -96,6 +100,7 @@ namespace transmission {
 					    )
 					);
 				}
+
 				template<typename Collection, typename Message, typename TransmitterDerived>
 				inline typename enable_if< mpl::equal_to<mpl::int_<5>, typename mpl::size<Message>::type>, void>::type
 				send(transmitters::TransmitterBase<TransmitterDerived> & tx, typename mpl::at_c<Message, 0>::type a1, typename mpl::at_c<Message, 1>::type a2, typename mpl::at_c<Message, 2>::type a3, typename mpl::at_c<Message, 3>::type a4, typename mpl::at_c<Message, 4>::type a5) {
@@ -106,6 +111,7 @@ namespace transmission {
 					    )
 					);
 				}
+
 				template<typename Collection, typename Message, typename TransmitterDerived>
 				inline typename enable_if< mpl::equal_to<mpl::int_<6>, typename mpl::size<Message>::type>, void>::type
 				send(transmitters::TransmitterBase<TransmitterDerived> & tx, typename mpl::at_c<Message, 0>::type a1, typename mpl::at_c<Message, 1>::type a2, typename mpl::at_c<Message, 2>::type a3, typename mpl::at_c<Message, 3>::type a4, typename mpl::at_c<Message, 4>::type a5, typename mpl::at_c<Message, 5>::type a6) {
@@ -116,6 +122,7 @@ namespace transmission {
 					    )
 					);
 				}
+
 				template<typename Collection, typename Message, typename TransmitterDerived>
 				inline typename enable_if< mpl::equal_to<mpl::int_<7>, typename mpl::size<Message>::type>, void>::type
 				send(transmitters::TransmitterBase<TransmitterDerived> & tx, typename mpl::at_c<Message, 0>::type a1, typename mpl::at_c<Message, 1>::type a2, typename mpl::at_c<Message, 2>::type a3, typename mpl::at_c<Message, 3>::type a4, typename mpl::at_c<Message, 4>::type a5, typename mpl::at_c<Message, 5>::type a6, typename mpl::at_c<Message, 6>::type a7) {
@@ -126,6 +133,7 @@ namespace transmission {
 					    )
 					);
 				}
+
 				template<typename Collection, typename Message, typename TransmitterDerived>
 				inline typename enable_if< mpl::equal_to<mpl::int_<8>, typename mpl::size<Message>::type>, void>::type
 				send(transmitters::TransmitterBase<TransmitterDerived> & tx, typename mpl::at_c<Message, 0>::type a1, typename mpl::at_c<Message, 1>::type a2, typename mpl::at_c<Message, 2>::type a3, typename mpl::at_c<Message, 3>::type a4, typename mpl::at_c<Message, 4>::type a5, typename mpl::at_c<Message, 5>::type a6, typename mpl::at_c<Message, 6>::type a7, typename mpl::at_c<Message, 7>::type a8) {
@@ -136,6 +144,7 @@ namespace transmission {
 					    )
 					);
 				}
+
 				template<typename Collection, typename Message, typename TransmitterDerived>
 				inline typename enable_if< mpl::equal_to<mpl::int_<9>, typename mpl::size<Message>::type>, void>::type
 				send(transmitters::TransmitterBase<TransmitterDerived> & tx, typename mpl::at_c<Message, 0>::type a1, typename mpl::at_c<Message, 1>::type a2, typename mpl::at_c<Message, 2>::type a3, typename mpl::at_c<Message, 3>::type a4, typename mpl::at_c<Message, 4>::type a5, typename mpl::at_c<Message, 5>::type a6, typename mpl::at_c<Message, 6>::type a7, typename mpl::at_c<Message, 7>::type a8, typename mpl::at_c<Message, 8>::type a9) {
@@ -146,6 +155,7 @@ namespace transmission {
 					    )
 					);
 				}
+
 			} // end of namespace generated
 		} // end of namespace operations
 	} // end of namespace detail
