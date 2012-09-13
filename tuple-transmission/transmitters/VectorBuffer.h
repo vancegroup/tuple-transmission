@@ -29,6 +29,7 @@
 
 // Standard includes
 #include <vector>
+#include <iterator>
 
 namespace transmission {
 	namespace transmitters {
@@ -41,14 +42,16 @@ namespace transmission {
 		class VectorBuffer : public TransmitterBase<VectorBuffer<Collection> > {
 			public:
 				typedef detail::operations::MaxMessageLength<Collection> max_size;
-				VectorBuffer() : buffer(max_size()) {}
+				VectorBuffer() : buffer(max_size()) {
+					buffer.clear();
+				}
 
 				void write(uint8_t v) {
 					buffer.push_back(v);
 				}
 
 				void write(uint8_t * data, std::size_t len) {
-					std::copy(data, data + len, buffer.end());
+					std::copy(data, data + len, std::back_inserter(buffer));
 				}
 
 				typedef std::vector<uint8_t> BufferType;
