@@ -51,7 +51,9 @@ set(COMMON_RECEIVER_TESTS
 	DefaultConstruction
 	IncompleteMessages
 	CompleteMessage
-	DifferentMessageSameSignature)
+	CompleteMessageRoundtrip
+	DifferentMessageSameSignature
+	DifferentMessageSameSignatureRoundtrip)
 
 add_boost_test(Receiver
 	SOURCES
