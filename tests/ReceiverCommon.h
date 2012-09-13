@@ -1,8 +1,7 @@
 
-using transmission::BoundMessageType;
-using transmission::transmitters::VectorBuffer;
 
-#include <tuple-transmission/transmitters/VectorBuffer.h>
+using transmission::BoundMessageType;
+
 
 inline void appendValidMessageCharacters(TestReceiver & recv, std::size_t n, std::size_t start = 0) {
 	BOOST_TEST_MESSAGE("Inserting valid message elements [" << start << ", " << start + n - 1 << "]");
@@ -36,18 +35,11 @@ BOOST_AUTO_TEST_CASE(CompleteMessage) {
 	BOOST_CHECK_EQUAL(r.third, 15);
 }
 
-BOOST_AUTO_TEST_CASE(CompleteMessageRoundtrip) {
-	VectorBuffer<MyMessageCollection> buf;
-	send<MyMessageCollection, MessageB>(buf, 5, 10, 15);
-
-	TestReceiver r;
-	r.appendReceived(buf.begin(), buf.end());
-	BOOST_CHECK_EQUAL(r.first, 5);
-	BOOST_CHECK_EQUAL(r.second, 10);
-	BOOST_CHECK_EQUAL(r.third, 15);
-}
-
+#if defined(USE_BASIC_ENVELOPE)
 BOOST_AUTO_TEST_CASE(DifferentMessageSameSignature) {
+#elif defined(USE_CHECKSUM_ENVELOPE)
+BOOST_AUTO_TEST_CASE(ValidMessageButModifiedId) {
+#endif
 	/// This actually tests checksum failure on the ChecksumReceiver suite,
 	/// since we're modifying a stock message rather than roundtripping.
 	TestReceiver r;
@@ -62,13 +54,3 @@ BOOST_AUTO_TEST_CASE(DifferentMessageSameSignature) {
 	BOOST_CHECK_EQUAL(r.third, 0);
 }
 
-BOOST_AUTO_TEST_CASE(DifferentMessageSameSignatureRoundtrip) {
-	VectorBuffer<MyMessageCollection> buf;
-	send<MyMessageCollection, MessageD>(buf, 5, 10, 15);
-
-	TestReceiver r;
-	r.appendReceived(buf.begin(), buf.end());
-	BOOST_CHECK_EQUAL(r.first, 0);
-	BOOST_CHECK_EQUAL(r.second, 0);
-	BOOST_CHECK_EQUAL(r.third, 0);
-}

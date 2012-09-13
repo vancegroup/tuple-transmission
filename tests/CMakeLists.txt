@@ -50,27 +50,44 @@ add_boost_test(ReceiveHandler
 set(COMMON_RECEIVER_TESTS
 	DefaultConstruction
 	IncompleteMessages
-	CompleteMessage
-	CompleteMessageRoundtrip
-	DifferentMessageSameSignature
-	DifferentMessageSameSignatureRoundtrip)
+	CompleteMessage)
 
 add_boost_test(Receiver
 	SOURCES
 	Receiver.cpp
 	TESTS
+	DifferentMessageSameSignature
 	${COMMON_RECEIVER_TESTS})
 
 add_boost_test(PartialReceiver
 	SOURCES
 	PartialReceiver.cpp
 	TESTS
+	DifferentMessageSameSignature
 	${COMMON_RECEIVER_TESTS})
 
 add_boost_test(ChecksumReceiver
 	SOURCES
 	ChecksumReceiver.cpp
 	TESTS
+	ValidMessageButModifiedId
 	${COMMON_RECEIVER_TESTS})
+
+set(COMMON_ROUNDTRIP_TESTS
+	CompleteMessageRoundtrip
+	DifferentMessageSameSignatureRoundtrip)
+
+add_boost_test(BasicRoundtrip
+	SOURCES
+	BasicRoundtrip.cpp
+	TESTS
+	${COMMON_ROUNDTRIP_TESTS})
+
+add_boost_test(ChecksumRoundtrip
+	SOURCES
+	ChecksumRoundtrip.cpp
+	TESTS
+	${COMMON_ROUNDTRIP_TESTS})
+
 
 add_subdirectory(cleanbuild)
