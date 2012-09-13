@@ -51,6 +51,8 @@ typedef boost::mpl::vector<int8_t, uint8_t, int16_t> MessageATypes;
 struct MessageA : transmission::MessageTypeBase<MessageATypes> {};
 struct MessageB : transmission::MessageTypeBase<boost::mpl::vector<uint8_t, uint8_t, uint8_t> > {};
 struct MessageC : transmission::MessageTypeBase<boost::mpl::vector<float, float, float> > {};
+struct MessageD : transmission::MessageTypeBase<boost::mpl::vector<uint8_t, uint8_t, uint8_t> > {};
+struct EmptyMessage : transmission::MessageTypeBase<boost::mpl::vector<> > {};
 
 typedef transmission::MessageCollection <
 	boost::mpl::vector
