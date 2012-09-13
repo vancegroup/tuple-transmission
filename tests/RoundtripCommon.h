@@ -39,111 +39,211 @@ using transmission::BoundMessageType;
 using transmission::transmitters::VectorBuffer;
 namespace fusion = boost::fusion;
 
+#include "BaseSendReceiveFixture.h"
+
 /**** message B tests ****/
 
-#define MESSAGE_B_MAKELIST fusion::make_list(uint8_t(5), uint8_t(10), uint8_t(15))
-#define MESSAGE_B_INLINE 5, 10, 15
+#define THREE_NUMBERS_INLINE 5, 10, 15
 
-void checkMessageB(VectorBuffer<MyMessageCollection> & buf) {
-	TestReceiver r;
-	r.appendReceived(buf.begin(), buf.end());
-	BOOST_CHECK_EQUAL(r.first, 5);
-	BOOST_CHECK_EQUAL(r.second, 10);
-	BOOST_CHECK_EQUAL(r.third, 15);
+struct MessageBFixture : BaseSendReceiveFixture {
+	~MessageBFixture() {
+		checkBufferLength(MessageB());
+		/// Must have received a message
+		BOOST_REQUIRE_EQUAL(receive(), 1);
+		checkLastMessage(MessageB());
+		BOOST_CHECK(!r.gotEmptyMessage);
+		BOOST_CHECK_EQUAL(r.first, 5);
+		BOOST_CHECK_EQUAL(r.second, 10);
+		BOOST_CHECK_EQUAL(r.third, 15);
+	}
+};
+
+
+BOOST_AUTO_TEST_CASE(MessageB_Roundtrip) {
+	MessageBFixture f;
+	send<MyMessageCollection, MessageB>(f.buf, fusion::make_list(uint8_t(5), uint8_t(10), uint8_t(15)));
 }
 
-BOOST_AUTO_TEST_CASE(CompleteMessageRoundtrip) {
-	VectorBuffer<MyMessageCollection> buf;
-	send<MyMessageCollection, MessageB>(buf, MESSAGE_B_MAKELIST);
-
-	checkMessageB(buf);
-}
-
-BOOST_AUTO_TEST_CASE(CompleteOverloadedMessageRoundtrip) {
-	VectorBuffer<MyMessageCollection> buf;
-	send<MyMessageCollection, MessageB>(buf, MESSAGE_B_INLINE);
-
-	checkMessageB(buf);
-}
-
-BOOST_AUTO_TEST_CASE(BoundCompleteMessageRoundtrip) {
-	VectorBuffer<MyMessageCollection> buf;
+BOOST_AUTO_TEST_CASE(MessageB_RoundtripBound) {
+	MessageBFixture f;
 	typedef BoundMessageType<MyMessageCollection, MessageB> BoundMessage;
-	send<BoundMessage>(buf, MESSAGE_B_MAKELIST);
-
-	checkMessageB(buf);
+	send<BoundMessage>(f.buf, fusion::make_list(uint8_t(5), uint8_t(10), uint8_t(15)));
 }
 
-BOOST_AUTO_TEST_CASE(BoundOverloadedCompleteMessageRoundtrip) {
-	VectorBuffer<MyMessageCollection> buf;
+BOOST_AUTO_TEST_CASE(MessageB_RoundtripOverloaded) {
+	MessageBFixture f;
+	send<MyMessageCollection, MessageB>(f.buf, THREE_NUMBERS_INLINE);
+}
+
+BOOST_AUTO_TEST_CASE(MessageB_RoundtripOverloadedBound) {
+	MessageBFixture f;
 	typedef BoundMessageType<MyMessageCollection, MessageB> BoundMessage;
-	send<BoundMessage>(buf, MESSAGE_B_INLINE);
-
-	checkMessageB(buf);
+	send<BoundMessage>(f.buf, THREE_NUMBERS_INLINE);
 }
 
-BOOST_AUTO_TEST_CASE(DifferentMessageSameSignatureRoundtrip) {
-	VectorBuffer<MyMessageCollection> buf;
-	send<MyMessageCollection, MessageD>(buf, MESSAGE_B_MAKELIST);
-
-	TestReceiver r;
-	r.appendReceived(buf.begin(), buf.end());
-	BOOST_CHECK_EQUAL(r.first, 0);
-	BOOST_CHECK_EQUAL(r.second, 0);
-	BOOST_CHECK_EQUAL(r.third, 0);
-}
-
-#undef MESSAGE_B_MAKELIST
-#undef MESSAGE_B_INLINE
 
 /**** empty message tests ****/
 
-void checkEmptyMessage(VectorBuffer<MyMessageCollection> & buf) {
-	TestReceiver r;
-	BOOST_REQUIRE(!r.gotEmptyMessage);
-	r.appendReceived(buf.begin(), buf.end());
-	BOOST_CHECK(r.gotEmptyMessage);
+struct EmptyMessageFixture : BaseSendReceiveFixture {
+	~EmptyMessageFixture() {
+		checkBufferLength(EmptyMessage());
+		/// Must have received a message
+		BOOST_REQUIRE_EQUAL(receive(), 1);
+		checkLastMessage(EmptyMessage());
+		BOOST_CHECK(r.gotEmptyMessage);
+		BOOST_CHECK_EQUAL(r.first, 0);
+		BOOST_CHECK_EQUAL(r.second, 0);
+		BOOST_CHECK_EQUAL(r.third, 0);
+	}
+};
+
+BOOST_AUTO_TEST_CASE(EmptyMessage_Roundtrip) {
+	EmptyMessageFixture f;
+	send<MyMessageCollection, EmptyMessage>(f.buf, fusion::make_list());
 }
 
-BOOST_AUTO_TEST_CASE(EmptyMessageRoundtrip) {
-	VectorBuffer<MyMessageCollection> buf;
-	send<MyMessageCollection, EmptyMessage>(buf);
-
-	TestReceiver r;
-	BOOST_REQUIRE(!r.gotEmptyMessage);
-	r.appendReceived(buf.begin(), buf.end());
-	BOOST_CHECK(r.gotEmptyMessage);
-}
-
-BOOST_AUTO_TEST_CASE(BoundEmptyMessageRoundtrip) {
-	VectorBuffer<MyMessageCollection> buf;
+BOOST_AUTO_TEST_CASE(EmptyMessage_RoundtripBound) {
+	EmptyMessageFixture f;
 	typedef BoundMessageType<MyMessageCollection, EmptyMessage> BoundMessage;
-	send<BoundMessage>(buf, fusion::make_list());
-
-	checkEmptyMessage(buf);
+	send<BoundMessage>(f.buf, fusion::make_list());
 }
 
-BOOST_AUTO_TEST_CASE(BoundOverloadedEmptyMessageRoundtrip) {
-	VectorBuffer<MyMessageCollection> buf;
+BOOST_AUTO_TEST_CASE(EmptyMessage_RoundtripOverloaded) {
+	EmptyMessageFixture f;
+	send<MyMessageCollection, EmptyMessage>(f.buf);
+}
+
+BOOST_AUTO_TEST_CASE(EmptyMessage_RoundtripOverloadedBound) {
+	EmptyMessageFixture f;
 	typedef BoundMessageType<MyMessageCollection, EmptyMessage> BoundMessage;
-	send<BoundMessage>(buf);
-
-	checkEmptyMessage(buf);
+	send<BoundMessage>(f.buf);
 }
 
-/**** other tests ****/
-BOOST_AUTO_TEST_CASE(SendMaxArityMessage) {
-	VectorBuffer<MyMessageCollection> buf;
-	typedef BoundMessageType<MyMessageCollection, EmptyMessage> BoundMessage;
-	/// When test was written, max arity was 9
-	send<MyMessageCollection, MaxArityMessage>(buf, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+/**** tests of other message types - so they shouldn't change our receiver's state ****/
 
-	TestReceiver r;
-	r.appendReceived(buf.begin(), buf.end());
-	BOOST_CHECK(!r.gotEmptyMessage);
-	BOOST_CHECK_EQUAL(r.first, 0);
-	BOOST_CHECK_EQUAL(r.second, 0);
-	BOOST_CHECK_EQUAL(r.third, 0);
+template<typename MessageType>
+struct OtherMessageFixture : BaseSendReceiveFixture {
+	~OtherMessageFixture() {
+		checkBufferLength(MessageType());
+		/// Must have received a message
+		BOOST_REQUIRE_EQUAL(receive(), 1);
+		checkLastMessage(MessageType());
+		BOOST_CHECK(!r.gotEmptyMessage);
+		BOOST_CHECK_EQUAL(r.first, 0);
+		BOOST_CHECK_EQUAL(r.second, 0);
+		BOOST_CHECK_EQUAL(r.third, 0);
+	}
+};
+
+BOOST_AUTO_TEST_CASE(MessageA_SendRecv) {
+	OtherMessageFixture<MessageA> f;
+	send<MyMessageCollection, MessageA>(f.buf, fusion::make_list(int8_t(5), uint8_t(5), int16_t(5)));
 }
+
+BOOST_AUTO_TEST_CASE(MessageA_SendRecvBound) {
+	OtherMessageFixture<MessageA> f;
+	typedef BoundMessageType<MyMessageCollection, MessageA> BoundMessage;
+	send<BoundMessage>(f.buf, fusion::make_list(int8_t(5), uint8_t(5), int16_t(5)));
+}
+
+BOOST_AUTO_TEST_CASE(MessageA_SendRecvOverloaded) {
+	OtherMessageFixture<MessageA> f;
+	send<MyMessageCollection, MessageA>(f.buf, THREE_NUMBERS_INLINE);
+}
+
+BOOST_AUTO_TEST_CASE(MessageA_SendRecvOverloadedBound) {
+	OtherMessageFixture<MessageA> f;
+	typedef BoundMessageType<MyMessageCollection, MessageA> BoundMessage;
+	send<BoundMessage>(f.buf, THREE_NUMBERS_INLINE);
+}
+
+BOOST_AUTO_TEST_CASE(MessageC_SendRecv) {
+	OtherMessageFixture<MessageC> f;
+	send<MyMessageCollection, MessageC>(f.buf, fusion::make_list(5.0f, 5.0f, 5.0f));
+}
+
+BOOST_AUTO_TEST_CASE(MessageC_SendRecvBound) {
+	OtherMessageFixture<MessageC> f;
+	typedef BoundMessageType<MyMessageCollection, MessageC> BoundMessage;
+	send<BoundMessage>(f.buf, fusion::make_list(5.0f, 5.0f, 5.0f));
+}
+
+BOOST_AUTO_TEST_CASE(MessageC_SendRecvOverloaded) {
+	OtherMessageFixture<MessageC> f;
+	send<MyMessageCollection, MessageC>(f.buf, THREE_NUMBERS_INLINE);
+}
+
+BOOST_AUTO_TEST_CASE(MessageC_SendRecvOverloadedBound) {
+	OtherMessageFixture<MessageC> f;
+	typedef BoundMessageType<MyMessageCollection, MessageC> BoundMessage;
+	send<BoundMessage>(f.buf, THREE_NUMBERS_INLINE);
+}
+
+
+BOOST_AUTO_TEST_CASE(MessageD_SendRecv) {
+	OtherMessageFixture<MessageD> f;
+	send<MyMessageCollection, MessageD>(f.buf, fusion::make_list(uint8_t(5), uint8_t(10), uint8_t(15)));
+}
+
+BOOST_AUTO_TEST_CASE(MessageD_SendRecvBound) {
+	OtherMessageFixture<MessageD> f;
+	typedef BoundMessageType<MyMessageCollection, MessageD> BoundMessage;
+	send<BoundMessage>(f.buf, fusion::make_list(uint8_t(5), uint8_t(10), uint8_t(15)));
+}
+
+BOOST_AUTO_TEST_CASE(MessageD_SendRecvOverloaded) {
+	OtherMessageFixture<MessageD> f;
+	send<MyMessageCollection, MessageD>(f.buf, THREE_NUMBERS_INLINE);
+}
+
+BOOST_AUTO_TEST_CASE(MessageD_SendRecvOverloadedBound) {
+	OtherMessageFixture<MessageD> f;
+	typedef BoundMessageType<MyMessageCollection, MessageD> BoundMessage;
+	send<BoundMessage>(f.buf, THREE_NUMBERS_INLINE);
+}
+
+#undef THREE_NUMBERS_INLINE
+
+/// When tests were written, max arity was 9
+BOOST_AUTO_TEST_CASE(MaxArityMessage_SendRecv) {
+	OtherMessageFixture<MaxArityMessage> f;
+	send<MyMessageCollection, MaxArityMessage>(f.buf,
+	        fusion::make_list(uint8_t(0),
+	                          uint8_t(0),
+	                          uint8_t(0),
+	                          uint8_t(0),
+	                          uint8_t(0),
+	                          uint8_t(0),
+	                          uint8_t(0),
+	                          uint8_t(0),
+	                          uint8_t(0)));
+}
+
+BOOST_AUTO_TEST_CASE(MaxArityMessage_SendRecvBound) {
+	OtherMessageFixture<MaxArityMessage> f;
+	typedef BoundMessageType<MyMessageCollection, MaxArityMessage> BoundMessage;
+	send<BoundMessage>(f.buf,
+	                   fusion::make_list(uint8_t(0),
+	                                     uint8_t(0),
+	                                     uint8_t(0),
+	                                     uint8_t(0),
+	                                     uint8_t(0),
+	                                     uint8_t(0),
+	                                     uint8_t(0),
+	                                     uint8_t(0),
+	                                     uint8_t(0)));
+}
+
+BOOST_AUTO_TEST_CASE(MaxArityMessage_SendRecvOverloaded) {
+	OtherMessageFixture<MaxArityMessage> f;
+	send<MyMessageCollection, MaxArityMessage>(f.buf, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+}
+
+BOOST_AUTO_TEST_CASE(MaxArityMessage_SendRecvOverloadedBound) {
+	OtherMessageFixture<MaxArityMessage> f;
+	typedef BoundMessageType<MyMessageCollection, MaxArityMessage> BoundMessage;
+	send<BoundMessage>(f.buf, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+}
+
 
 #endif // INCLUDED_RoundtripCommon_h_GUID_ca373e94_1a35_4fb7_b5c6_2777bc29b4be
