@@ -69,6 +69,82 @@ namespace transmission {
 				tx.output(checksum.checksum());
 				tx.output(ControlCodes::EOT);
 			}
+
+			template<typename ReceiveHandlerType>
+			static bool checkBufferForMessage(ReceiveHandlerType & recv) {
+				namespace ControlCodes = ::transmission::detail::constants::ControlCodes;
+				while (!recv.bufferEmpty()) {
+					BOOST_TEST_MESSAGE("Buffer size: " << int(recv.bufferSize()));
+					if (recv.bufferFront() != ControlCodes::SOH) {
+						BOOST_TEST_MESSAGE("Popping front of buffer to find SOH.");
+						recv.bufferPopFront();
+					} else {
+						break;
+					}
+				}
+
+				if (recv.bufferSize() < 2) {
+					// haven't seen message start and ID.
+					BOOST_TEST_MESSAGE("Returning - haven't seen message start and ID.");
+					return false;
+				}
+
+				BOOST_TEST_MESSAGE("Setting current message ID.");
+				recv.setCurrentMessageId(recv.buffer(1));
+				if (!recv.isCurrentMessageIdValid()) {
+					/// False alarm: that's not a valid message ID.
+					/// Pop off the start code and try again.
+					BOOST_TEST_MESSAGE("Current message ID invalid.");
+					return base::popAndRetry(recv);
+				}
+				if (recv.bufferSize() < 3) {
+					// Can't have seen ControlCodes::STX
+					BOOST_TEST_MESSAGE("Returning - waiting for third character STX, only have " << int(recv.bufferSize()));
+					return false;
+				}
+				if (recv.buffer(2) != ControlCodes::STX) {
+					/// Unexpected - this isn't the right start either.
+					/// Pop off the start code and try again.
+					BOOST_TEST_MESSAGE("Popping and retrying because the third element isn't STX.");
+					return base::popAndRetry(recv);
+				}
+
+				typename ReceiveHandlerType::message_size_type msgLength = recv.getMessageLength();
+				if (recv.bufferSize() < msgLength) {
+					/// Gotta wait some more.
+					BOOST_TEST_MESSAGE("Returning - have to wait for " << int(msgLength) << " and only have " << int(recv.bufferSize()));
+					return false;
+				}
+
+				if ((recv.buffer(msgLength - 3) != ControlCodes::ETX) || (recv.buffer(msgLength - 1) != ControlCodes::EOT)) {
+					/// Message ending isn't right.
+					/// Pop off the start code and try again.
+					BOOST_TEST_MESSAGE("Message ending is wrong - pop and retry.");
+					return base::popAndRetry(recv);
+				}
+
+				/// Compute the checksum of all but the last two bytes.
+				transmitters::ChecksumComputer checksum;
+				for (typename ReceiveHandlerType::message_size_type i = 0; i < msgLength - 2; ++i) {
+					checksum.output(recv.buffer(i));
+				}
+
+				/// Verify checksum.
+				const uint8_t checksumFromMessage = recv.buffer(msgLength - 2);
+				if (checksum.checksum() != checksumFromMessage) {
+					BOOST_TEST_MESSAGE("Bad checksum: computed " << int(checksum.checksum()) << " but transmission stated " << int(checksumFromMessage));
+					/// Only doing a pop and retry because of the chance that the
+					/// buffer contains some data followed by a valid message,
+					/// and the start of the buffer appears to contain a
+					/// message with a bad checksum.
+					return base::popAndRetry(recv);
+				}
+
+
+
+				/// We passed the gauntlet!
+				return true;
+			}
 		};
 	} //end of namespace envelopes
 }// end of namespace transmission
