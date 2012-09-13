@@ -24,12 +24,12 @@
 #include <tuple-transmission/MessageType.h>
 #include <tuple-transmission/MessageCollection.h>
 #include <tuple-transmission/detail/constants/ArityConfig.h>
+#include <tuple-transmission/detail/operations/MessageArity.h>
 #include <util/booststdint.h>
 
 // Library/third-party includes
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/assert.hpp>
-#include <boost/mpl/size.hpp>
 #include <boost/mpl/int.hpp>
 #include <boost/mpl/equal.hpp>
 
@@ -49,6 +49,8 @@
 #endif
 using namespace stdint;
 
+using transmission::detail::operations::MessageArity;
+
 typedef boost::mpl::vector<int8_t, uint8_t, int16_t> MessageATypes;
 struct MessageA : transmission::MessageTypeBase<MessageATypes> {};
 struct MessageB : transmission::MessageTypeBase<boost::mpl::vector<uint8_t, uint8_t, uint8_t> > {};
@@ -58,10 +60,7 @@ struct EmptyMessage : transmission::MessageTypeBase<boost::mpl::vector<> > {};
 
 struct MaxArityMessage : transmission::MessageTypeBase<boost::mpl::vector<uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t> > {};
 
-BOOST_MPL_ASSERT((boost::mpl::equal<
-		boost::mpl::size<MaxArityMessage>::type,
-		boost::mpl::int_<transmission::detail::constants::ReceiveMaxArity>
-	>));
+BOOST_MPL_ASSERT((boost::mpl::equal<MessageArity<MaxArityMessage>, boost::mpl::int_<transmission::detail::constants::ReceiveMaxArity> >));
 
 typedef transmission::MessageCollection <
 	boost::mpl::vector
