@@ -42,16 +42,20 @@ class TestReceiver : public transmission::Receiver<TestReceiver, MyMessageCollec
 			first = a;
 			second = b;
 			third = c;
+			gotEmptyMessage = false;
 		}
 		void operator()(MessageC const&, float, float, float) {}
-		uint8_t first;
-		uint8_t second;
-		uint8_t third;
 
 		void operator()(MessageD const&, uint8_t, uint8_t, uint8_t) {}
 
+		void operator()(EmptyMessage const&) {
+			gotEmptyMessage = true;
+		}
 
-		void operator()(EmptyMessage const&) {}
+		uint8_t first;
+		uint8_t second;
+		uint8_t third;
+		bool gotEmptyMessage;
 };
 
 #include "ReceiverCommon.h"
