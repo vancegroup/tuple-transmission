@@ -75,7 +75,8 @@ add_boost_test(ChecksumReceiver
 
 set(COMMON_ROUNDTRIP_TESTS
 	CompleteMessageRoundtrip
-	DifferentMessageSameSignatureRoundtrip)
+	DifferentMessageSameSignatureRoundtrip
+	EmptyMessageRoundtrip)
 
 add_boost_test(BasicRoundtrip
 	SOURCES

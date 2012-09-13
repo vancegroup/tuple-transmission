@@ -41,6 +41,7 @@ class TestReceiver : public transmission::PartialReceiver<TestReceiver, MyMessag
 			first = 0;
 			second = 0;
 			third = 0;
+			gotEmptyMessage = false;
 		}
 
 		/// Handles MessageB
@@ -50,9 +51,15 @@ class TestReceiver : public transmission::PartialReceiver<TestReceiver, MyMessag
 			third = c;
 		}
 
+		void operator()(EmptyMessage const&) {
+			gotEmptyMessage = true;
+		}
+
 		uint8_t first;
 		uint8_t second;
 		uint8_t third;
+
+		bool gotEmptyMessage;
 };
 
 #endif // INCLUDED_DefinePartialReceiver_h_GUID_e4266113_e5b3_4580_a2ed_76cfda433768

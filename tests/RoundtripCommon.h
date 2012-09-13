@@ -35,8 +35,6 @@
 using transmission::send;
 using transmission::transmitters::VectorBuffer;
 
-
-
 BOOST_AUTO_TEST_CASE(CompleteMessageRoundtrip) {
 	VectorBuffer<MyMessageCollection> buf;
 	send<MyMessageCollection, MessageB>(buf, 5, 10, 15);
@@ -57,6 +55,16 @@ BOOST_AUTO_TEST_CASE(DifferentMessageSameSignatureRoundtrip) {
 	BOOST_CHECK_EQUAL(r.first, 0);
 	BOOST_CHECK_EQUAL(r.second, 0);
 	BOOST_CHECK_EQUAL(r.third, 0);
+}
+
+BOOST_AUTO_TEST_CASE(EmptyMessageRoundtrip) {
+	VectorBuffer<MyMessageCollection> buf;
+	send<MyMessageCollection, EmptyMessage>(buf);
+
+	TestReceiver r;
+	BOOST_REQUIRE(!r.gotEmptyMessage);
+	r.appendReceived(buf.begin(), buf.end());
+	BOOST_CHECK(r.gotEmptyMessage);
 }
 
 #endif // INCLUDED_RoundtripCommon_h_GUID_ca373e94_1a35_4fb7_b5c6_2777bc29b4be
