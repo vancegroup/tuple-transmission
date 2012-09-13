@@ -57,9 +57,7 @@ typedef transmission::MessageCollection <
 		, MessageB
 		, MessageC
 		, MessageD
-		/*
 		, EmptyMessage
-		*/
 		>
 	, TEST_ENVELOPE_TYPE
 	> MyMessageCollection;
