@@ -9,11 +9,6 @@ SendOverloadMaxArity = 9
 -- Data
 local lines = {}
 
--- Utility function
-local indent = function(amount, functionIndents)
-	return ("\t"):rep(amount + data.baseIndent) .. ("    "):rep(functionIndents)
-end
-
 -- Main
 local main = function(arg)
 	if arg[1] == nil then
@@ -43,6 +38,10 @@ end
 
 
 --[[ Functions callable by generation data ]]
+indent = function(amount, functionIndents)
+	return ("\t"):rep(amount + data.baseIndent) .. ("    "):rep(functionIndents)
+end
+
 out = function(regularIndents, argumentIndents, line)
 	local reg, arg, theLine
 	if type(regularIndents) == "string" then
