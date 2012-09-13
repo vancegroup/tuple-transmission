@@ -18,8 +18,8 @@ return {
 		-- SFINAE test to ensure the first argument is actually a message type.
 		table.insert(arguments, "typename M::message_type_tag * = NULL")
 
-		out(("template<%s>"):format(cat(argumentTypes, ", ")))
-		out(("void operator()(%s) {}\n"):format(cat(arguments, ", ")))
+		out(("template<%s>"):format(commaJoin(argumentTypes)))
+		out(("void operator()(%s) {}\n"):format(commaJoin(arguments)))
 	end;
 
 	prefix = [[

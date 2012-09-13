@@ -69,6 +69,7 @@ genRange = function(count, f, sep)
 end
 
 cat = table.concat
+commaJoin = function(t) return table.concat(t, ", ") end
 
 -- Call main
 
