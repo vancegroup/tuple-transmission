@@ -50,3 +50,12 @@ BOOST_AUTO_TEST_CASE(WholeMessageSerialize) {
 	boost::array<uint8_t, 8> expected = {{ControlCodes::SOH, 1, ControlCodes::STX, 5, 10, 15, ControlCodes::ETX, ControlCodes::EOT}};
 	BOOST_CHECK_EQUAL((buf.buffer) , expected);
 }
+
+BOOST_AUTO_TEST_CASE(WholeMessageSendOverloads) {
+	typedef BoostArrayBuffer<8> TransmitBufferType;
+
+	TransmitBufferType buf;
+	send<MyMessageCollection, MessageB>(buf, 5, 10, 15);
+	boost::array<uint8_t, 8> expected = {{ControlCodes::SOH, 1, ControlCodes::STX, 5, 10, 15, ControlCodes::ETX, ControlCodes::EOT}};
+	BOOST_CHECK_EQUAL((buf.buffer) , expected);
+}

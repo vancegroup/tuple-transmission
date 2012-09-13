@@ -17,7 +17,8 @@ add_boost_test(TupleTransmission
 	TupleTransmission.cpp
 	TESTS
 	WholeMessageSerializeAutobuffer
-	WholeMessageSerialize)
+	WholeMessageSerialize
+	WholeMessageSendOverloads)
 
 add_boost_test(MessageLength
 	SOURCES
