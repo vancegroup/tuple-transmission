@@ -41,6 +41,7 @@ set(HEADERS
 	transmitters/BoostArrayBuffer.h
 	transmitters/ChecksumComputer.h
 	transmitters/TransmitterComposition.h
+	transmitters/VectorBuffer.h
 )
 
 set(GENERATED_HEADERS
