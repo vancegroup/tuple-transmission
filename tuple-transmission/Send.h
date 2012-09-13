@@ -63,6 +63,13 @@ namespace transmission {
 		typedef typename bound_message::envelope_type envelope_type;
 		envelope_type::sendMessage(tx, contents, static_cast<MessageIdType>(typename bound_message::message_id()));
 	}
+
+	/// @brief Overload of send that takes a bound message instead of a
+	/// collection and message as the explicit template parameter.
+	template<typename BoundMessage, typename TransmitterDerived, typename MessageContentsType>
+	inline void send(transmitters::TransmitterBase<TransmitterDerived> & tx, MessageContentsType const & contents) {
+		send<typename BoundMessage::message_collection, typename BoundMessage::message_type>(tx, contents);
+	}
 }// end of namespace transmission
 
 #endif // INCLUDED_SendMessage_h_GUID_9cbfc065_ea71_4097_8993_c4e0b0fb14c5
