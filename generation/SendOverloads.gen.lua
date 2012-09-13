@@ -7,7 +7,7 @@ return {
 	generate = function(arity)
 		out( "template<typename Collection, typename Message, typename TransmitterDerived>")
 		out(("inline typename enable_if< mpl::equal_to<mpl::int_<%d>, typename mpl::size<Message>::type>, void>::type"):format(arity))
-		local arguments = genRange(arity, function(i) return ("typename mpl::at_c<Message, %d>::type a%d"):format(i, i) end, ", ")
+		local arguments = genRange(arity, function(i) return ("typename mpl::at_c<Message, %d>::type a%d"):format(i - 1, i) end, ", ")
 		out(("send(transmitters::TransmitterBase<TransmitterDerived> & tx, %s) {"):format(arguments))
 		--[[for i = 1, arity do
 			out(1, ("typedef typename mpl::at_c<MessageType, %d>::type T%d;"):format(i - 1, i) )
