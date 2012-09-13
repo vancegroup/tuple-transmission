@@ -52,6 +52,8 @@ class TestReceiver : public transmission::Receiver<TestReceiver, MyMessageCollec
 			gotEmptyMessage = true;
 		}
 
+		void operator()(MaxArityMessage const&, ...) {}
+
 		uint8_t first;
 		uint8_t second;
 		uint8_t third;

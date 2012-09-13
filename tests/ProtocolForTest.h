@@ -23,10 +23,15 @@
 // Internal Includes
 #include <tuple-transmission/MessageType.h>
 #include <tuple-transmission/MessageCollection.h>
+#include <tuple-transmission/detail/constants/ArityConfig.h>
 #include <util/booststdint.h>
 
 // Library/third-party includes
 #include <boost/mpl/vector.hpp>
+#include <boost/mpl/assert.hpp>
+#include <boost/mpl/size.hpp>
+#include <boost/mpl/int.hpp>
+#include <boost/mpl/equal.hpp>
 
 // Standard includes
 // - none
@@ -51,6 +56,13 @@ struct MessageC : transmission::MessageTypeBase<boost::mpl::vector<float, float,
 struct MessageD : transmission::MessageTypeBase<boost::mpl::vector<uint8_t, uint8_t, uint8_t> > {};
 struct EmptyMessage : transmission::MessageTypeBase<boost::mpl::vector<> > {};
 
+struct MaxArityMessage : transmission::MessageTypeBase<boost::mpl::vector<uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t> > {};
+
+BOOST_MPL_ASSERT((boost::mpl::equal<
+		boost::mpl::size<MaxArityMessage>::type,
+		boost::mpl::int_<transmission::detail::constants::ReceiveMaxArity>
+	>));
+
 typedef transmission::MessageCollection <
 	boost::mpl::vector
 		< MessageA
@@ -58,6 +70,7 @@ typedef transmission::MessageCollection <
 		, MessageC
 		, MessageD
 		, EmptyMessage
+		, MaxArityMessage
 		>
 	, TEST_ENVELOPE_TYPE
 	> MyMessageCollection;
