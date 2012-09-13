@@ -12,6 +12,7 @@ set(HEADERS
 	detail/operations/DeserializeAndInvoke.h
 	detail/operations/IsIdValid.h
 	detail/operations/MaxMessageLength.h
+	detail/operations/MessageArity.h
 	detail/operations/MessageCount_fwd.h
 	detail/operations/MessageCount.h
 	detail/operations/MessageLength.h

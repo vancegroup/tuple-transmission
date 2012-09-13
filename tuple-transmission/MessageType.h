@@ -48,9 +48,10 @@ namespace transmission {
 
 		@sa MessageCollection
 	*/
-	template<typename MPLVector>
-	struct MessageTypeBase : MPLVector {
-		typedef MPLVector base;
+	template<typename MPLSequence>
+	struct MessageTypeBase : MPLSequence {
+		typedef MessageTypeBase<MPLSequence> type;
+		typedef MPLSequence sequence_type;
 		typedef void message_type_tag;
 	};
 
