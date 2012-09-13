@@ -24,32 +24,7 @@
 
 using namespace boost::unit_test;
 
-class TestReceiver : public transmission::PartialReceiver<TestReceiver, MyMessageCollection> {
-	public:
-		using transmission::PartialReceiver<TestReceiver, MyMessageCollection>::operator();
-
-		TestReceiver() {
-			reset();
-		}
-
-		void reset() {
-			first = 0;
-			second = 0;
-			third = 0;
-		}
-
-		/// Handles MessageB
-		void operator()(MessageB const&, uint8_t a, uint8_t b, uint8_t c) {
-			first = a;
-			second = b;
-			third = c;
-		}
-
-		uint8_t first;
-		uint8_t second;
-		uint8_t third;
-};
-
+#include "DefinePartialReceiver.h"
 
 
 #include "ReceiverCommon.h"
