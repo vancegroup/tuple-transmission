@@ -23,6 +23,7 @@
 // Internal Includes
 #include "BoostArrayBuffer.h"
 #include "../detail/operations/Sizeof.h"
+#include "../detail/operations/MaxMessageLength.h"
 
 // Library/third-party includes
 // - none
@@ -41,6 +42,12 @@ namespace transmission {
 		template<typename BoundMessage>
 		class AutosizedBoostArrayBuffer : public BoostArrayBuffer< detail::operations::Sizeof<BoundMessage>::value > {};
 
+		/// @brief A version of BoostArrayBuffer that automatically computes
+		/// the size needed for the largest message in a message collection.
+		template<typename Collection>
+		class CollectionAutosizedBoostArrayBuffer : public BoostArrayBuffer< detail::operations::MaxMessageLength<Collection>::value > {
+
+		};
 		/// @}
 	} // end of namespace transmitters
 } // end of namespace transmission
