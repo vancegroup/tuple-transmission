@@ -63,8 +63,8 @@ namespace transmission {
 				/// @brief Fallback multi-byte data method writing a byte at a time.
 				///
 				/// If you can do something more efficient, feel free to re-implement.
-				void write(uint8_t data[], std::size_t len) {
-					for (std::size_t i = 0; i < len; ++len) {
+				void write(uint8_t * data, std::size_t const len) {
+					for (std::size_t i = 0; i < len; ++i) {
 						impl().writeByte(data[i]);
 					}
 				}
