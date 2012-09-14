@@ -37,7 +37,7 @@ namespace transmission {
 		/// @{
 
 		/// @brief A version of BoostArrayBuffer that automatically computes
-		/// the precise size needed for a single transmission type.
+		/// the precise size needed for a single bound message type.
 		template<typename BoundMessage>
 		class AutosizedBoostArrayBuffer : public BoostArrayBuffer< detail::operations::Sizeof<BoundMessage>::value > {};
 
