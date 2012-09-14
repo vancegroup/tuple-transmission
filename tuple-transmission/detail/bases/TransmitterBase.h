@@ -70,8 +70,8 @@ namespace transmission {
 				}
 
 				/// @brief Method you must define and override in your type: it all
-				/// is for naught unless you do so. This is the single-byte implementation./
-				void write(uint8_t data);
+				/// is for naught unless you do so. This is the single-byte implementation.
+				void writeByte(uint8_t data);
 				/// @}
 			private:
 				/// @brief Internal method to access a reference to the derived class
