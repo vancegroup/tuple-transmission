@@ -47,11 +47,11 @@ namespace transmission {
 
 				/// @brief Output a single byte.
 				void output(uint8_t data) {
-					impl().write(data);
+					impl().writeByte(data);
 				}
 
 				/// @brief Output multiple bytes.
-				void output(uint8_t data[], std::size_t len) {
+				void output(uint8_t * data, std::size_t const len) {
 					impl().write(data, len);
 				}
 
@@ -65,7 +65,7 @@ namespace transmission {
 				/// If you can do something more efficient, feel free to re-implement.
 				void write(uint8_t data[], std::size_t len) {
 					for (std::size_t i = 0; i < len; ++len) {
-						impl().write(data[i]);
+						impl().writeByte(data[i]);
 					}
 				}
 

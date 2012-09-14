@@ -63,7 +63,7 @@ namespace transmission {
 				}
 
 				/// @brief Single byte filter method
-				void write(uint8_t data) {
+				void writeByte(uint8_t data) {
 					_tx1.output(data);
 					_tx2.output(data);
 				}

@@ -32,8 +32,8 @@
 namespace transmission {
 	namespace serializers {
 		struct BitwiseCopySerializer : detail::StatelessSerializer_tag {
-			template<typename TransmitterType, typename T>
-			void buffer(TransmitterType & tx, T & value) {
+			template<typename T, typename TransmitterType>
+			static void buffer(TransmitterType & tx, T const& value) {
 				uint8_t buf[sizeof(T)];
 				std::memcpy(&(buf[0]), &value, sizeof(T));
 				tx.output(buf, sizeof(T));

@@ -61,8 +61,8 @@ namespace transmission {
 					public:
 						SendContext(TransmitterType & transmit) : tx(transmit) {}
 						template<typename T>
-						void operator()(T & value) const {
-							ImplementationType::buffer(tx, value);
+						void operator()(T const & value) const {
+							ImplementationType::template buffer<T>(tx, value);
 						}
 						void operator()(uint8_t value) const {
 							ImplementationType::buffer(tx, value);
@@ -80,8 +80,8 @@ namespace transmission {
 					public:
 						SendContext(TransmitterType & transmit) : tx(transmit), impl() {}
 						template<typename T>
-						void operator()(T & value) const {
-							impl.buffer(tx, value);
+						void operator()(T const & value) const {
+							impl.template buffer<T>(tx, value);
 						}
 						void operator()(uint8_t value) const {
 							impl.buffer(tx, value);

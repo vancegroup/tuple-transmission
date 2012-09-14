@@ -42,7 +42,7 @@ namespace transmission {
 			public:
 				BoostArrayBuffer() : buffer(), it(buffer.begin()) {}
 
-				void write(uint8_t v) {
+				void writeByte(uint8_t v) {
 					*it = v;
 					++it;
 				}

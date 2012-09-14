@@ -42,16 +42,15 @@ namespace transmission {
 		class VectorBuffer : public TransmitterBase<VectorBuffer<Collection> > {
 			public:
 				typedef detail::operations::MaxMessageLength<Collection> max_size;
-				VectorBuffer() : buffer(max_size()) {
-					buffer.clear();
-				}
+				VectorBuffer() : buffer(max_size()), _it(buffer.begin()) {}
 
-				void write(uint8_t v) {
-					buffer.push_back(v);
+				void writeByte(uint8_t v) {
+					*_it = v;
+					_it++;
 				}
 
 				void write(uint8_t * data, std::size_t len) {
-					std::copy(data, data + len, std::back_inserter(buffer));
+					_it = std::copy(data, data + len, _it);
 				}
 
 				typedef std::vector<uint8_t> BufferType;
@@ -59,6 +58,7 @@ namespace transmission {
 				typedef typename BufferType::value_type value_type;
 				typedef typename BufferType::iterator iterator;
 				typedef typename BufferType::const_iterator const_iterator;
+				typedef typename BufferType::size_type size_type;
 
 				iterator begin() {
 					return buffer.begin();
@@ -67,15 +67,24 @@ namespace transmission {
 					return buffer.begin();
 				}
 				iterator end() {
-					return buffer.end();
-				}
-				const_iterator end() const {
-					return buffer.end();
+					return _it;
 				}
 
-				BufferType buffer;
+				const_iterator end() const {
+					return _it;
+				}
+
+				size_type size() const {
+					return _it - begin();
+				}
+
+				bool empty() const {
+					return begin() == _it;
+				}
 
 			private:
+				BufferType buffer;
+				iterator _it;
 		};
 
 		/// @}

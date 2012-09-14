@@ -35,7 +35,7 @@ struct BaseSendReceiveFixture : BaseReceiveFixture {
 	transmission::transmitters::VectorBuffer<MyMessageCollection> buf;
 
 	BaseSendReceiveFixture() {
-		BOOST_REQUIRE(buf.buffer.empty());
+		BOOST_REQUIRE(buf.empty());
 	}
 
 	uint8_t receive() {
@@ -51,7 +51,7 @@ struct BaseSendReceiveFixture : BaseReceiveFixture {
 	template<typename MessageType>
 	void checkBufferLength(MessageType const&) const {
 		using transmission::detail::operations::Sizeof;
-		BOOST_REQUIRE_EQUAL(buf.buffer.size(), (Sizeof<BoundMessageType<MyMessageCollection, MessageType> >()));
+		BOOST_REQUIRE_EQUAL(buf.size(), (Sizeof<BoundMessageType<MyMessageCollection, MessageType> >()));
 	}
 };
 

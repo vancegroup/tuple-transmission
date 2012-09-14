@@ -43,7 +43,7 @@ namespace transmission {
 				ChecksumComputer() : _ck(0) {
 					_ck = 0;
 				}
-				void write(uint8_t v) {
+				void writeByte(uint8_t v) {
 					_ck += v;
 				}
 				uint8_t checksum() const {
