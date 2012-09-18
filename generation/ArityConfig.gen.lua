@@ -8,11 +8,15 @@ return {
 		-- Fusion definitions - must be before including any fusion header!
 
 		-- fusion::make_list used by SendOverloads header
+		out( "#ifndef FUSION_MAX_LIST_SIZE")
 		out(("#define FUSION_MAX_LIST_SIZE %d"):format(SendOverloadMaxArity))
-
+		out( "#endif")
+		
 		-- fusion::invoke_procedure used by DeserializeOverloads:
 		-- Need receive arity +1 because of message tag argument
+		out( "#ifndef BOOST_FUSION_INVOKE_PROCEDURE_MAX_ARITY")
 		out(("#define BOOST_FUSION_INVOKE_PROCEDURE_MAX_ARITY %d"):format(ReceiveMaxArity + 1))
+		out( "#endif")
 
 		-- An enum recording the receive max arity as used to generate headers
 		out("namespace transmission {")
