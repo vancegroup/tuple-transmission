@@ -36,9 +36,9 @@ namespace transmission {
 
 			template<typename Collection>
 			struct ComputeReceiveBufferSize {
-				typedef MaxMessageLength<Collection> MaxMessageLength;
+				typedef MaxMessageLength<Collection> CollectionMaxMessageLength;
 				enum {
-					value = (boost::mpl::times< MaxMessageLength, constants::MessageBufferSizeScale>::value)
+					value = (boost::mpl::times< CollectionMaxMessageLength, constants::MessageBufferSizeScale>::value)
 				};
 			};
 
