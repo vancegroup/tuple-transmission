@@ -23,6 +23,7 @@ return {
 	minArity = SendOverloadMinArity;
 	maxArity = SendOverloadMaxArity;
 	generate = function(arity)
+		out(-4, ("#if FUSION_MAX_LIST_SIZE >= %d"):format(arity))
 		-- Version with two explicit template parameters
 		out( "/// @brief Overload of transmission::send() taking a message collection and a message type as explicit")
 		out(("/// template parameters, and taking a transmitter, plus values for %d message fields directly"):format(arity))
@@ -42,6 +43,7 @@ return {
 			"typename BoundMessage::message_collection",
 			"typename BoundMessage::message_type",
 			"typename BoundMessage::message_type::sequence_type")
+		out(-4, "#endif\n")
 	end;
 
 	prefix = [[

@@ -52,6 +52,7 @@ namespace transmission {
 				typedef mpl::int_<9> SendOverloadMaxArity;
 
 
+#if FUSION_MAX_LIST_SIZE >= 0
 				/// @brief Overload of transmission::send() taking a message collection and a message type as explicit
 				/// template parameters, and taking a transmitter, plus values for 0 message fields directly
 				/// instead of a boost::fusion sequence containing the field values.
@@ -78,6 +79,9 @@ namespace transmission {
 					);
 				}
 
+#endif
+
+#if FUSION_MAX_LIST_SIZE >= 1
 				/// @brief Overload of transmission::send() taking a message collection and a message type as explicit
 				/// template parameters, and taking a transmitter, plus values for 1 message fields directly
 				/// instead of a boost::fusion sequence containing the field values.
@@ -106,6 +110,9 @@ namespace transmission {
 					);
 				}
 
+#endif
+
+#if FUSION_MAX_LIST_SIZE >= 2
 				/// @brief Overload of transmission::send() taking a message collection and a message type as explicit
 				/// template parameters, and taking a transmitter, plus values for 2 message fields directly
 				/// instead of a boost::fusion sequence containing the field values.
@@ -136,6 +143,9 @@ namespace transmission {
 					);
 				}
 
+#endif
+
+#if FUSION_MAX_LIST_SIZE >= 3
 				/// @brief Overload of transmission::send() taking a message collection and a message type as explicit
 				/// template parameters, and taking a transmitter, plus values for 3 message fields directly
 				/// instead of a boost::fusion sequence containing the field values.
@@ -168,6 +178,9 @@ namespace transmission {
 					);
 				}
 
+#endif
+
+#if FUSION_MAX_LIST_SIZE >= 4
 				/// @brief Overload of transmission::send() taking a message collection and a message type as explicit
 				/// template parameters, and taking a transmitter, plus values for 4 message fields directly
 				/// instead of a boost::fusion sequence containing the field values.
@@ -202,6 +215,9 @@ namespace transmission {
 					);
 				}
 
+#endif
+
+#if FUSION_MAX_LIST_SIZE >= 5
 				/// @brief Overload of transmission::send() taking a message collection and a message type as explicit
 				/// template parameters, and taking a transmitter, plus values for 5 message fields directly
 				/// instead of a boost::fusion sequence containing the field values.
@@ -238,6 +254,9 @@ namespace transmission {
 					);
 				}
 
+#endif
+
+#if FUSION_MAX_LIST_SIZE >= 6
 				/// @brief Overload of transmission::send() taking a message collection and a message type as explicit
 				/// template parameters, and taking a transmitter, plus values for 6 message fields directly
 				/// instead of a boost::fusion sequence containing the field values.
@@ -276,6 +295,9 @@ namespace transmission {
 					);
 				}
 
+#endif
+
+#if FUSION_MAX_LIST_SIZE >= 7
 				/// @brief Overload of transmission::send() taking a message collection and a message type as explicit
 				/// template parameters, and taking a transmitter, plus values for 7 message fields directly
 				/// instead of a boost::fusion sequence containing the field values.
@@ -316,6 +338,9 @@ namespace transmission {
 					);
 				}
 
+#endif
+
+#if FUSION_MAX_LIST_SIZE >= 8
 				/// @brief Overload of transmission::send() taking a message collection and a message type as explicit
 				/// template parameters, and taking a transmitter, plus values for 8 message fields directly
 				/// instead of a boost::fusion sequence containing the field values.
@@ -358,6 +383,9 @@ namespace transmission {
 					);
 				}
 
+#endif
+
+#if FUSION_MAX_LIST_SIZE >= 9
 				/// @brief Overload of transmission::send() taking a message collection and a message type as explicit
 				/// template parameters, and taking a transmitter, plus values for 9 message fields directly
 				/// instead of a boost::fusion sequence containing the field values.
@@ -401,6 +429,8 @@ namespace transmission {
 					    fusion::make_list(a1, a2, a3, a4, a5, a6, a7, a8, a9)
 					);
 				}
+
+#endif
 
 			} // end of namespace generated
 		} // end of namespace operations
