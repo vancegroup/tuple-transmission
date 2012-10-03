@@ -32,20 +32,13 @@
 // - none
 
 struct BaseSendReceiveFixture : BaseReceiveFixture {
-	transmission::transmitters::VectorBuffer<MyMessageCollection> buf;
-
 	BaseSendReceiveFixture() {
 		BOOST_REQUIRE(buf.empty());
 	}
 
-	uint8_t receive() {
-		return r.appendReceived(buf.begin(), buf.end());
-	}
-
-
 	template<typename MessageType>
 	void checkLastMessage(MessageType const&) const {
-		BOOST_REQUIRE_EQUAL(*r.getLastMessageId(), (typename BoundMessageType<MyMessageCollection, MessageType>::message_id()));
+		BOOST_REQUIRE_EQUAL(*recv.getLastMessageId(), (typename BoundMessageType<MyMessageCollection, MessageType>::message_id()));
 	}
 
 	template<typename MessageType>

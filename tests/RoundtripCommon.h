@@ -22,7 +22,7 @@
 
 // Internal Includes
 #include "ProtocolForTest.h"
-#include "DefinePartialReceiver.h"
+#include "DefinePartialHandler.h"
 #include <tuple-transmission/transmitters/VectorBuffer.h>
 #include <tuple-transmission/Send.h>
 #include <tuple-transmission/BoundMessageType.h>
@@ -51,10 +51,10 @@ struct MessageBFixture : BaseSendReceiveFixture {
 		/// Must have received a message
 		BOOST_REQUIRE_EQUAL(receive(), 1);
 		checkLastMessage(MessageB());
-		BOOST_CHECK(!r.gotEmptyMessage);
-		BOOST_CHECK_EQUAL(r.first, 5);
-		BOOST_CHECK_EQUAL(r.second, 10);
-		BOOST_CHECK_EQUAL(r.third, 15);
+		BOOST_CHECK(!handler.gotEmptyMessage);
+		BOOST_CHECK_EQUAL(handler.first, 5);
+		BOOST_CHECK_EQUAL(handler.second, 10);
+		BOOST_CHECK_EQUAL(handler.third, 15);
 	}
 };
 
@@ -90,10 +90,10 @@ struct EmptyMessageFixture : BaseSendReceiveFixture {
 		/// Must have received a message
 		BOOST_REQUIRE_EQUAL(receive(), 1);
 		checkLastMessage(EmptyMessage());
-		BOOST_CHECK(r.gotEmptyMessage);
-		BOOST_CHECK_EQUAL(r.first, 0);
-		BOOST_CHECK_EQUAL(r.second, 0);
-		BOOST_CHECK_EQUAL(r.third, 0);
+		BOOST_CHECK(handler.gotEmptyMessage);
+		BOOST_CHECK_EQUAL(handler.first, 0);
+		BOOST_CHECK_EQUAL(handler.second, 0);
+		BOOST_CHECK_EQUAL(handler.third, 0);
 	}
 };
 
@@ -128,10 +128,10 @@ struct OtherMessageFixture : BaseSendReceiveFixture {
 		/// Must have received a message
 		BOOST_REQUIRE_EQUAL(receive(), 1);
 		checkLastMessage(MessageType());
-		BOOST_CHECK(!r.gotEmptyMessage);
-		BOOST_CHECK_EQUAL(r.first, 0);
-		BOOST_CHECK_EQUAL(r.second, 0);
-		BOOST_CHECK_EQUAL(r.third, 0);
+		BOOST_CHECK(!handler.gotEmptyMessage);
+		BOOST_CHECK_EQUAL(handler.first, 0);
+		BOOST_CHECK_EQUAL(handler.second, 0);
+		BOOST_CHECK_EQUAL(handler.third, 0);
 	}
 };
 

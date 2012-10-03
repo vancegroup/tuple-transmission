@@ -47,31 +47,31 @@ add_boost_test(ReceiveHandler
 	CorruptOrMistakenMessage_round9)
 
 
-set(COMMON_RECEIVER_TESTS
+set(COMMON_HANDLER_TESTS
 	DefaultConstruction
 	IncompleteMessages
 	CompleteMessage)
 
-add_boost_test(Receiver
+add_boost_test(Handler
 	SOURCES
-	Receiver.cpp
+	Handler.cpp
 	TESTS
 	DifferentMessageSameSignature
-	${COMMON_RECEIVER_TESTS})
+	${COMMON_HANDLER_TESTS})
 
-add_boost_test(PartialReceiver
+add_boost_test(PartialHandler
 	SOURCES
-	PartialReceiver.cpp
+	PartialHandler.cpp
 	TESTS
 	DifferentMessageSameSignature
-	${COMMON_RECEIVER_TESTS})
+	${COMMON_HANDLER_TESTS})
 
-add_boost_test(ChecksumReceiver
+add_boost_test(ChecksumHandler
 	SOURCES
-	ChecksumReceiver.cpp
+	ChecksumHandler.cpp
 	TESTS
 	ValidMessageButModifiedId
-	${COMMON_RECEIVER_TESTS})
+	${COMMON_HANDLER_TESTS})
 
 set(COMMON_ROUNDTRIP_TESTS
 	MessageB_Roundtrip

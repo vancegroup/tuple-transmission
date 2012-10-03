@@ -17,11 +17,11 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #pragma once
-#ifndef INCLUDED_DefinePartialReceiver_h_GUID_e4266113_e5b3_4580_a2ed_76cfda433768
-#define INCLUDED_DefinePartialReceiver_h_GUID_e4266113_e5b3_4580_a2ed_76cfda433768
+#ifndef INCLUDED_DefinePartialHandler_h_GUID_e4266113_e5b3_4580_a2ed_76cfda433768
+#define INCLUDED_DefinePartialHandler_h_GUID_e4266113_e5b3_4580_a2ed_76cfda433768
 
 // Internal Includes
-#include <tuple-transmission/PartialReceiver.h>
+#include <tuple-transmission/PartialHandlerBase.h>
 
 // Library/third-party includes
 // - none
@@ -29,11 +29,11 @@
 // Standard includes
 // - none
 
-class TestReceiver : public transmission::PartialReceiver<TestReceiver, MyMessageCollection> {
+class TestHandler : public transmission::PartialHandlerBase {
 	public:
-		using transmission::PartialReceiver<TestReceiver, MyMessageCollection>::operator();
+		using transmission::PartialHandlerBase::operator();
 
-		TestReceiver() {
+		TestHandler() {
 			reset();
 		}
 
@@ -62,4 +62,4 @@ class TestReceiver : public transmission::PartialReceiver<TestReceiver, MyMessag
 		bool gotEmptyMessage;
 };
 
-#endif // INCLUDED_DefinePartialReceiver_h_GUID_e4266113_e5b3_4580_a2ed_76cfda433768
+#endif // INCLUDED_DefinePartialHandler_h_GUID_e4266113_e5b3_4580_a2ed_76cfda433768

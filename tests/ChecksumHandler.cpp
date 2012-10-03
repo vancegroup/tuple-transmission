@@ -14,7 +14,7 @@
 
 #define USE_CHECKSUM_ENVELOPE
 #include "ProtocolForTest.h"
-#include <tuple-transmission/PartialReceiver.h>
+#include <tuple-transmission/PartialHandlerBase.h>
 
 // Library/third-party includes
 #include <boost/mpl/assert.hpp>
@@ -24,11 +24,11 @@
 
 using namespace boost::unit_test;
 
-class TestReceiver : public transmission::PartialReceiver<TestReceiver, MyMessageCollection> {
+class TestHandler : public transmission::PartialHandlerBase {
 	public:
-		using transmission::PartialReceiver<TestReceiver, MyMessageCollection>::operator();
+		using transmission::PartialHandlerBase::operator();
 
-		TestReceiver() {
+		TestHandler() {
 			reset();
 		}
 
@@ -52,5 +52,5 @@ class TestReceiver : public transmission::PartialReceiver<TestReceiver, MyMessag
 
 
 
-#include "ReceiverCommon.h"
+#include "HandlerCommon.h"
 

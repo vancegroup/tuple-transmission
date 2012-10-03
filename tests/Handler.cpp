@@ -24,9 +24,9 @@
 
 using namespace boost::unit_test;
 
-class TestReceiver : public transmission::Receiver<TestReceiver, MyMessageCollection> {
+class TestHandler {
 	public:
-		TestReceiver() {
+		TestHandler() {
 			reset();
 		}
 
@@ -60,5 +60,5 @@ class TestReceiver : public transmission::Receiver<TestReceiver, MyMessageCollec
 		bool gotEmptyMessage;
 };
 
-#include "ReceiverCommon.h"
+#include "HandlerCommon.h"
 

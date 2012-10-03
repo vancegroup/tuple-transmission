@@ -33,17 +33,16 @@
 
 namespace transmission {
 
-	/** @brief Base class for functors that react to messages.
+	/** @brief Wrapper class for functors that handle messages.
 
-		Uses the "curiously-recurring-template-pattern" - pass your deriving
-		class name as the first template argument, and your message collection
-		as the second.
+		Pass your functor class name as the first template argument,
+		and your message collection as the second.
 
 		You will need to write a void operator()(YourMessageType const&, [...] ) for each message
 		type in the collection.  If you intend to ignore some messages,
-		see transmission::PartialReceiver.
+		see transmission::PartialHandlerBase.
 	*/
-	template<typename Derived, typename MessageCollection>
+	template<typename MessageFunctor, typename MessageCollection>
 	class Receiver {
 		private:
 			typedef ReceiveHandler<MessageCollection> receive_handler_type;
@@ -56,13 +55,25 @@ namespace transmission {
 			}
 
 			/// @brief Function to append additional data received from your
-			/// data source and trigger message processing.
-			///
-			/// Returns the number of messages processed.
+			/// data source.
 			template<typename InputIterator>
-			uint8_t appendReceived(InputIterator input_begin, InputIterator input_end) {
+			void appendReceived(InputIterator input_begin, InputIterator input_end) {
 				_recv.bufferAppend(input_begin, input_end);
-				return processMessages();
+			}
+
+			/// @brief Function to retrieve additional data from your source,
+			/// give a function to pop one byte from the source and the
+			/// number of bytes available.
+			template<typename Functor, typename SizeType>
+			void appendUsing(Functor f, SizeType bytesAvailable) {
+				buffer_size_type total = getBufferAvailableSpace();
+				if (bytesAvailable < total) {
+					total = bytesAvailable;
+				}
+				_recv.bufferEnsureSpace(total);
+				for (buffer_size_type i = 0; i < total; ++i) {
+					_recv.bufferPushBack(f());
+				}
 			}
 
 			/// @brief Returns the ID of the last message received, if applicable.
@@ -70,8 +81,25 @@ namespace transmission {
 				return _lastMessageId;
 			}
 
+			/// @brief  Triggers message processing on the buffer, calling
+			/// your receive functor with any successfully received.
+			///
+			/// Returns the number of messages processed.
+			uint8_t processMessages() {
+				return processMessagesImpl();
+			}
+			
+			MessageFunctor & getMessageHandler() {
+				return _functor;
+			}
+			
+			MessageFunctor const & getMessageHandler() const {
+				return _functor;
+			}
+
 		private:
-			uint8_t processMessages(uint8_t msgCount = 0) {
+
+			uint8_t processMessagesImpl(uint8_t msgCount = 0) {
 				if (_recv.checkBufferForMessage()) {
 					typedef typename MessageCollection::envelope_type::serialization_policy serialization_policy;
 					typedef typename MessageCollection::message_types message_types;
@@ -80,7 +108,7 @@ namespace transmission {
 
 					detail::operations::deserializeAndInvoke<message_types, serialization_policy>(
 					    _recv.getCurrentMessageId(),
-					    getDerived(),
+					    getMessageHandler(),
 					    _recv.getDataIterator()
 					);
 
@@ -88,20 +116,13 @@ namespace transmission {
 					_recv.popMessage();
 
 					// Repeat until no more.
-					return processMessages(msgCount + 1);
+					return processMessagesImpl(msgCount + 1);
 				}
 				return msgCount;
 			}
 
-			Derived & getDerived() {
-				return *(static_cast<Derived*>(this));
-			}
-
-			Derived const & getDerived() const {
-				return *(static_cast<Derived const *>(this));
-			}
-
 			receive_handler_type _recv;
+			MessageFunctor _functor;
 			boost::optional<MessageIdType> _lastMessageId;
 	};
 } // end of namespace transmission

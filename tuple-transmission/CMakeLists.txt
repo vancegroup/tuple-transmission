@@ -49,7 +49,7 @@ set(GENERATED_HEADERS
 	detail/constants/ArityConfig.h
 	detail/operations/DeserializeOverloads_Generated.h
 	detail/operations/SendOverloads_Generated.h
-	PartialReceiver.h
+	PartialHandlerBase.h
 )
 
 add_custom_target(tuple-transmission

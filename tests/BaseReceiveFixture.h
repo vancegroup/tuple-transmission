@@ -23,6 +23,7 @@
 // Internal Includes
 #include <tuple-transmission/transmitters/VectorBuffer.h>
 #include <tuple-transmission/BoundMessageType.h>
+#include <tuple-transmission/Receiver.h>
 
 // Library/third-party includes
 // - none
@@ -32,23 +33,25 @@
 
 struct BaseReceiveFixture {
 	transmission::transmitters::VectorBuffer<MyMessageCollection> buf;
-	TestReceiver r;
+	transmission::Receiver<TestHandler, MyMessageCollection> recv;
+	TestHandler & handler;
 
-	BaseReceiveFixture() {
-		BOOST_REQUIRE(!r.gotEmptyMessage);
-		BOOST_REQUIRE(!r.getLastMessageId());
-		BOOST_REQUIRE_EQUAL(r.first, 0);
-		BOOST_REQUIRE_EQUAL(r.second, 0);
-		BOOST_REQUIRE_EQUAL(r.third, 0);
+	BaseReceiveFixture() : handler(recv.getMessageHandler()) {
+		BOOST_REQUIRE(!handler.gotEmptyMessage);
+		BOOST_REQUIRE(!recv.getLastMessageId());
+		BOOST_REQUIRE_EQUAL(handler.first, 0);
+		BOOST_REQUIRE_EQUAL(handler.second, 0);
+		BOOST_REQUIRE_EQUAL(handler.third, 0);
 	}
 
 	uint8_t receive() {
-		return r.appendReceived(buf.begin(), buf.end());
+		recv.appendReceived(buf.begin(), buf.end());
+		return recv.processMessages();
 	}
 
 	template<typename MessageType>
 	void checkLastMessage(MessageType const&) const {
-		BOOST_REQUIRE_EQUAL(*r.getLastMessageId(), (typename BoundMessageType<MyMessageCollection, MessageType>::message_id()));
+		BOOST_REQUIRE_EQUAL(*recv.getLastMessageId(), (typename BoundMessageType<MyMessageCollection, MessageType>::message_id()));
 	}
 };
 

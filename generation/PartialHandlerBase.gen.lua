@@ -1,5 +1,5 @@
 return {
-	outFile = "PartialReceiver.h";
+	outFile = "PartialHandlerBase.h";
 	baseIndent = 3;
 	minArity = ReceiveMinArity;
 	maxArity = ReceiveMaxArity;
@@ -44,8 +44,8 @@ return {
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #pragma once
-#ifndef INCLUDED_PartialReceiver_h_GUID_314b3576_c339_42e9_ac75_cccb9b7f0bfe
-#define INCLUDED_PartialReceiver_h_GUID_314b3576_c339_42e9_ac75_cccb9b7f0bfe
+#ifndef INCLUDED_PartialHandlerBase_h_GUID_314b3576_c339_42e9_ac75_cccb9b7f0bfe
+#define INCLUDED_PartialHandlerBase_h_GUID_314b3576_c339_42e9_ac75_cccb9b7f0bfe
 
 // Internal Includes
 #include "Receiver.h"
@@ -58,17 +58,16 @@ return {
 
 namespace transmission {
 
-	/** @brief Variant of transmission::Receiver that provides default handlers
-		for all message types.
+	/** @brief Base class for use in creating functors for transmission::Receiver
+		that provides default handlers for all message types.
 
-		Works the same as Receiver, except you don't have to provide all
+		If you derive your functor from this class, you don't have to provide all
 		the handlers, and you must include a line like the following in the
-		class (here, "MyReceiver") to explicitly use the provided defaults:
+		functor to explicitly use the provided defaults:
 
-		using transmission::PartialReceiver<MyReceiver, MyMessageCollection>::operator();
+		using transmission::PartialHandlerBase::operator();
 	*/
-	template<typename Derived, typename MessageCollection>
-	class PartialReceiver : public Receiver<Derived, MessageCollection> {
+	class PartialHandlerBase  {
 		public:
 ]];
 
@@ -76,6 +75,6 @@ namespace transmission {
 	};
 } // end of namespace transmission
 
-#endif // INCLUDED_PartialReceiver_h_GUID_314b3576_c339_42e9_ac75_cccb9b7f0bfe
+#endif // INCLUDED_PartialHandlerBase_h_GUID_314b3576_c339_42e9_ac75_cccb9b7f0bfe
 ]];
 }

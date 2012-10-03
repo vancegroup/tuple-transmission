@@ -147,6 +147,10 @@ namespace transmission {
 			buffer_reference buffer(buffer_size_type i) {
 				return recv_buf[i];
 			}
+			
+			void bufferEnsureSpace(buffer_size_type n) const {
+				recv_buf.ensure_space(n);
+			}
 			/// @}
 
 			/// @name Message-related Methods

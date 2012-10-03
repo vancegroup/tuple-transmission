@@ -6,7 +6,7 @@
 	Human-Computer Interaction Graduate Program
 */
 
-#define BOOST_TEST_MODULE PartialReceiver
+#define BOOST_TEST_MODULE PartialHandler
 
 #include <BoostTestTargetConfig.h>
 
@@ -14,7 +14,7 @@
 
 #define USE_BASIC_ENVELOPE
 #include "ProtocolForTest.h"
-#include <tuple-transmission/PartialReceiver.h>
+#include <tuple-transmission/PartialHandlerBase.h>
 
 // Library/third-party includes
 #include <boost/mpl/assert.hpp>
@@ -24,8 +24,8 @@
 
 using namespace boost::unit_test;
 
-#include "DefinePartialReceiver.h"
+#include "DefinePartialHandler.h"
 
 
-#include "ReceiverCommon.h"
+#include "HandlerCommon.h"
 
