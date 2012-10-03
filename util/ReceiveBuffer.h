@@ -309,7 +309,7 @@ namespace util {
 			}
 
 			void verify_invariants() const {
-				BOOST_ASSERT_MSG(_begin < _pastEnd, "Beginning moved past end");
+				BOOST_ASSERT_MSG(_begin <= _pastEnd, "Beginning moved past end");
 				BOOST_ASSERT_MSG(_pastEnd <= CAPACITY, "Consuming more space than possible");
 			}
 
