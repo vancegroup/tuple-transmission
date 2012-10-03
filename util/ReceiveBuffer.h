@@ -249,17 +249,10 @@ namespace util {
 				return begin() + startIndex;
 			}
 
-		private:
-			friend class vector_simulator_access;
-
-
-			/// @brief Adapt a buffer index into an index in the wrapped container
-			size_type adjusted_index(size_type i) {
-				return _begin + i;
-			}
-
 			/// @brief Ensure there is room for n more elements to be
 			/// added, shifting contents in the container if necessary.
+			///
+			/// @note May invalidate iterators!
 			void ensure_space(size_type n) {
 				// If we're empty, may as well be empty at the beginning
 				if (empty()) {
@@ -273,6 +266,15 @@ namespace util {
 					BOOST_ASSERT_MSG(size() + n <= CAPACITY, "Impossible to ensure that much space");
 					slide_contents_forward();
 				}
+			}
+
+		private:
+			friend class vector_simulator_access;
+
+
+			/// @brief Adapt a buffer index into an index in the wrapped container
+			size_type adjusted_index(size_type i) {
+				return _begin + i;
 			}
 
 			/// @brief Copies the whole buffer to the front of the wrapped container
