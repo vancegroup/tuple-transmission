@@ -48,8 +48,9 @@ namespace transmission {
 			typedef detail::EnvelopeReceiveBuffer<MessageCollection> receive_buffer_type;
 		public:
 			typedef typename receive_buffer_type::buffer_size_type buffer_size_type;
-			typedef void result_type;
 
+			/// @brief Returns the number of bytes of available space in
+			/// the buffer.
 			buffer_size_type getBufferAvailableSpace() const {
 				return _recv.bufferAvailableSpace();
 			}
@@ -101,13 +102,20 @@ namespace transmission {
 
 		private:
 
+			/// @brief Internal function to recursively process messages.
+			///
+			/// When it finds a full one, it calls through the function
+			/// pointer to invoke the handler.
 			uint8_t processMessagesImpl(uint8_t msgCount = 0) {
 				if (_recv.checkBufferForMessage()) {
 					typedef typename MessageCollection::envelope_type::serialization_policy serialization_policy;
 					typedef typename MessageCollection::message_types message_types;
 
-					_lastMessageId = _recv.getCurrentMessageId();
+					const MessageIdType id = _recv.getCurrentMessageId();
+					// Record this message as the last handled ID
+					_lastMessageId = id;
 
+					// Invoke the handler on this message.
 					detail::operations::deserializeAndInvoke<message_types, serialization_policy>(
 					    _recv.getCurrentMessageId(),
 					    getMessageHandler(),
@@ -123,8 +131,12 @@ namespace transmission {
 				return msgCount;
 			}
 
+			/// @brief Internal receive buffer wrapper object, used by this class
+			/// and by the envelope.
 			receive_buffer_type _recv;
+
 			MessageFunctor _functor;
+
 			boost::optional<MessageIdType> _lastMessageId;
 	};
 } // end of namespace transmission
