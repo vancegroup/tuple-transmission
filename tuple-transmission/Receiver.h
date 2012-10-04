@@ -69,6 +69,13 @@ namespace transmission {
 				: _invoker(&receiver_type::deserializeAndInvoke<MessageFunctor>)
 				, _functorPointer(&handler) {}
 
+			/// @brief Function to change the handler object used for future
+			/// calls to processMessages
+			template<typename MessageFunctor>
+			void setHandler(MessageFunctor & handler) {
+				_invoker = &receiver_type::deserializeAndInvoke<MessageFunctor>;
+				_functorPointer = &handler;
+			}
 
 			/// @brief Returns the number of bytes of available space in
 			/// the buffer.
