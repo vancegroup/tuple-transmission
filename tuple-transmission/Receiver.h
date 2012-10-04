@@ -51,6 +51,7 @@ namespace transmission {
 	class Receiver {
 		private:
 			typedef detail::EnvelopeReceiveBuffer<MessageCollection> receive_buffer_type;
+			typedef typename receive_buffer_type::buffer_const_iterator buffer_const_iterator;
 			typedef Receiver<MessageCollection> receiver_type;
 		public:
 			typedef typename receive_buffer_type::buffer_size_type buffer_size_type;
@@ -66,7 +67,7 @@ namespace transmission {
 			/// functor's type as a template parameter.
 			template<typename MessageFunctor>
 			Receiver(MessageFunctor & handler)
-				: _processor(&receiver_type::processMessagesImpl<MessageFunctor>)
+				: _invoker(&receiver_type::deserializeAndInvoke<MessageFunctor>)
 				, _functorPointer(&handler) {}
 
 			buffer_size_type getBufferAvailableSpace() const {
@@ -107,11 +108,36 @@ namespace transmission {
 			///
 			/// Returns the number of messages processed.
 			uint8_t processMessages() {
-				//return processMessagesImpl();
-				return (*_processor)(*this, 0);
+				return processMessagesImpl();
+				//return (*_processor)(*this, 0);
 			}
 
 		private:
+			uint8_t processMessagesImpl(uint8_t msgCount = 0) {
+				if (_recv.checkBufferForMessage()) {
+
+					_lastMessageId = _recv.getCurrentMessageId();
+
+
+					/*
+					detail::operations::deserializeAndInvoke<message_types, serialization_policy>(
+					    _recv.getCurrentMessageId(),
+					    *static_cast<MessageFunctorType *>(_functorPointer),
+					    _recv.getDataIterator()
+					);
+					*/
+					(*_invoker)(_recv.getCurrentMessageId(), _functorPointer, _recv.getDataIterator());
+
+					// Remove handled message
+					_recv.popMessage();
+
+					// Repeat until no more.
+					return processMessagesImpl(msgCount + 1);
+				}
+				return msgCount;
+			}
+
+			typedef void (*InvokerFnPtr)(MessageIdType, void *, buffer_const_iterator);
 
 			/// @brief Static function template to recursively process messages.
 			///
@@ -119,33 +145,20 @@ namespace transmission {
 			/// it can safely cast it back from a void * - this is the only
 			/// code that actually requires knowledge of the message functor.
 			template<typename MessageFunctorType>
-			static uint8_t processMessagesImpl(receiver_type & self, uint8_t msgCount) {
-				if (self._recv.checkBufferForMessage()) {
-					typedef typename MessageCollection::envelope_type::serialization_policy serialization_policy;
-					typedef typename MessageCollection::message_types message_types;
-
-					self._lastMessageId = self._recv.getCurrentMessageId();
-
-					detail::operations::deserializeAndInvoke<message_types, serialization_policy>(
-					    self._recv.getCurrentMessageId(),
-					    *static_cast<MessageFunctorType *>(self._functorPointer),
-					    self._recv.getDataIterator()
-					);
-
-					// Remove handled message
-					self._recv.popMessage();
-
-					// Repeat until no more.
-					return processMessagesImpl<MessageFunctorType>(self, msgCount + 1);
-				}
-				return msgCount;
+			static void deserializeAndInvoke(MessageIdType msgID, void * functorPointer, buffer_const_iterator it) {
+				typedef typename MessageCollection::envelope_type::serialization_policy serialization_policy;
+				typedef typename MessageCollection::message_types message_types;
+				detail::operations::deserializeAndInvoke<message_types, serialization_policy>(
+				    msgID,
+				    *static_cast<MessageFunctorType *>(functorPointer),
+				    it
+				);
 			}
 
-			typedef uint8_t(*MessageProcessorFn)(receiver_type & self, uint8_t);
 
 			receive_buffer_type _recv;
 			//MessageFunctor _functor;
-			MessageProcessorFn _processor;
+			InvokerFnPtr _invoker;
 			void * _functorPointer;
 			boost::optional<MessageIdType> _lastMessageId;
 	};
