@@ -89,28 +89,10 @@ namespace transmission {
 			///
 			/// Returns the number of messages processed.
 			uint8_t processMessages() {
-				return processMessagesImpl();
-			}
-
-			MessageFunctor & getMessageHandler() {
-				return _functor;
-			}
-
-			MessageFunctor const & getMessageHandler() const {
-				return _functor;
-			}
-
-		private:
-
-			/// @brief Internal function to recursively process messages.
-			///
-			/// When it finds a full one, it calls through the function
-			/// pointer to invoke the handler.
-			uint8_t processMessagesImpl(uint8_t msgCount = 0) {
-				if (_recv.checkBufferForMessage()) {
-					typedef typename MessageCollection::envelope_type::serialization_policy serialization_policy;
-					typedef typename MessageCollection::message_types message_types;
-
+				typedef typename MessageCollection::envelope_type::serialization_policy serialization_policy;
+				typedef typename MessageCollection::message_types message_types;
+				uint8_t msgCount = 0;
+				while (_recv.checkBufferForMessage()) {
 					const MessageIdType id = _recv.getCurrentMessageId();
 					// Record this message as the last handled ID
 					_lastMessageId = id;
@@ -125,11 +107,21 @@ namespace transmission {
 					// Remove handled message
 					_recv.popMessage();
 
-					// Repeat until no more.
-					return processMessagesImpl(msgCount + 1);
+					// Increment count.
+					msgCount++;
 				}
 				return msgCount;
 			}
+
+			MessageFunctor & getMessageHandler() {
+				return _functor;
+			}
+
+			MessageFunctor const & getMessageHandler() const {
+				return _functor;
+			}
+
+		private:
 
 			/// @brief Internal receive buffer wrapper object, used by this class
 			/// and by the envelope.
