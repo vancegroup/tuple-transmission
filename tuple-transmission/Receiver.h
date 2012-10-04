@@ -117,16 +117,8 @@ namespace transmission {
 			///
 			/// Returns the number of messages processed.
 			uint8_t processMessages() {
-				return processMessagesImpl();
-			}
-
-		private:
-			/// @brief Internal function to recursively process messages.
-			///
-			/// When it finds a full one, it calls through the function
-			/// pointer to invoke the handler.
-			uint8_t processMessagesImpl(uint8_t msgCount = 0) {
-				if (_recv.checkBufferForMessage()) {
+				uint8_t msgCount = 0;
+				while (_recv.checkBufferForMessage()) {
 					const MessageIdType id = _recv.getCurrentMessageId();
 					// Record this message as the last handled ID
 					_lastMessageId = id;
@@ -137,13 +129,13 @@ namespace transmission {
 					// Remove handled message
 					_recv.popMessage();
 
-					// Repeat until no more.
-					return processMessagesImpl(msgCount + 1);
+					// Increment count.
+					msgCount++;
 				}
 				return msgCount;
 			}
 
-
+		private:
 			/// @brief Static function template to invoke the handler on a
 			/// message we already know is there.
 			///
