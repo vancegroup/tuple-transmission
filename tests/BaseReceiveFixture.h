@@ -33,10 +33,10 @@
 
 struct BaseReceiveFixture {
 	transmission::transmitters::VectorBuffer<MyMessageCollection> buf;
-	transmission::Receiver<TestHandler, MyMessageCollection> recv;
-	TestHandler & handler;
+	TestHandler handler;
+	transmission::Receiver<MyMessageCollection> recv;
 
-	BaseReceiveFixture() : handler(recv.getMessageHandler()) {
+	BaseReceiveFixture() : recv(handler) {
 		BOOST_REQUIRE(!handler.gotEmptyMessage);
 		BOOST_REQUIRE(!recv.getLastMessageId());
 		BOOST_REQUIRE_EQUAL(handler.first, 0);

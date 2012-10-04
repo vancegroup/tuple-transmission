@@ -33,22 +33,41 @@
 
 namespace transmission {
 
-	/** @brief Wrapper class for functors that handle messages.
+	/** @brief Class that receives messages and passes them to a handler
+		you create.
 
-		Pass your functor class name as the first template argument,
-		and your message collection as the second.
+		Instantiate an object of your handler class.
+		Pass your message collection as the template argument to this class,
+		and initialize it with your handler object.
+
+		@note This class keeps a pointer to the handler passed in the constructor,
+		so it must outlive this object!
 
 		You will need to write a void operator()(YourMessageType const&, [...] ) for each message
-		type in the collection.  If you intend to ignore some messages,
-		see transmission::PartialHandlerBase.
+		type in the collection in your handler class.  If you intend to
+		ignore some messages, see transmission::PartialHandlerBase.
 	*/
-	template<typename MessageFunctor, typename MessageCollection>
+	template<typename MessageCollection>
 	class Receiver {
 		private:
 			typedef detail::EnvelopeReceiveBuffer<MessageCollection> receive_buffer_type;
+			typedef Receiver<MessageCollection> receiver_type;
 		public:
 			typedef typename receive_buffer_type::buffer_size_type buffer_size_type;
 			typedef void result_type;
+
+			/// @brief Constructor that takes a reference to your handler,
+			/// and stores a pointer to it.
+			///
+			/// Be sure the handler you pass in will outlive this object!
+			///
+			/// A function pointer to a function template instantiation is
+			/// used so that this class does not need to take your
+			/// functor's type as a template parameter.
+			template<typename MessageFunctor>
+			Receiver(MessageFunctor & handler)
+				: _processor(&receiver_type::processMessagesImpl<MessageFunctor>)
+				, _functorPointer(&handler) {}
 
 			buffer_size_type getBufferAvailableSpace() const {
 				return _recv.bufferAvailableSpace();
@@ -88,43 +107,46 @@ namespace transmission {
 			///
 			/// Returns the number of messages processed.
 			uint8_t processMessages() {
-				return processMessagesImpl();
-			}
-
-			MessageFunctor & getMessageHandler() {
-				return _functor;
-			}
-
-			MessageFunctor const & getMessageHandler() const {
-				return _functor;
+				//return processMessagesImpl();
+				return (*_processor)(*this, 0);
 			}
 
 		private:
 
-			uint8_t processMessagesImpl(uint8_t msgCount = 0) {
-				if (_recv.checkBufferForMessage()) {
+			/// @brief Static function template to recursively process messages.
+			///
+			/// Instantiated with knowledge of the message functor's type so
+			/// it can safely cast it back from a void * - this is the only
+			/// code that actually requires knowledge of the message functor.
+			template<typename MessageFunctorType>
+			static uint8_t processMessagesImpl(receiver_type & self, uint8_t msgCount) {
+				if (self._recv.checkBufferForMessage()) {
 					typedef typename MessageCollection::envelope_type::serialization_policy serialization_policy;
 					typedef typename MessageCollection::message_types message_types;
 
-					_lastMessageId = _recv.getCurrentMessageId();
+					self._lastMessageId = self._recv.getCurrentMessageId();
 
 					detail::operations::deserializeAndInvoke<message_types, serialization_policy>(
-					    _recv.getCurrentMessageId(),
-					    getMessageHandler(),
-					    _recv.getDataIterator()
+					    self._recv.getCurrentMessageId(),
+					    *static_cast<MessageFunctorType *>(self._functorPointer),
+					    self._recv.getDataIterator()
 					);
 
 					// Remove handled message
-					_recv.popMessage();
+					self._recv.popMessage();
 
 					// Repeat until no more.
-					return processMessagesImpl(msgCount + 1);
+					return processMessagesImpl<MessageFunctorType>(self, msgCount + 1);
 				}
 				return msgCount;
 			}
 
+			typedef uint8_t(*MessageProcessorFn)(receiver_type & self, uint8_t);
+
 			receive_buffer_type _recv;
-			MessageFunctor _functor;
+			//MessageFunctor _functor;
+			MessageProcessorFn _processor;
+			void * _functorPointer;
 			boost::optional<MessageIdType> _lastMessageId;
 	};
 } // end of namespace transmission
