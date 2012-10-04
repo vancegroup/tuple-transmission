@@ -11,7 +11,7 @@ return {
 		out( "#ifndef FUSION_MAX_LIST_SIZE")
 		out(("#define FUSION_MAX_LIST_SIZE %d"):format(SendOverloadMaxArity))
 		out( "#endif")
-		
+
 		-- fusion::invoke_procedure used by DeserializeOverloads:
 		-- Need receive arity +1 because of message tag argument
 		out( "#ifndef BOOST_FUSION_INVOKE_PROCEDURE_MAX_ARITY")
