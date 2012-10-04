@@ -70,8 +70,8 @@ namespace transmission {
 				tx.output(ControlCodes::EOT);
 			}
 
-			template<typename ReceiveHandlerType>
-			static bool checkBufferForMessage(ReceiveHandlerType & recv) {
+			template<typename EnvelopeReceiveType>
+			static bool checkBufferForMessage(EnvelopeReceiveType & recv) {
 				namespace ControlCodes = ::transmission::detail::constants::ControlCodes;
 				while (!recv.bufferEmpty()) {
 					BOOST_TEST_MESSAGE("Buffer size: " << int(recv.bufferSize()));
@@ -109,7 +109,7 @@ namespace transmission {
 					return base::popAndRetry(recv);
 				}
 
-				typename ReceiveHandlerType::message_size_type msgLength = recv.getMessageLength();
+				typename EnvelopeReceiveType::message_size_type msgLength = recv.getMessageLength();
 				if (recv.bufferSize() < msgLength) {
 					/// Gotta wait some more.
 					BOOST_TEST_MESSAGE("Returning - have to wait for " << int(msgLength) << " and only have " << int(recv.bufferSize()));
@@ -125,7 +125,7 @@ namespace transmission {
 
 				/// Compute the checksum of all but the last two bytes.
 				transmitters::ChecksumComputer checksum;
-				for (typename ReceiveHandlerType::message_size_type i = 0; i < msgLength - 2; ++i) {
+				for (typename EnvelopeReceiveType::message_size_type i = 0; i < msgLength - 2; ++i) {
 					checksum.output(recv.buffer(i));
 				}
 

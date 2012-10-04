@@ -19,6 +19,7 @@ set(HEADERS
 	detail/operations/Sizeof_fwd.h
 	detail/operations/Sizeof.h
 
+	detail/types/EnvelopeReceiveBuffer.h
 	detail/types/IntegralTypes.h
 	detail/types/MessageIdType.h
 	detail/types/MessageSizeType_fwd.h
@@ -33,7 +34,6 @@ set(HEADERS
 	MessageCollection.h
 	MessageType.h
 	Receiver.h
-	ReceiveHandler.h
 	Send.h
 
 	serializers/BitwiseCopySerialization.h

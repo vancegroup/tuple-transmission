@@ -21,7 +21,7 @@
 #define INCLUDED_Receiver_h_GUID_9e1418a4_6874_426b_9113_cc5e57ee3fb5
 
 // Internal Includes
-#include "ReceiveHandler.h"
+#include "detail/types/EnvelopeReceiveBuffer.h"
 #include "detail/types/MessageIdType.h"
 #include "detail/operations/DeserializeAndInvoke.h"
 
@@ -45,9 +45,9 @@ namespace transmission {
 	template<typename MessageFunctor, typename MessageCollection>
 	class Receiver {
 		private:
-			typedef ReceiveHandler<MessageCollection> receive_handler_type;
+			typedef detail::EnvelopeReceiveBuffer<MessageCollection> receive_buffer_type;
 		public:
-			typedef typename receive_handler_type::buffer_size_type buffer_size_type;
+			typedef typename receive_buffer_type::buffer_size_type buffer_size_type;
 			typedef void result_type;
 
 			buffer_size_type getBufferAvailableSpace() const {
@@ -55,7 +55,7 @@ namespace transmission {
 			}
 
 			/// @brief Function to append additional data received from your
-			/// data source.
+			/// data source if accessible by iterators.
 			template<typename InputIterator>
 			void appendReceived(InputIterator input_begin, InputIterator input_end) {
 				_recv.bufferAppend(input_begin, input_end);
@@ -64,8 +64,10 @@ namespace transmission {
 			/// @brief Function to retrieve additional data from your source,
 			/// give a function to pop one byte from the source and the
 			/// number of bytes available.
+			///
+			/// Returns the number of bytes retrieved.
 			template<typename Functor, typename SizeType>
-			void appendUsing(Functor f, SizeType bytesAvailable) {
+			buffer_size_type appendUsing(Functor f, SizeType bytesAvailable) {
 				buffer_size_type total = getBufferAvailableSpace();
 				if (bytesAvailable < total) {
 					total = bytesAvailable;
@@ -88,11 +90,11 @@ namespace transmission {
 			uint8_t processMessages() {
 				return processMessagesImpl();
 			}
-			
+
 			MessageFunctor & getMessageHandler() {
 				return _functor;
 			}
-			
+
 			MessageFunctor const & getMessageHandler() const {
 				return _functor;
 			}
@@ -121,7 +123,7 @@ namespace transmission {
 				return msgCount;
 			}
 
-			receive_handler_type _recv;
+			receive_buffer_type _recv;
 			MessageFunctor _functor;
 			boost::optional<MessageIdType> _lastMessageId;
 	};

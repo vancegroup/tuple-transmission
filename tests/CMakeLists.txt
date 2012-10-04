@@ -29,9 +29,9 @@ add_boost_test(MessageLength
 	ValidMessageLengthsMatchCompileTime
 	InvalidMessageLength)
 
-add_boost_test(ReceiveHandler
+add_boost_test(EnvelopeReceiveBuffer
 	SOURCES
-	ReceiveHandler.cpp
+	EnvelopeReceiveBuffer.cpp
 	TESTS
 	DefaultConstruction
 	MessageMethods

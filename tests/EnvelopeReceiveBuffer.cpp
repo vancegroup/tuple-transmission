@@ -14,7 +14,7 @@
 
 #define USE_BASIC_ENVELOPE
 #include "ProtocolForTest.h"
-#include <tuple-transmission/ReceiveHandler.h>
+#include <tuple-transmission/detail/types/EnvelopeReceiveBuffer.h>
 
 // Library/third-party includes
 #include <boost/mpl/assert.hpp>
@@ -25,24 +25,24 @@
 using namespace boost::unit_test;
 
 // {{ControlCodes::SOH, 1, ControlCodes::STX, 5, 10, 15, ControlCodes::ETX, ControlCodes::EOT}};
-typedef transmission::ReceiveHandler<MyMessageCollection> MyReceiveHandler;
+typedef transmission::detail::EnvelopeReceiveBuffer<MyMessageCollection> MyEnvelopeReceiveBuffer;
 
-inline void appendValidMessageCharacters(MyReceiveHandler & recv, std::size_t n, std::size_t start = 0) {
+inline void appendValidMessageCharacters(MyEnvelopeReceiveBuffer & recv, std::size_t n, std::size_t start = 0) {
 	BOOST_TEST_MESSAGE("Inserting valid message elements [" << start << ", " << start + n - 1 << "]");
 	BOOST_ASSERT(start + n <= ValidMessage.size());
 	recv.bufferAppend(ValidMessage.begin() + start, ValidMessage.begin() + start + n);
 }
 
 BOOST_AUTO_TEST_CASE(DefaultConstruction) {
-	BOOST_REQUIRE_NO_THROW(transmission::ReceiveHandler<MyMessageCollection>());
-	MyReceiveHandler r;
+	BOOST_REQUIRE_NO_THROW(transmission::detail::EnvelopeReceiveBuffer<MyMessageCollection>());
+	MyEnvelopeReceiveBuffer r;
 	BOOST_CHECK_EQUAL(r.bufferSize(), 0);
 	BOOST_CHECK(r.bufferEmpty());
 	BOOST_CHECK(!r.isCurrentMessageIdValid());
 }
 
 BOOST_AUTO_TEST_CASE(MessageMethods) {
-	MyReceiveHandler r;
+	MyEnvelopeReceiveBuffer r;
 	BOOST_REQUIRE(!r.isCurrentMessageIdValid());
 
 	BOOST_REQUIRE_NO_THROW(r.setCurrentMessageId(0));
@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE(MessageMethods) {
 void runNefariousMessageTest(int round) {
 	BOOST_TEST_CHECKPOINT("Starting round " << round);
 	BOOST_TEST_MESSAGE("Starting round " << round);
-	MyReceiveHandler r;
+	MyEnvelopeReceiveBuffer r;
 	BOOST_REQUIRE_EQUAL(r.bufferSize(), 0);
 
 	BOOST_REQUIRE_NO_THROW(r.bufferAppend(0));
