@@ -52,11 +52,21 @@ set(GENERATED_HEADERS
 	PartialHandlerBase.h
 )
 
+# These headers have extra dependencies we probably don't satisfy, but they're
+# useful to keep in this tree.
+set(INTEGRATION_HEADERS
+	integration/ArduinoStreamReceiveHelper.h
+	transmitters/ArduinoI2C.h
+	transmitters/ArduinoSerial.h
+	transmitters/VrpnSerial.h
+)
+
 add_custom_target(tuple-transmission
 	ALL
 	SOURCES
 	${HEADERS}
-	${GENERATED_HEADERS})
+	${GENERATED_HEADERS}
+	${INTEGRATION_HEADERS})
 
 if(TARGET regenerate-headers)
 	add_dependencies(tuple-transmission regenerate-headers)
@@ -68,7 +78,7 @@ set(HEADERS ${HEADERS} ${GENERATED_HEADERS} PARENT_SCOPE)
 # Check to ensure we have all headers listed
 ###
 file(GLOB_RECURSE globbed_headers RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" *.h)
-list(REMOVE_ITEM globbed_headers ${HEADERS} ${GENERATED_HEADERS})
+list(REMOVE_ITEM globbed_headers ${HEADERS} ${GENERATED_HEADERS} ${INTEGRATION_HEADERS})
 list(LENGTH globbed_headers num_unknown_headers)
 if(num_unknown_headers GREATER 0)
 	message(FATAL_ERROR "The following headers are present in the file system, but missing in the build system: ${globbed_headers}")
