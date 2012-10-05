@@ -58,6 +58,7 @@ set(GENERATED_HEADERS
 # useful to keep in this tree.
 set(INTEGRATION_HEADERS
 	integration/ArduinoStreamReceiveHelper.h
+	receiveadapters/VrpnSerial.h
 	transmitters/ArduinoI2C.h
 	transmitters/ArduinoSerial.h
 	transmitters/VrpnSerial.h
