@@ -31,31 +31,10 @@
 
 
 namespace transmission {
-	namespace detail {
-		struct VrpnSerialReceiveFunctor {
-			VrpnSerialReceiveFunctor(vrpn_SerialPort & source) : s(source) {}
-			uint8_t operator()() {
-				uint8_t ret;
-				s.readBytes(&ret, 1);
-				return ret;
-			}
 
-			template<typename BufferIteratorType, typename BufferSizeType>
-			BufferSizeType operator()(BufferIteratorType buf, BufferSizeType count) {
-				return s.readBytes(buf, count);
-			}
-
-			vrpn_SerialPort & s;
-		};
-	}
-
-	class VrpnSerialReceiveAdapter : public detail::ReceiveAdapterBase<VrpnSerialReceiveAdapter> {
+	class VrpnSerialReceiveAdapter : public detail::ReceiveAdapterWithoutAvailable<VrpnSerialReceiveAdapter> {
 		public:
 			VrpnSerialReceiveAdapter(vrpn_SerialPort & source) : s(source) {}
-
-			enum {
-				CanReportAvailableBytes = false
-			};
 
 			template<typename BufferIteratorType>
 			uint8_t receiveIntoBuffer(BufferIteratorType it, uint8_t count) {
@@ -65,12 +44,6 @@ namespace transmission {
 			vrpn_SerialPort & s;
 
 	};
-
-	template<typename ReceiverType>
-	uint8_t receiveFrom(vrpn_SerialPort & s, ReceiverType & r) {
-		return r.appendUsing(detail::VrpnSerialReceiveFunctor(s), s.available());
-	}
-
 
 } // end of namespace transmission
 
