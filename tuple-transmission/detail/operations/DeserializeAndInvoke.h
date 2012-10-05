@@ -21,9 +21,8 @@
 #define INCLUDED_DeserializeAndInvoke_h_GUID_252a9b27_ba20_4cd5_84ba_a399a673ed92
 
 // Internal Includes
-#include "DeserializeOverloads_Generated.h"
-#include "../types/IntegralTypes.h"
-#include <util/MPLApplyAt.h>
+#include "../types/MessageIdType.h"
+#include "DeserializeDirectly.h"
 
 // Library/third-party includes
 // - none
@@ -34,29 +33,6 @@
 namespace transmission {
 	namespace detail {
 		namespace operations {
-			namespace impl {
-				template<typename SerializationPolicy, typename Function, typename Iterator>
-				struct DeserializeFunctorWrapper {
-					public:
-						DeserializeFunctorWrapper(Function & func, Iterator & iter) : f(func), it(iter) {}
-
-						template<typename MessageTypeWrapped>
-						void operator()(MessageTypeWrapped const&) {
-							namespace mpl = boost::mpl;
-							generated::deserialize<typename MessageTypeWrapped::type, SerializationPolicy>(
-							    f,
-							    it/*,
-							    mpl::identity< typename mpl::size<typename MessageTypeWrapped::type>::type >()*/
-							);
-						}
-					private:
-						Function & f;
-						Iterator & it;
-				};
-
-
-			} // end of namespace impl
-
 			/// @brief Turns the runtime id number into the corresponding message type (type sequence)
 			/// and calls the deserializer on it, passing along a functor.
 			template<typename MessageTypes, typename SerializationPolicy, typename Function, typename Iterator>
