@@ -32,6 +32,7 @@
 
 // Standard includes
 #include <algorithm>
+#include <cmath>
 
 namespace util {
 
@@ -168,6 +169,24 @@ namespace util {
 				_pastEnd += input_end - input_begin;
 
 				verify_invariants(); // just because I'm a little nervous
+			}
+
+			/// @brief External Buffer Function Capability - pass a functor
+			/// that takes an iterator and a max count, and returns number
+			/// of bytes buffered.
+			///
+			/// This method will ensure available space, then call the functor
+			/// to perform the buffering.
+			///
+			/// @note May invalidate iterators!
+			template<typename Functor>
+			size_type bufferFromExternalFunctorRef(Functor & f, size_type n) {
+				n = std::min(n, max_size() - size());
+				ensure_space(n);
+				size_type actual = f(_contents.begin() + _pastEnd, n);
+				_pastEnd += actual;
+				verify_invariants(); // just because I'm a little nervous
+				return actual;
 			}
 
 			/// @brief Pop back, by default a single element
