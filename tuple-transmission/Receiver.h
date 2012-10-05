@@ -24,6 +24,7 @@
 #include "detail/types/EnvelopeReceiveBuffer.h"
 #include "detail/types/MessageIdType.h"
 #include "detail/operations/DeserializeAndInvoke.h"
+#include "detail/bases/ReceiveAdapterBase_fwd.h"
 
 // Library/third-party includes
 #include <boost/optional.hpp>
@@ -84,27 +85,19 @@ namespace transmission {
 			}
 
 			/// @brief Function to append additional data received from your
-			/// data source if accessible by iterators.
+			/// data source, for use if your source is accessible by iterators.
 			template<typename InputIterator>
 			void appendReceived(InputIterator input_begin, InputIterator input_end) {
 				_recv.bufferAppend(input_begin, input_end);
 			}
 
 			/// @brief Function to retrieve additional data from your source,
-			/// give a function to pop one byte from the source and the
-			/// number of bytes available.
+			/// given a ReceiveAdapter for it.
 			///
 			/// Returns the number of bytes retrieved.
-			template<typename Functor, typename SizeType>
-			buffer_size_type appendUsing(Functor f, SizeType bytesAvailable) {
-				buffer_size_type total = getBufferAvailableSpace();
-				if (bytesAvailable < total) {
-					total = bytesAvailable;
-				}
-				_recv.bufferEnsureSpace(total);
-				for (buffer_size_type i = 0; i < total; ++i) {
-					_recv.bufferPushBack(f());
-				}
+			template<typename Derived>
+			buffer_size_type receiveFrom(detail::ReceiveAdapterBase<Derived> & r) {
+				return _recv.bufferFromFunctorRef(r, r.getNumAvailable());
 			}
 
 			/// @brief Returns the ID of the last message received, if applicable.

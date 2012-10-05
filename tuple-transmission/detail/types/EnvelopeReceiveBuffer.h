@@ -155,6 +155,11 @@ namespace transmission {
 				void bufferEnsureSpace(buffer_size_type n) const {
 					recv_buf.ensure_space(n);
 				}
+
+				template<typename Functor>
+				buffer_size_type bufferFromFunctorRef(Functor & f, buffer_size_type n) {
+					return recv_buf.bufferFromFunctorRef(f, n);
+				}
 				/// @}
 
 				/// @name Message-related Methods

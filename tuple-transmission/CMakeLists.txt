@@ -1,6 +1,8 @@
 set(HEADERS
 	detail/bases/EnvelopeBase_fwd.h
 	detail/bases/EnvelopeBase.h
+	detail/bases/ReceiveAdapterBase.h
+	detail/bases/ReceiveAdapterBase_fwd.h
 	detail/bases/SerializerBase.h
 	detail/bases/TransmitterBase_fwd.h
 	detail/bases/TransmitterBase.h
