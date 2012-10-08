@@ -32,6 +32,11 @@
 // Standard includes
 // - none
 
+
+#ifndef BOOST_TEST_MESSAGE
+#define BOOST_TEST_MESSAGE(X)
+#endif
+
 namespace transmission {
 
 	/** @brief Class that receives messages and passes them to a handler
@@ -142,6 +147,7 @@ namespace transmission {
 			static void deserializeAndInvoke(MessageIdType msgID, void * functorPointer, buffer_const_iterator it) {
 				typedef typename MessageCollection::envelope_type::serialization_policy serialization_policy;
 				typedef typename MessageCollection::message_types message_types;
+				BOOST_TEST_MESSAGE("Deserializing and invoking message ID " << int(msgID));
 				detail::operations::deserializeAndInvoke<message_types, serialization_policy>(
 				    msgID,
 				    *static_cast<MessageFunctorType *>(functorPointer),
