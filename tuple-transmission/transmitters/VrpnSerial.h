@@ -21,10 +21,9 @@
 #define INCLUDED_VrpnSerial_h_GUID_b6a7fab1_4156_4ef2_a375_64c76f2e2d85
 
 // Internal Includes
-// - none
+#include "../detail/bases/TransmitterBase.h"
 
 // Library/third-party includes
-#include "../detail/bases/TransmitterBase.h"
 #include <vrpn_SerialPort.h>
 
 // Standard includes
