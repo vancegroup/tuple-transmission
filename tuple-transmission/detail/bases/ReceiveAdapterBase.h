@@ -47,7 +47,7 @@ namespace transmission {
 				/// Implementation that forwards on to derived class if
 				/// it actually can report the number of available bytes.
 				uint8_t getNumAvailable() {
-					return getDerived().getAvailable();
+					return getDerived().getNumAvailable();
 				}
 
 				/// @brief Function call operator for buffering, that forwards
