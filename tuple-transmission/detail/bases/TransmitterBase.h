@@ -55,6 +55,12 @@ namespace transmission {
 					impl().write(data, len);
 				}
 
+				/// @brief Indicate the completion of a unit of transmission -
+				/// for transmitters that perform internal buffering.
+				void outputFinished() {
+					impl().writeFinished();
+				}
+
 				/// @}
 
 				/// @name Transmitter implementation methods
@@ -67,6 +73,10 @@ namespace transmission {
 					for (std::size_t i = 0; i < len; ++i) {
 						impl().writeByte(data[i]);
 					}
+				}
+
+				/// @brief fallback if your transmitter doesn't care about outputFinished.
+				void writeFinished() {
 				}
 
 				/// @brief Method you must define and override in your type: it all
