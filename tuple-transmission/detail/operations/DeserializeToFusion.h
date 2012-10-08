@@ -26,13 +26,8 @@
 // Library/third-party includes
 #include <boost/fusion/mpl.hpp>
 #include <boost/fusion/include/push_back.hpp>
-#include <boost/fusion/include/list.hpp>
-#include <boost/fusion/include/fold.hpp>
-#include <boost/fusion/include/deref.hpp>
+#include <boost/fusion/include/cons.hpp> // for nil
 #include <boost/mpl/identity.hpp>
-#include <boost/fusion/functional/invocation/invoke_procedure.hpp>
-#include <boost/fusion/include/as_vector.hpp>
-#include <boost/fusion/include/single_view.hpp>
 
 // Standard includes
 // - none
