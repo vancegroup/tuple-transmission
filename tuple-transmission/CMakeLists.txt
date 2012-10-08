@@ -14,6 +14,7 @@ set(HEADERS
 	detail/operations/ComputeReceiveBufferSize.h
 	detail/operations/DeserializeAndInvoke.h
 	detail/operations/DeserializeDirectly.h
+	detail/operations/DeserializeToFusion.h
 	detail/operations/IsIdValid.h
 	detail/operations/MaxMessageLength.h
 	detail/operations/MessageArity.h

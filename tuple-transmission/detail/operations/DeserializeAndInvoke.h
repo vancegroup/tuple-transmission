@@ -22,7 +22,7 @@
 
 // Internal Includes
 #include "../types/MessageIdType.h"
-#include "DeserializeDirectly.h"
+#include "DeserializeToFusion.h"
 
 // Library/third-party includes
 // - none
