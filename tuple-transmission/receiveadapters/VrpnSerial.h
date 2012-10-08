@@ -22,6 +22,7 @@
 
 // Internal Includes
 #include "../detail/types/IntegralTypes.h"
+#include "../detail/bases/ReceiveAdapterBase.h"
 
 // Library/third-party includes
 // - none
