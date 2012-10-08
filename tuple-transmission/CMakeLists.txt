@@ -10,10 +10,8 @@ set(HEADERS
 	detail/constants/ControlCodes.h
 	detail/constants/MessageBufferSizeScale.h
 
-	detail/operations/ComputeFieldOffsets.h
 	detail/operations/ComputeReceiveBufferSize.h
 	detail/operations/DeserializeAndInvoke.h
-	detail/operations/DeserializeDirectly.h
 	detail/operations/DeserializeToFusion.h
 	detail/operations/IsIdValid.h
 	detail/operations/MaxMessageLength.h
@@ -21,8 +19,6 @@ set(HEADERS
 	detail/operations/MessageCount_fwd.h
 	detail/operations/MessageCount.h
 	detail/operations/MessageLength.h
-	detail/operations/SerializedFieldSize_fwd.h
-	detail/operations/SerializedFieldSize.h
 	detail/operations/Sizeof_fwd.h
 	detail/operations/Sizeof.h
 
@@ -55,7 +51,6 @@ set(HEADERS
 
 set(GENERATED_HEADERS
 	detail/constants/ArityConfig.h
-	detail/operations/DeserializeOverloads_Generated.h
 	detail/operations/SendOverloads_Generated.h
 	PartialHandlerBase.h
 )

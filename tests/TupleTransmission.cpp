@@ -16,8 +16,6 @@
 #include <tuple-transmission/transmitters/BoostArrayBuffer.h>
 #include <tuple-transmission/transmitters/AutosizedBoostArrayBuffer.h>
 
-#include <tuple-transmission/detail/operations/ComputeFieldOffsets.h>
-
 #include "OutputArray.h"
 
 // Library/third-party includes
@@ -63,10 +61,3 @@ BOOST_AUTO_TEST_CASE(WholeMessageSendOverloads) {
 	BOOST_CHECK_EQUAL((buf.buffer) , expected);
 }
 
-
-BOOST_AUTO_TEST_CASE(ComputeFieldOffsets) {
-	typedef transmission::detail::operations::ComputeFieldOffsets<MessageB, MyMessageCollection::envelope_type>::type FieldOffsets;
-	BOOST_CHECK_EQUAL((boost::mpl::at_c<FieldOffsets, 0>::type()) , 3);
-	BOOST_CHECK_EQUAL((boost::mpl::at_c<FieldOffsets, 1>::type()) , 4);
-	BOOST_CHECK_EQUAL((boost::mpl::at_c<FieldOffsets, 2>::type()) , 5);
-}
