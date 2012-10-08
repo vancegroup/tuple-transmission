@@ -18,7 +18,8 @@ add_boost_test(TupleTransmission
 	TESTS
 	WholeMessageSerializeAutobuffer
 	WholeMessageSerialize
-	WholeMessageSendOverloads)
+	WholeMessageSendOverloads
+	ComputeFieldOffsets)
 
 add_boost_test(MessageLength
 	SOURCES

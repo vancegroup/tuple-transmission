@@ -16,10 +16,13 @@
 #include <tuple-transmission/transmitters/BoostArrayBuffer.h>
 #include <tuple-transmission/transmitters/AutosizedBoostArrayBuffer.h>
 
+#include <tuple-transmission/detail/operations/ComputeFieldOffsets.h>
+
 #include "OutputArray.h"
 
 // Library/third-party includes
 #include <boost/fusion/include/make_vector.hpp>
+#include <boost/mpl/at.hpp>
 #include <BoostTestTargetConfig.h>
 
 // Standard includes
@@ -58,4 +61,12 @@ BOOST_AUTO_TEST_CASE(WholeMessageSendOverloads) {
 	send<MyMessageCollection, MessageB>(buf, 5, 10, 15);
 	boost::array<uint8_t, 8> expected = {{ControlCodes::SOH, 1, ControlCodes::STX, 5, 10, 15, ControlCodes::ETX, ControlCodes::EOT}};
 	BOOST_CHECK_EQUAL((buf.buffer) , expected);
+}
+
+
+BOOST_AUTO_TEST_CASE(ComputeFieldOffsets) {
+	typedef transmission::detail::operations::ComputeFieldOffsets<MessageB, MyMessageCollection::envelope_type>::type FieldOffsets;
+	BOOST_CHECK_EQUAL((boost::mpl::at_c<FieldOffsets, 0>::type()) , 3);
+	BOOST_CHECK_EQUAL((boost::mpl::at_c<FieldOffsets, 1>::type()) , 4);
+	BOOST_CHECK_EQUAL((boost::mpl::at_c<FieldOffsets, 2>::type()) , 5);
 }
