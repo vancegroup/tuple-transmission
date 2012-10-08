@@ -43,28 +43,49 @@ namespace transmission {
 			namespace impl {
 				namespace fusion = boost::fusion;
 				namespace mpl = boost::mpl;
-				/*
-								template<typename Iterator, typename Policy>
-								struct DeserializeToFusionFunctor {
-									DeserializeToFusionFunctor(Iterator & i) : it(i) {}
+#if 0
+				template<typename Policy, typename Iterator>
+				struct InputterFromBuffer {
+					InputterFromBuffer(Iterator & iter) : it(iter) {}
+					Iterator & it;
+					template<class> struct result;
 
-									Iterator & it;
+					template<class F, class T>
+					struct result<F(mpl::identity<T>)> {
+					    typedef T type;
+					};
 
-									template<typename> struct result;
-									template<typename F, typename State, typename Elt>
-									struct result<F(State, Elt)> {
-										typedef typename fusion::result_of::push_back<State, Elt>::type type;
-									};
+					template<typename ElementType>
+					ElementType operator()(mpl::identity<ElementType> const& t) {
+						return Policy::template unbuffer(t, it);
+					}
+				};
 
-									template<typename State, typename Elt>
-									typename fusion::result_of::push_back<State, Elt>::type operator()(State s, Elt const&) {
-										//typedef typename fusion::deref<EltIter>::type T;
-										typedef Elt T;
-										return fusion::push_back(s, Policy::template unbuffer(boost::mpl::identity<T>(), it));
-									}
+				template<typename Inputter>
+				struct InputAndPushBack {
+					InputAndPushBack(Inputter & in) : input(in) {}
+					Inputter & input;
 
-								};
-								*/
+					typedef InputAndPushBack<Inputter> self;
+					template <typename Sig>
+					struct result;
+					template <class Self, typename State, typename T>
+					struct result< Self(State, T) > {
+					    typedef typename boost::result_of<Inputter(T)>::type input_return_type;
+					    typedef typename fusion::result_of::push_back<State, input_return_type>::type type;
+					};
+
+					template<typename State, typename T>
+					typename result<self(State, T)>::type
+					operator()(State const& s, T const& t) {
+						return fusion::push_back(s, input(t));
+					}
+				};
+
+				template<typename Sequence, typename Inputter>
+				struct BuildFusion {
+
+				};
 				template<typename Function, typename TypeEnd, typename Iterator, typename Policy>
 				struct DeserializeToFusion {
 
@@ -91,57 +112,70 @@ namespace transmission {
 
 					};
 				};
-				/*
-				template<typename TypeEnd, typename Iterator, typename Policy>
-				struct DeserializeToFusion {
+#endif
+				namespace RecursiveFunctionCallsPartiallySpecialized {
+					template<typename TypeIter, typename State, typename Context>
+					inline void recurseToDeserialize(Context & c, State const& s);
 
-					template<typename TypeIter>
-					struct GetResult {
-						typedef typename mpl::next<TypeIter>::type next;
-						typedef typename mpl::deref<TypeIter>::type T;
-						typedef typename boost::is_same<next, TypeEnd>::type IsLast;
-						typedef typename boost::is_same<TypeIter, TypeEnd>::type IsEnd;
-						typedef typename mpl::eval_if<
-							IsEnd,
-							mpl::identity<void>,
-							mpl::eval_if<
-								IsLast,
-								mpl::identity<void>,
-								GetResult<next> > >::type next_result;
+					/// Struct for all the stuff staying the same throughout the call.
+					template<typename Function, typename TypeEnd, typename Iterator, typename Policy>
+					struct DeserializeContext {
+						DeserializeContext(Iterator & iter, Function & func) : it(iter), f(func) {}
+						Iterator & it;
+						Function & f;
 
-						typedef typename mpl::eval_if<
-							IsEnd,
-							mpl::identity<void>,
-							mpl::eval_if<
-								IsLast,
-								mpl::identity<fusion::single_view<T> >,
-								fusion::result_of::push_front<next_result, T> > >::type type;
+						template<typename T>
+						T unbuffer() {
+							return Policy::unbuffer(mpl::identity<T>(), it);
+						}
+						typedef Policy policy;
+						typedef TypeEnd end;
+						typedef Function function;
 					};
-					template<typename TypeIter>
-					struct Algorithm {
-						typedef typename mpl::next<TypeIter>::type next;
+
+					/// Template struct for recursive calls.
+					template<typename TypeIter, typename Context>
+					struct Deserialize {
+						typedef typename mpl::next<TypeIter>::type Next;
 						typedef typename mpl::deref<TypeIter>::type T;
-						typedef typename boost::is_same<next, TypeEnd>::type IsLast;
-						typedef typename GetResult<TypeIter>::type result;
-
-						static result recurse(Iterator & it, T v, boost::true_type const&) {
-							return fusion::single_view<T>(v);
+						template<typename State>
+						static void apply(Context & c, State const& s) {
+							T v = c.template unbuffer<T>();
+							Deserialize<Next, Context>::apply(c, fusion::push_back(s, v));
 						}
-						static result recurse(Iterator & it, T v, boost::false_type const&) {
-							typedef typename GetResult<TypeIter>::next_result next_result;
-							return fusion::push_front<next_result, T>(Algorithm<next>::apply(it), v);
-						}
-						static result apply(Iterator & it) {
-							T v = Policy::template unbuffer(mpl::identity<T>(), it);
-							return recurse(it, v, IsLast());
-						}
-
 					};
-				};
-				*/
+
+					/// Partial specialization for when the end has arrived.
+					template<typename Context>
+					struct Deserialize<typename Context::end, Context> {
+						template<typename State>
+						static void apply(Context & c, State const& s) {
+							c.f(s);
+						}
+					};
+					/*
+										/// Function to do some type deduction for us.
+										template<typename TypeIter, typename State, typename Context>
+										inline void recurseToDeserialize(Context & c, State const& s) {
+											Deserialize<TypeIter, State, Context>::apply(c, s);
+										}
+					*/
+					/// entry point
+					template<typename Sequence, typename Policy, typename Function, typename Iterator>
+					void deserializeAndCall(Iterator & it, Function & f) {
+						typedef typename mpl::begin<Sequence>::type begin;
+						typedef typename mpl::end<Sequence>::type end;
+						typedef DeserializeContext<Function, end, Iterator, Policy> Context;
+						Context c(it, f);
+
+						Deserialize<begin, Context>::apply(c, fusion::nil());
+					}
+				} // end of namespace RecursiveFunctionCallsPartiallySpecialized
 				template<typename SerializationPolicy, typename Function, typename Iterator>
 				struct DeserializeFunctorWrapper {
 					public:
+
+						typedef SerializationPolicy Policy;
 						DeserializeFunctorWrapper(Function & func, Iterator & iter) : f(func), it(iter) {}
 						template<typename MessageType>
 						struct InvokeWrapper {
@@ -155,30 +189,39 @@ namespace transmission {
 						};
 						template<typename MessageTypeWrapped>
 						void operator()(MessageTypeWrapped const&) {
-							typedef typename MessageTypeWrapped::type MessageType;
-							typedef typename MessageType::sequence_type SequenceType;
-							typedef typename mpl::begin<SequenceType>::type start;
-							typedef typename mpl::deref<start>::type T;
-							typedef typename mpl::end<SequenceType>::type end;
-							typedef typename mpl::next<start>::type next;
-							typedef DeserializeToFusion<InvokeWrapper<MessageType>, end, Iterator, SerializationPolicy> AlgContext;
-							//AlgContext::template Algorithm<start>::apply(it);
-							InvokeWrapper<MessageType> invoker(f);
-							AlgContext::template Algorithm<next>::apply(fusion::single_view<T>(Policy::template unbuffer(mpl::identity<T>(), it), invoker, it);
-							        /*
-							        fusion::fold<SequenceType>(SequenceType(),
-							                         fusion::list<MessageType>(MessageType()),
-							                         deserializeFunctor);
+							typedef typename MessageTypeWrapped::type message_type;
+							typedef typename message_type::sequence_type sequence_type;
+							InvokeWrapper<message_type> invoker(f);
 
-							        f(MessageType(),
-							            fusion::fold(fusion::as_vector(SequenceType()),
-							                         fusion::list<MessageType>(MessageType()),
-							                         deserializeFunctor)
-							        );
-							        */
+							RecursiveFunctionCallsPartiallySpecialized::deserializeAndCall<sequence_type, SerializationPolicy>(it, invoker);
+							//typedef DeserializeToFusion<InvokeWrapper<MessageType>, end, Iterator, SerializationPolicy> AlgContext;
+							//AlgContext::template Algorithm<start>::apply(it);
+							/*
+							typedef InputterFromBuffer<SerializationPolicy, Iterator> Inputter;
+							Inputter in(it);
+							typedef InputAndPushBack<Inputter> InputAndAppend;
+							InputAndAppend inAppend(in);
+							//
+							//AlgContext::template Algorithm<next>::apply(fusion::single_view<T>(SerializationPolicy::template unbuffer(mpl::identity<T>(), it)), invoker, it);
+
+							fusion::fold<SequenceType, fusion::nil, InputAndAppend&>(
+							    SequenceType(), fusion::nil(), inAppend);
+							*/
+
+							/*
+							fusion::fold<SequenceType>(SequenceType(),
+							                 fusion::list<MessageType>(MessageType()),
+							                 deserializeFunctor);
+
+							f(MessageType(),
+							    fusion::fold(fusion::as_vector(SequenceType()),
+							                 fusion::list<MessageType>(MessageType()),
+							                 deserializeFunctor)
+							);
+							*/
 						}
-					        private:
-						        Function & f;
+					private:
+						Function & f;
 						Iterator & it;
 						//DeserializeToFusionFunctor<Iterator, SerializationPolicy> deserializeFunctor;
 				};
