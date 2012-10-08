@@ -22,6 +22,7 @@
 
 // Internal Includes
 #include "SerializedFieldSize.h"
+#include "../types/IntegralTypes.h"
 
 // Library/third-party includes
 #include <boost/mpl/transform.hpp>

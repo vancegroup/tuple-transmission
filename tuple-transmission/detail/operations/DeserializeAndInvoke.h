@@ -23,6 +23,7 @@
 // Internal Includes
 #include "../types/MessageIdType.h"
 #include "DeserializeToFusion.h"
+#include <util/MPLApplyAt.h>
 
 // Library/third-party includes
 // - none
