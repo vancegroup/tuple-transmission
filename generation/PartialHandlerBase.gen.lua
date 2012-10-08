@@ -18,6 +18,11 @@ return {
 		-- SFINAE test to ensure the first argument is actually a message type.
 		table.insert(arguments, "typename M::message_type_tag * = NULL")
 
+		-- SFINAE test to not gobble up Fusion sequences before we can split them up.
+		if arity == 1 then
+			table.insert(arguments, "typename boost::disable_if<boost::fusion::traits::is_sequence<T1> >::type * = NULL")
+		end
+
 		out(("template<%s>"):format(commaJoin(argumentTypes)))
 		out(("void operator()(%s) {}\n"):format(commaJoin(arguments)))
 	end;
@@ -49,9 +54,11 @@ return {
 
 // Internal Includes
 #include "Receiver.h"
+#include "ParameterHandlerBase.h"
 
 // Library/third-party includes
-// - none
+#include <boost/utility/enable_if.hpp>
+#include <boost/fusion/include/is_sequence.hpp>
 
 // Standard includes
 // - none
@@ -65,10 +72,12 @@ namespace transmission {
 		the handlers, and you must include a line like the following in the
 		functor to explicitly use the provided defaults:
 
-		using transmission::PartialHandlerBase::operator();
+		using transmission::PartialHandlerBase<YourClass>::operator();
 	*/
-	class PartialHandlerBase  {
+	template<typename Derived>
+	class PartialHandlerBase : public ParameterHandlerBase<Derived> {
 		public:
+			using ParameterHandlerBase<Derived>::operator();
 ]];
 
 	suffix = [[

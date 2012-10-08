@@ -24,9 +24,9 @@
 
 using namespace boost::unit_test;
 
-class TestHandler : public transmission::PartialHandlerBase {
+class TestHandler : public transmission::PartialHandlerBase<TestHandler> {
 	public:
-		using transmission::PartialHandlerBase::operator();
+		using transmission::PartialHandlerBase<TestHandler>::operator();
 
 		TestHandler() {
 			reset();

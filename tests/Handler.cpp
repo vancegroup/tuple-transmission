@@ -15,6 +15,7 @@
 #define USE_BASIC_ENVELOPE
 #include "ProtocolForTest.h"
 #include <tuple-transmission/Receiver.h>
+#include <tuple-transmission/ParameterHandlerBase.h>
 
 // Library/third-party includes
 #include <boost/mpl/assert.hpp>
@@ -24,8 +25,9 @@
 
 using namespace boost::unit_test;
 
-class TestHandler {
+class TestHandler : public transmission::ParameterHandlerBase<TestHandler> {
 	public:
+		using transmission::ParameterHandlerBase<TestHandler>::operator();
 		TestHandler() {
 			reset();
 		}

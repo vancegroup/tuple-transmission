@@ -24,9 +24,11 @@
 
 // Internal Includes
 #include "Receiver.h"
+#include "ParameterHandlerBase.h"
 
 // Library/third-party includes
-// - none
+#include <boost/utility/enable_if.hpp>
+#include <boost/fusion/include/is_sequence.hpp>
 
 // Standard includes
 // - none
@@ -40,16 +42,18 @@ namespace transmission {
 		the handlers, and you must include a line like the following in the
 		functor to explicitly use the provided defaults:
 
-		using transmission::PartialHandlerBase::operator();
+		using transmission::PartialHandlerBase<YourClass>::operator();
 	*/
-	class PartialHandlerBase  {
+	template<typename Derived>
+	class PartialHandlerBase : public ParameterHandlerBase<Derived> {
 		public:
+			using ParameterHandlerBase<Derived>::operator();
 
 			template<typename M>
 			void operator()(M const &, typename M::message_type_tag * = NULL) {}
 
 			template<typename M, typename T1>
-			void operator()(M const &, T1, typename M::message_type_tag * = NULL) {}
+			void operator()(M const &, T1, typename M::message_type_tag * = NULL, typename boost::disable_if<boost::fusion::traits::is_sequence<T1> >::type * = NULL) {}
 
 			template<typename M, typename T1, typename T2>
 			void operator()(M const &, T1, T2, typename M::message_type_tag * = NULL) {}

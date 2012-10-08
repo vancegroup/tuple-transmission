@@ -40,6 +40,7 @@ set(HEADERS
 	BoundMessageType.h
 	MessageCollection.h
 	MessageType.h
+	ParameterHandlerBase.h
 	Receiver.h
 	Send.h
 
