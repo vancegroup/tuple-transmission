@@ -62,6 +62,7 @@ namespace transmission {
 		typedef BoundMessageType<Collection, Message> bound_message;
 		typedef typename bound_message::envelope_type envelope_type;
 		envelope_type::sendMessage(tx, contents, static_cast<MessageIdType>(typename bound_message::message_id()));
+		tx.outputFinished();
 	}
 
 	/// @brief Overload of send that takes a bound message instead of a
