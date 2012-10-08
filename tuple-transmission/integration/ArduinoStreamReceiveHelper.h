@@ -33,34 +33,34 @@
 
 
 namespace transmission {
-#if 0 
+#if 0
 	template<typename T>
 	struct isArduinoStreamWithAvailable : boost::false_type {};
-	
-	#define ARDUINO_STREAM_WITH_AVAILABLE(X) \
+
+#define ARDUINO_STREAM_WITH_AVAILABLE(X) \
 	class X; \
 	template<> struct isArduinoStreamWithAvailable<X> : boost::true_type {};
-	
+
 	ARDUINO_STREAM_WITH_AVAILABLE(HardwareSerial)
 	ARDUINO_STREAM_WITH_AVAILABLE(UDP)
-	
+
 	// library SD
 	ARDUINO_STREAM_WITH_AVAILABLE(File)
-	
+
 	// library SoftwareSerial
 	ARDUINO_STREAM_WITH_AVAILABLE(SoftwareSerial)
-	
+
 	// library Wire
 	ARDUINO_STREAM_WITH_AVAILABLE(TwoWire)
-	
-	#undef ARDUINO_STREAM_WITH_AVAILABLE
-	
+
+#undef ARDUINO_STREAM_WITH_AVAILABLE
+
 	template<typename SourceType, typename ReceiverType>
 	typename boost::enable_if<isArduinoStreamWithAvailable<SourceType>, uint8_t>::type
 	receiveFrom(SourceType & s, ReceiverType & r) {
 		return r.appendUsing(detail::ArduinoReceiveFunctor<SourceType>(s), s.available());
 	}
-	
+
 #endif
 
 	namespace detail {
