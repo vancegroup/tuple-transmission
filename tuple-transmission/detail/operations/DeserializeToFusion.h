@@ -27,6 +27,7 @@
 #include <boost/fusion/mpl.hpp>
 #include <boost/fusion/include/push_back.hpp>
 #include <boost/fusion/include/cons.hpp> // for nil
+#include <boost/fusion/include/as_list.hpp>
 #include <boost/mpl/identity.hpp>
 
 // Standard includes
@@ -77,7 +78,7 @@ namespace transmission {
 				struct Deserialize<typename Context::end, Context> {
 					template<typename State>
 					static void apply(Context & c, State const& s) {
-						c.f(s);
+						c.f(fusion::as_list(s));
 					}
 				};
 
