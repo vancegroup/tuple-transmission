@@ -75,12 +75,28 @@ namespace transmission {
 				: _invoker(&receiver_type::deserializeAndInvoke<MessageFunctor>)
 				, _functorPointer(&handler) {}
 
+			/// @brief Default constructor that doesn't take a message functor.
+			Receiver()
+				: _invoker(NULL)
+				, _functorPointer(NULL) {}
+
 			/// @brief Function to change the handler object used for future
 			/// calls to processMessages
 			template<typename MessageFunctor>
 			void setHandler(MessageFunctor & handler) {
 				_invoker = &receiver_type::deserializeAndInvoke<MessageFunctor>;
 				_functorPointer = &handler;
+			}
+
+			/// @brief Clear out members referring to the message handler
+			void clearHandler() {
+				_invoker = NULL;
+				_functorPointer = NULL;
+			}
+
+			/// @brief Checks to see if there is a valid message handler set.
+			bool hasHandler() const {
+				return _functorPointer != NULL;
 			}
 
 			/// @brief Returns the number of bytes of available space in
