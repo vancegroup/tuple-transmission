@@ -131,6 +131,10 @@ namespace transmission {
 			///
 			/// Returns the number of messages processed.
 			uint8_t processMessages() {
+				/// Early out if no handler - no point in processing messages.
+				if (!hasHandler()) {
+					return 0;
+				}
 				uint8_t msgCount = 0;
 				while (_recv.checkBufferForMessage()) {
 					const MessageIdType id = _recv.getCurrentMessageId();
