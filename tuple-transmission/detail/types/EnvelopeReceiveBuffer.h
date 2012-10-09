@@ -158,7 +158,7 @@ namespace transmission {
 
 				template<typename Functor>
 				buffer_size_type bufferFromFunctorRef(Functor & f, buffer_size_type n) {
-					return recv_buf.bufferFromFunctorRef(f, n);
+					return recv_buf.bufferFromExternalFunctorRef(f, n);
 				}
 				/// @}
 
