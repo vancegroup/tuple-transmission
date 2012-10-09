@@ -36,6 +36,7 @@ set(HEADERS
 	MessageCollection.h
 	MessageType.h
 	Receiver.h
+	Receiver_fwd.h
 	Send.h
 
 	serializers/BitwiseCopySerialization.h

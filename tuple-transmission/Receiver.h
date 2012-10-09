@@ -21,6 +21,7 @@
 #define INCLUDED_Receiver_h_GUID_9e1418a4_6874_426b_9113_cc5e57ee3fb5
 
 // Internal Includes
+#include "Receiver_fwd.h"
 #include "detail/types/EnvelopeReceiveBuffer.h"
 #include "detail/types/MessageIdType.h"
 #include "detail/operations/DeserializeAndInvoke.h"
