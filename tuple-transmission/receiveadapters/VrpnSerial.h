@@ -25,7 +25,7 @@
 #include "../detail/bases/ReceiveAdapterBase.h"
 
 // Library/third-party includes
-// - none
+#include <vrpn_SerialPort.h>
 
 // Standard includes
 // - none
@@ -39,7 +39,7 @@ namespace transmission {
 
 			template<typename BufferIteratorType>
 			uint8_t receiveIntoBuffer(BufferIteratorType it, uint8_t count) {
-				return s.readBytes(it, count);
+				return s.read_available_characters(it, count);
 			}
 		private:
 			vrpn_SerialPort & s;
