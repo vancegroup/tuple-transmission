@@ -35,7 +35,7 @@
 
 namespace transmission {
 
-	class ArduinoSerialReceiveAdapter : public detail::ReceiveAdapter<ArduinoSerialReceiveAdapter> {
+	class ArduinoSerialReceiveAdapter : public detail::ReceiveAdapterBase<ArduinoSerialReceiveAdapter> {
 		public:
 			ArduinoSerialReceiveAdapter(Stream & source) : s(source) {}
 
@@ -45,7 +45,7 @@ namespace transmission {
 
 			template<typename BufferIteratorType>
 			uint8_t receiveIntoBuffer(BufferIteratorType it, uint8_t count) {
-				return s.readBytes(it, count);
+				return s.readBytes(reinterpret_cast<char *>(it), count);
 			}
 		private:
 			Stream & s;
