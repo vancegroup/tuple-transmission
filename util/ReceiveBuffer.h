@@ -3,6 +3,16 @@
 
 	@date 2012
 
+	This header is maintained as a part of 'util-headers' - you can always
+	find the latest version online at https://github.com/vancegroup/util-headers
+
+	This GUID can help identify the project: d1dbc94e-e863-49cf-bc08-ab4d9f486613
+
+	This copy of the header is from the revision that Git calls
+	b79d54c2bc7fd2958fc73eec5e5a6c4333447a79
+
+	Commit date: "2012-10-09 15:41:14 -0500"
+
 	@author
 	Ryan Pavlik
 	<rpavlik@iastate.edu> and <abiryan@ryand.net>
@@ -32,6 +42,7 @@
 
 // Standard includes
 #include <algorithm>
+#include <cmath>
 
 namespace util {
 
@@ -170,6 +181,24 @@ namespace util {
 				verify_invariants(); // just because I'm a little nervous
 			}
 
+			/// @brief External Buffer Function Capability - pass a functor
+			/// that takes an iterator and a max count, and returns number
+			/// of bytes buffered.
+			///
+			/// This method will ensure available space, then call the functor
+			/// to perform the buffering.
+			///
+			/// @note May invalidate iterators!
+			template<typename Functor>
+			size_type bufferFromExternalFunctorRef(Functor & f, size_type n) {
+				n = std::min<size_type>(n, max_size() - size());
+				ensure_space(n);
+				size_type actual = f(_contents.begin() + _pastEnd, n);
+				_pastEnd += actual;
+				verify_invariants(); // just because I'm a little nervous
+				return actual;
+			}
+
 			/// @brief Pop back, by default a single element
 			///
 			/// @note Does not call destructors!
@@ -249,17 +278,10 @@ namespace util {
 				return begin() + startIndex;
 			}
 
-		private:
-			friend class vector_simulator_access;
-
-
-			/// @brief Adapt a buffer index into an index in the wrapped container
-			size_type adjusted_index(size_type i) {
-				return _begin + i;
-			}
-
 			/// @brief Ensure there is room for n more elements to be
 			/// added, shifting contents in the container if necessary.
+			///
+			/// @note May invalidate iterators!
 			void ensure_space(size_type n) {
 				// If we're empty, may as well be empty at the beginning
 				if (empty()) {
@@ -273,6 +295,15 @@ namespace util {
 					BOOST_ASSERT_MSG(size() + n <= CAPACITY, "Impossible to ensure that much space");
 					slide_contents_forward();
 				}
+			}
+
+		private:
+			friend class vector_simulator_access;
+
+
+			/// @brief Adapt a buffer index into an index in the wrapped container
+			size_type adjusted_index(size_type i) {
+				return _begin + i;
 			}
 
 			/// @brief Copies the whole buffer to the front of the wrapped container
