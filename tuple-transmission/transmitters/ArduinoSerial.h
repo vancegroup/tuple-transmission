@@ -46,7 +46,7 @@ namespace transmission {
 				}
 
 			private:
-				Stream & s;
+				Print & s;
 		};
 		/// @}
 	} // end of namespace transmitters
