@@ -70,7 +70,7 @@ namespace transmission {
 		class ReceiveAdapterWithoutAvailable : public ReceiveAdapterBase<Derived> {
 			public:
 				uint8_t getNumAvailable() {
-					return std::numeric_limits<uint8_t>::max();
+					return (std::numeric_limits<uint8_t>::max)();
 				}
 		};
 	} //end of namespace detail
