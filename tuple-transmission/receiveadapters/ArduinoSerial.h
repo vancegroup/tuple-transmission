@@ -40,7 +40,7 @@ namespace transmission {
 			ArduinoSerialReceiveAdapter(Stream & source) : s(source) {}
 
 			uint8_t getNumAvailable() {
-				return static_cast<uint8_t>(std::min<int>(std::numeric_limits<uint8_t>::max(), s.available()));
+				return static_cast<uint8_t>(std::min<int>((std::numeric_limits<uint8_t>::max)(), s.available()));
 			}
 
 			template<typename BufferIteratorType>
